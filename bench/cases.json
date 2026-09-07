@@ -1,0 +1,86 @@
+[
+  {
+    "id": "compare",
+    "turns": [
+      {
+        "fixture": "samsung_is.json",
+        "question": "삼성전자 2023년 매출액을 2022년과 비교하고 증감률을 알려줘.",
+        "expected": {
+          "refused": false,
+          "figures": [
+            {
+              "label": "매출액",
+              "period": "2023",
+              "value": "258935494"
+            },
+            {
+              "label": "매출액",
+              "period": "2022",
+              "value": "302231360"
+            }
+          ],
+          "calculated": [
+            {
+              "label": "매출액 증감률",
+              "value": "-14.33",
+              "formula": "(258935494 - 302231360) / 302231360 * 100",
+              "input_periods": [
+                "2023",
+                "2022"
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "switch",
+    "turns": [
+      {
+        "fixture": "samsung_is.json",
+        "question": "삼성전자 2023년 매출액은?",
+        "expected": {
+          "refused": false,
+          "figures": [
+            {
+              "label": "매출액",
+              "period": "2023",
+              "value": "258935494"
+            }
+          ],
+          "calculated": []
+        }
+      },
+      {
+        "fixture": "naver_is.json",
+        "question": "네이버는?",
+        "expected": {
+          "refused": false,
+          "figures": [
+            {
+              "label": "영업수익",
+              "period": "2023",
+              "value": "9670643.576585"
+            }
+          ],
+          "calculated": []
+        }
+      }
+    ]
+  },
+  {
+    "id": "missing",
+    "turns": [
+      {
+        "fixture": "samsung_is.json",
+        "question": "삼성전자 2023년 연구개발비는?",
+        "expected": {
+          "refused": true,
+          "figures": [],
+          "calculated": []
+        }
+      }
+    ]
+  }
+]

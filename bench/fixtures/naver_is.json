@@ -1,0 +1,275 @@
+{
+  "company": "네이버",
+  "currency": "KRW",
+  "basis": "연결",
+  "metric_aliases": {
+    "매출액": "영업수익",
+    "revenue": "영업수익"
+  },
+  "provenance": {
+    "kind": "hand-transcribed primary-source excerpt",
+    "checked_on": "2026-09-07",
+    "limitations": "Statement labels have typographic spacing and Roman numeral prefixes removed. DART viewer label parity and regulator receipt IDs have not been independently verified. This is not a production source catalog.",
+    "normalization": "NAVER KRW amounts divided exactly by 1000000; parentheses preserved as negative signs. No rounding."
+  },
+  "deliberately_omitted_metrics": [
+    "연구개발비"
+  ],
+  "rows": [
+    {
+      "label": "영업수익",
+      "period": "2021",
+      "value": "6817599.70725",
+      "unit": "백만원",
+      "source": {
+        "filing_title": "NAVER INTEGRATED REPORT 2023",
+        "fiscal_year": 2021,
+        "section": "재무성과표 · 연결포괄손익계산서",
+        "company": "네이버",
+        "basis": "연결",
+        "url": "https://kind.krx.co.kr/external/2024/06/26/000486/20240625001176/NAVER_Integrated_Report_2023_ver3.pdf",
+        "pdf_page": 162
+      },
+      "original_value": "6817599707250",
+      "original_unit": "원"
+    },
+    {
+      "label": "영업수익",
+      "period": "2022",
+      "value": "8220078.70881",
+      "unit": "백만원",
+      "source": {
+        "filing_title": "NAVER INTEGRATED REPORT 2023",
+        "fiscal_year": 2022,
+        "section": "재무성과표 · 연결포괄손익계산서",
+        "company": "네이버",
+        "basis": "연결",
+        "url": "https://kind.krx.co.kr/external/2024/06/26/000486/20240625001176/NAVER_Integrated_Report_2023_ver3.pdf",
+        "pdf_page": 162
+      },
+      "original_value": "8220078708810",
+      "original_unit": "원"
+    },
+    {
+      "label": "영업수익",
+      "period": "2023",
+      "value": "9670643.576585",
+      "unit": "백만원",
+      "source": {
+        "filing_title": "NAVER INTEGRATED REPORT 2023",
+        "fiscal_year": 2023,
+        "section": "재무성과표 · 연결포괄손익계산서",
+        "company": "네이버",
+        "basis": "연결",
+        "url": "https://kind.krx.co.kr/external/2024/06/26/000486/20240625001176/NAVER_Integrated_Report_2023_ver3.pdf",
+        "pdf_page": 162
+      },
+      "original_value": "9670643576585",
+      "original_unit": "원"
+    },
+    {
+      "label": "영업비용",
+      "period": "2021",
+      "value": "-5492121.536133",
+      "unit": "백만원",
+      "source": {
+        "filing_title": "NAVER INTEGRATED REPORT 2023",
+        "fiscal_year": 2021,
+        "section": "재무성과표 · 연결포괄손익계산서",
+        "company": "네이버",
+        "basis": "연결",
+        "url": "https://kind.krx.co.kr/external/2024/06/26/000486/20240625001176/NAVER_Integrated_Report_2023_ver3.pdf",
+        "pdf_page": 162
+      },
+      "original_value": "-5492121536133",
+      "original_unit": "원"
+    },
+    {
+      "label": "영업비용",
+      "period": "2022",
+      "value": "-6915414.298267",
+      "unit": "백만원",
+      "source": {
+        "filing_title": "NAVER INTEGRATED REPORT 2023",
+        "fiscal_year": 2022,
+        "section": "재무성과표 · 연결포괄손익계산서",
+        "company": "네이버",
+        "basis": "연결",
+        "url": "https://kind.krx.co.kr/external/2024/06/26/000486/20240625001176/NAVER_Integrated_Report_2023_ver3.pdf",
+        "pdf_page": 162
+      },
+      "original_value": "-6915414298267",
+      "original_unit": "원"
+    },
+    {
+      "label": "영업비용",
+      "period": "2023",
+      "value": "-8181823.306977",
+      "unit": "백만원",
+      "source": {
+        "filing_title": "NAVER INTEGRATED REPORT 2023",
+        "fiscal_year": 2023,
+        "section": "재무성과표 · 연결포괄손익계산서",
+        "company": "네이버",
+        "basis": "연결",
+        "url": "https://kind.krx.co.kr/external/2024/06/26/000486/20240625001176/NAVER_Integrated_Report_2023_ver3.pdf",
+        "pdf_page": 162
+      },
+      "original_value": "-8181823306977",
+      "original_unit": "원"
+    },
+    {
+      "label": "영업이익",
+      "period": "2021",
+      "value": "1325478.171117",
+      "unit": "백만원",
+      "source": {
+        "filing_title": "NAVER INTEGRATED REPORT 2023",
+        "fiscal_year": 2021,
+        "section": "재무성과표 · 연결포괄손익계산서",
+        "company": "네이버",
+        "basis": "연결",
+        "url": "https://kind.krx.co.kr/external/2024/06/26/000486/20240625001176/NAVER_Integrated_Report_2023_ver3.pdf",
+        "pdf_page": 162
+      },
+      "original_value": "1325478171117",
+      "original_unit": "원"
+    },
+    {
+      "label": "영업이익",
+      "period": "2022",
+      "value": "1304664.410543",
+      "unit": "백만원",
+      "source": {
+        "filing_title": "NAVER INTEGRATED REPORT 2023",
+        "fiscal_year": 2022,
+        "section": "재무성과표 · 연결포괄손익계산서",
+        "company": "네이버",
+        "basis": "연결",
+        "url": "https://kind.krx.co.kr/external/2024/06/26/000486/20240625001176/NAVER_Integrated_Report_2023_ver3.pdf",
+        "pdf_page": 162
+      },
+      "original_value": "1304664410543",
+      "original_unit": "원"
+    },
+    {
+      "label": "영업이익",
+      "period": "2023",
+      "value": "1488820.269608",
+      "unit": "백만원",
+      "source": {
+        "filing_title": "NAVER INTEGRATED REPORT 2023",
+        "fiscal_year": 2023,
+        "section": "재무성과표 · 연결포괄손익계산서",
+        "company": "네이버",
+        "basis": "연결",
+        "url": "https://kind.krx.co.kr/external/2024/06/26/000486/20240625001176/NAVER_Integrated_Report_2023_ver3.pdf",
+        "pdf_page": 162
+      },
+      "original_value": "1488820269608",
+      "original_unit": "원"
+    },
+    {
+      "label": "법인세비용차감전순이익",
+      "period": "2021",
+      "value": "2126399.871701",
+      "unit": "백만원",
+      "source": {
+        "filing_title": "NAVER INTEGRATED REPORT 2023",
+        "fiscal_year": 2021,
+        "section": "재무성과표 · 연결포괄손익계산서",
+        "company": "네이버",
+        "basis": "연결",
+        "url": "https://kind.krx.co.kr/external/2024/06/26/000486/20240625001176/NAVER_Integrated_Report_2023_ver3.pdf",
+        "pdf_page": 162
+      },
+      "original_value": "2126399871701",
+      "original_unit": "원"
+    },
+    {
+      "label": "법인세비용차감전순이익",
+      "period": "2022",
+      "value": "1083717.091152",
+      "unit": "백만원",
+      "source": {
+        "filing_title": "NAVER INTEGRATED REPORT 2023",
+        "fiscal_year": 2022,
+        "section": "재무성과표 · 연결포괄손익계산서",
+        "company": "네이버",
+        "basis": "연결",
+        "url": "https://kind.krx.co.kr/external/2024/06/26/000486/20240625001176/NAVER_Integrated_Report_2023_ver3.pdf",
+        "pdf_page": 162
+      },
+      "original_value": "1083717091152",
+      "original_unit": "원"
+    },
+    {
+      "label": "법인세비용차감전순이익",
+      "period": "2023",
+      "value": "1481396.317551",
+      "unit": "백만원",
+      "source": {
+        "filing_title": "NAVER INTEGRATED REPORT 2023",
+        "fiscal_year": 2023,
+        "section": "재무성과표 · 연결포괄손익계산서",
+        "company": "네이버",
+        "basis": "연결",
+        "url": "https://kind.krx.co.kr/external/2024/06/26/000486/20240625001176/NAVER_Integrated_Report_2023_ver3.pdf",
+        "pdf_page": 162
+      },
+      "original_value": "1481396317551",
+      "original_unit": "원"
+    },
+    {
+      "label": "당기순이익",
+      "period": "2021",
+      "value": "16477625.559645",
+      "unit": "백만원",
+      "source": {
+        "filing_title": "NAVER INTEGRATED REPORT 2023",
+        "fiscal_year": 2021,
+        "section": "재무성과표 · 연결포괄손익계산서",
+        "company": "네이버",
+        "basis": "연결",
+        "url": "https://kind.krx.co.kr/external/2024/06/26/000486/20240625001176/NAVER_Integrated_Report_2023_ver3.pdf",
+        "pdf_page": 162
+      },
+      "original_value": "16477625559645",
+      "original_unit": "원"
+    },
+    {
+      "label": "당기순이익",
+      "period": "2022",
+      "value": "673180.300087",
+      "unit": "백만원",
+      "source": {
+        "filing_title": "NAVER INTEGRATED REPORT 2023",
+        "fiscal_year": 2022,
+        "section": "재무성과표 · 연결포괄손익계산서",
+        "company": "네이버",
+        "basis": "연결",
+        "url": "https://kind.krx.co.kr/external/2024/06/26/000486/20240625001176/NAVER_Integrated_Report_2023_ver3.pdf",
+        "pdf_page": 162
+      },
+      "original_value": "673180300087",
+      "original_unit": "원"
+    },
+    {
+      "label": "당기순이익",
+      "period": "2023",
+      "value": "985017.762493",
+      "unit": "백만원",
+      "source": {
+        "filing_title": "NAVER INTEGRATED REPORT 2023",
+        "fiscal_year": 2023,
+        "section": "재무성과표 · 연결포괄손익계산서",
+        "company": "네이버",
+        "basis": "연결",
+        "url": "https://kind.krx.co.kr/external/2024/06/26/000486/20240625001176/NAVER_Integrated_Report_2023_ver3.pdf",
+        "pdf_page": 162
+      },
+      "original_value": "985017762493",
+      "original_unit": "원"
+    }
+  ]
+}
