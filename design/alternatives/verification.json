@@ -1,0 +1,42 @@
+{
+  "date": "2026-09-07T06:46:13.220Z",
+  "browser": "152.0.7977.76",
+  "pages": [
+    {
+      "variant": "a",
+      "checks": [
+        "Korean/light desktop, selected 2023 evidence, confirmed chips, five illustrative completed stages",
+        "Keyboard formula toggle preserves focus; both operands select sources; evidence close returns focus; explanation and labeled translation open",
+        "History reopen; new draft; honest static-submit error retains draft; IME Enter does not submit; context dialog dismisses",
+        "Working language/theme controls; automated accessibility audit in both languages and both themes; English/dark capture",
+        "No document overflow at 375/390/768/1024/1280; 390px peek at 40%; expand/collapse/drag/Escape; composer reachable after sheet close",
+        "English/dark mobile expanded evidence passes axe; conversation reflows without document overflow"
+      ]
+    },
+    {
+      "variant": "b",
+      "checks": [
+        "Korean/light desktop, selected 2023 evidence, confirmed chips, five illustrative completed stages",
+        "Keyboard formula toggle preserves focus; both operands select sources; evidence close returns focus; explanation and labeled translation open",
+        "History reopen; new draft; honest static-submit error retains draft; IME Enter does not submit; context dialog dismisses",
+        "Working language/theme controls; automated accessibility audit in both languages and both themes; English/dark capture",
+        "No document overflow at 375/390/768/1024/1280; 390px peek at 40%; expand/collapse/drag/Escape; composer reachable after sheet close",
+        "English/dark mobile expanded evidence passes axe; conversation reflows without document overflow"
+      ]
+    },
+    {
+      "variant": "c",
+      "checks": [
+        "Korean/light desktop, selected 2023 evidence, confirmed chips, five illustrative completed stages",
+        "Keyboard formula toggle preserves focus; both operands select sources; evidence close returns focus; explanation and labeled translation open",
+        "History reopen; new draft; honest static-submit error retains draft; IME Enter does not submit; context dialog dismisses",
+        "Working language/theme controls; automated accessibility audit in both languages and both themes; English/dark capture",
+        "No document overflow at 375/390/768/1024/1280; 390px peek at 40%; expand/collapse/drag/Escape; composer reachable after sheet close",
+        "English/dark mobile expanded evidence passes axe; conversation reflows without document overflow"
+      ]
+    }
+  ],
+  "externalRequests": [],
+  "result": "PASS",
+  "consoleErrors": []
+}

@@ -1,0 +1,27 @@
+{
+  "name": "filing-agent-design-alternatives",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "verify": "node scripts/verify.mjs"
+  },
+  "dependencies": {
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@tailwindcss/vite": "4.3.3",
+    "@vitejs/plugin-react": "6.1.1",
+    "agent-browser": "0.36.0",
+    "playwright": "1.63.0",
+    "pretendard": "1.3.9",
+    "prettier": "3.9.6",
+    "tailwindcss": "4.3.3",
+    "vite": "8.2.2"
+  }
+}
