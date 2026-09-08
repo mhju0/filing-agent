@@ -14,7 +14,7 @@ Removing branch history does not erase previously downloaded copies or guarantee
 
 ## Verification
 
-Gitleaks scanned the original nine-commit local history, the filtered history, the public working tree and 19 expanded archives. The only initial detections were 218 public `api_sha256` checksum fields. A narrowly scoped rule permits that exact JSON field with a 64-character hexadecimal digest; the default credential rules remain enabled. Reviewed scans reported no credential findings. This is a bounded automated scan, not a guarantee that no sensitive content exists.
+Gitleaks scanned the original published history, the filtered nine-commit history, the public working tree and 19 expanded archives. The only initial detections were 218 public `api_sha256` checksum fields. A narrowly scoped rule permits that exact JSON field with a 64-character hexadecimal digest; the default credential rules remain enabled. Reviewed scans reported no credential findings. This is a bounded automated scan, not a guarantee that no sensitive content exists.
 
 All 17 application tests and 31 benchmark tests passed, and the production frontend built successfully. An additional check exposed a stale historical benchmark verifier: it compared refactored source with old input hashes. The verifier now runs the archived harness in a temporary directory and checks 117 recorded case runs and 141 actual responses without inference or changes to historical results.
 
@@ -22,6 +22,6 @@ All 15 served production assets matched the reviewed release hashes. The public 
 
 ## Repository settings
 
-GitHub secret scanning, push protection and dependency vulnerability alerts are enabled. Merged branches are deleted automatically. The description, homepage and topics match `release/github.json`; the README describes the implemented local app, bounded evidence collection, evaluation limits and relationship to Filing Digest. Filing Digest was inspected read-only at the revision already recorded by the coverage audit.
+GitHub secret scanning, push protection and dependency vulnerability alerts are enabled. Merged branches are deleted automatically. The description, homepage and topics match `release/github.json`; the README describes the implemented local app, bounded evidence collection, evaluation limits and relationship to Filing Digest. A read-only check of Filing Digest confirmed the README responsibility boundary; no partner files were changed.
 
 The full application verification and deployment evidence remain in the [architecture audit](2026-09-08-architecture/README.md).
