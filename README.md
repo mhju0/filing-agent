@@ -1,76 +1,160 @@
 # Filing Agent
 
-**Status: local application implemented and public replay deployed, September 8, 2026.** The React/TypeScript interface, FastAPI/LangGraph workflow, native PostgreSQL persistence and pinned Ollama/Gemma inference run on the owner's Mac. Public visitors receive a static recording of actual investigations. This repository includes private recruiting research and remains private.
+A bilingual research workspace for Korean DART and US SEC filings. Ask follow-up questions, compare annual figures and inspect the original evidence. Inference runs locally on a Mac.
 
-Filing Agent adds conversational investigation to Filing Digest's data foundation. It uses a separately audited historical fact snapshot, interprets questions locally, and owns evidence selection, arithmetic and financial wording in code.
+**Sister project to [Filing Digest](https://github.com/mhju0/filing-digest).** Digest handles filing ingestion, retrieval and the iOS reader. Agent extends that work with conversational context, annual comparisons and saved investigations. Both keep financial figures separate from model-generated prose.
 
-- [Public interactive replay](https://filing-agent.vercel.app)
-- [Public engineering notes](https://filing-agent.vercel.app/engineering-en.html) · [한국어 프로젝트 소개](https://filing-agent.vercel.app/engineering-ko.html)
-- [Local application setup and operations](slice/README.md)
-- [Release evaluation: three trials, separately scored Korean and English](evals/RESULTS.md)
-- [Implementation and verification record](docs/audits/2026-09-08-slice/README.md)
-- [Durable workflow and public/private release boundary](docs/adr/0006-persisted-local-workflows-and-release-scope.md)
+[Explore the recorded investigations](https://filing-agent.vercel.app) · [Engineering notes](https://filing-agent.vercel.app/engineering-en.html) · [Evaluation](evals/RESULTS.md) · [Local setup](#local-setup)
 
-The measured scope is fifteen verified facts across three companies. It does not imply general financial-document reading or production cloud operations.
+> The local application is implemented and the public replay is deployed. The replay contains actual recorded execution and works without the Mac. Live inference runs only on the owner's machine. Current coverage is 15 verified historical facts across three companies.
 
-## Start here
+![Filing Agent annual comparison with reported figures, calculated change and original filing evidence](docs/audits/2026-09-08-slice/replay-compare-en-dark.png)
 
-| Document | What it answers |
+## The problem
+
+A follow-up such as “What about NAVER?” leaves the metric and year unstated. The app has to retain the metric and year, switch the company, and check whether the new request has evidence. When one period is missing, borrowing another company's figure can produce a plausible answer with a valid citation and still be wrong.
+
+Filing Agent uses the model to interpret the question, then lets code select evidence and calculate compatible changes. When the collection cannot support a figure, the answer explains what was checked and withholds that figure.
+
+## Relationship to Filing Digest
+
+| Responsibility | Filing Digest | Filing Agent |
+|---|---|---|
+| Reader experience | SwiftUI company browser, digests and cited Q&A | React investigation workspace with follow-up questions and saved results |
+| Filing data | DART/EDGAR ingestion, structured Financial Facts and searchable filing passages | A pinned subset audited against regulator amounts and original filing evidence |
+| Model responsibility | KURE-v1 retrieval and Solar narrative generation, separate from financial figures | Local Gemma intent interpretation; code owns figures, calculations and bilingual financial wording |
+| Persistence | Filing corpus in PostgreSQL with pgvector | Separate PostgreSQL storage for investigations, snapshots and LangGraph checkpoints |
+| Public presentation | [Recorded iOS walkthrough](https://mhju0.github.io/filing-digest/) | [Interactive recorded investigations](https://filing-agent.vercel.app) |
+
+The projects share domain concepts and verified data, with separate runtime responsibilities. Agent does not call Digest's live API, embedding model or Solar service during a question. Of its 15 facts, nine correspond to audited Digest records; six supplement missing Samsung FY2022 and NAVER FY2023 coverage with separately verified regulator evidence. Preparing Agent's snapshot did not change Digest's source or database.
+
+The [coverage audit](docs/audits/2026-09-07-coverage/README.md) pins the inspected Digest revision and records those supplements. The [source snapshot](docs/audits/2026-09-07-coverage/pilot-snapshot.json) preserves filing identity, period, units, original amount and provenance for every figure.
+
+## Explore the application
+
+| Recorded investigation | Behavior to inspect |
 |---|---|
-| [Local model findings and measured candidate](bench/runs/2026-09-07/README.md) | 117 recorded case runs, Qwen disqualification, Gemma intent-only baseline, timings, memory and semantic failures |
-| [Intent and financial-answer boundary](docs/adr/0005-local-intent-and-deterministic-financial-answers.md) | Provisional Gemma configuration and code-owned evidence, refusal, arithmetic and bilingual financial wording for the next slice |
-| [Coverage audit and verified pilot](docs/audits/2026-09-07-coverage/README.md) | Fresh read-only inventory, original-regulator checks, 15 source-bound pilot facts, a reproduced Digest coverage gap, and remaining DART navigation gate |
-| [Latest decisions and feasibility gates](docs/adr/0004-ledger-and-prebuild-gates.md) | Selected Ledger, visible preferences, mobile evidence without peek, saved continuation, source policy, and three approved checks; takes precedence over earlier conflicting defaults |
-| [Interactive design studies](design/alternatives/README.md) | Selected Ledger refinement and earlier A/C alternatives, screenshots and prototype verification |
-| [Latest integration re-audit](docs/planning/2026-09-06-integration-reaudit.md) | Fresh source, contract probes, corpus checks, verification, and relationship corrections |
-| [Local-first architecture](docs/planning/2026-09-06-local-first-architecture.md) | Approved local-only application and public replay; execution/data/dependency boundaries |
-| [Recruiting value of replay versus live hosting](docs/research/2026-09-06-replay-portfolio-assessment.md) | Korean/US employer evidence, project completeness, and the production-experience tradeoff |
-| [Public replay and presentation brief](docs/planning/2026-09-06-public-replay-presentation.md) | Saved decision context, intended professional impression, and concrete presentation release checks |
-| [Approved pre-build choices](docs/planning/2026-09-06-prebuild-interview.md) | Model latency/quality, UX, backups/diagnostics, visual direction, public artifacts, and hands-on ownership |
-| [UI/UX skills assessment](docs/research/2026-09-07-uiux-skills-assessment.md) | Official Astra guidance, current skill adoption, local dependency tradeoffs, and a proposed download |
-| [Four-way UI/UX skill comparison](docs/research/2026-09-07-uiux-four-way-comparison.md) | UI/UX Pro Max, Emil, Impeccable, and Sleek; recommended roles alongside antislop |
-| [Approved audit decision packet](docs/planning/2026-09-06-remaining-design-decisions.md) | Six approved choices; local-first direction supersedes its hosted-service defaults |
-| [Design interview and confirmed decisions](docs/planning/2026-09-06-design-interview.md) | Owner priorities, answers that supersede earlier assumptions, and the next product decisions |
-| [Visual direction](DESIGN.md) | Selected Ledger layout, visible language/theme controls, and full-height mobile evidence |
-| [Source catalog feasibility](docs/planning/2026-09-06-source-catalog-feasibility.md) | Available source metadata, identity-verification gaps, and conditions for reliable comparisons |
-| [Detailed project plan](docs/planning/2026-09-06-project-plan.md) | Product scope, tools/API, state, evidence, failures, budgets, evaluation, milestones, KO/EN positioning and open decisions |
-| [Foundation audit and Filing Digest rescan](docs/planning/2026-09-06-foundation-audit.md) | What the old foundation gets wrong or no longer reflects; current source, tests, Git state and corpus coverage |
-| [Korean hiring research](docs/research/2026-09-06-korean-hiring.md) | Eight role analyses, requirement/preference distinctions, financial AI guidance, evidence matrix and source/search notes |
-| [English hiring research](docs/research/2026-09-06-english-hiring.md) | Korea-based global teams versus overseas/remote roles, hiring gates, portfolio/interview evidence and source/search notes |
-| [Original foundation](FOUNDATION.md) | Unchanged historical proposal from August 27–28; contains superseded assumptions and a build-start prompt that is not active for this planning phase |
+| [Annual comparison](https://filing-agent.vercel.app/#scenario=0&turn=0) | Compare Samsung revenue across FY2022 and FY2023; inspect reported amounts and the calculation's source-bound inputs |
+| [Company switch](https://filing-agent.vercel.app/#scenario=1&turn=1) | Follow a Samsung revenue question with “What about NAVER?”; preserve metric and year while changing company |
+| [Insufficient evidence](https://filing-agent.vercel.app/#scenario=2&turn=0) | Withhold Samsung R&D expenses because the verified collection does not contain that metric; show the checked scope |
 
-## Principal recommendation
+The local app accepts new questions in Korean or English. Clarification choices resolve missing context; source inspection shows the original excerpt, original units and displayed value together. Changing the interface language preserves previous local answers. The interface includes light and dark themes, keyboard navigation and a full-height mobile evidence view.
 
-Keep Filing Digest as the flagship. The owner approved a desktop/mobile web companion for readers investigating disclosures across follow-up questions, years, and companies. It will support annual changes when figures are comparable and side-by-side company figures, starting with a curated Korean/US corpus and explicit coverage. Every displayed financial figure must link to its original filing; withhold figures lacking that evidence while preserving supported results. Korean and English support covers conversations, clarification, errors, and evidence explanations; source excerpts retain their original language and translations are labeled.
+Saved investigations preserve their original answers and evidence snapshot. Continue copies that context into a new investigation; Refresh creates a new investigation against the currently approved snapshot. Editing an earlier question also starts a new investigation.
 
-The hiring research supports these capabilities in selected roles. It does not establish a universal LangGraph screening threshold, a “top 1%” ranking, a prescribed number of portfolio projects, or a guarantee of interviews.
+## Architecture
 
-## Corrections that matter before implementation
+```text
+Evidence preparation, outside the question path
+  Audited Filing Digest facts + verified regulator supplements
+      -> versioned evidence snapshot
 
-1. `/digest` returns the latest period. Historical figures require `/answer.figures` and exact filtering.
-2. Exact figure values, clickable source links and semantically supported narrative are different guarantees. The frozen API does not always supply all three.
-3. The upstream vocabulary has seven entries, but only six reported metrics; the derived operating-margin entry does not imply an available calculation.
-4. Upstream model tokens/cost are not exposed over REST. Agent-layer measurement is possible; whole-stack cost remains partly opaque.
-5. A local router does not make Filing Digest's Solar-backed path offline. A “human review needed” message is not a resumable review workflow.
-6. The latest local Filing Digest is on a remote review branch, ahead of public `main`; pin the exact version for reproducibility.
-7. A hypothesized blocked-output leak is not a discovered bug or a completed accomplishment.
+Local question path
+  React / TypeScript -> FastAPI -> LangGraph
+                                    1. Interpret question: Ollama / Gemma
+                                    2. Resolve evidence and calculate: Python / Decimal
+                                    3. Persist answer: PostgreSQL
 
-## Current scan evidence
+  PostgreSQL retains investigations, evidence snapshots and graph checkpoints.
+  Explicit export -> selected recorded turns -> static public replay
+```
 
-- Inspected upstream SHA: `e1ec00911f3447f4e1317af945e98413a2d961e6` on `refactor/verification-performance-audit`; remote branch matched at scan time.
-- Remote upstream `main`: `4b8855de046b247cf0ed4dbeb186e1108d86e076`.
-- Latest offline test run: **403 passed, 19 intentionally skipped in 1.67 s**; Ruff and Compose validation also passed. Database integration, live model/regulator calls, and Swift tests were not run.
-- Read-only corpus inventory: **8 companies, 13 filings, 1,191 chunks, 86 financial facts**.
-- Existing September 5 eval artifacts: **10/10 retrieval and 14/14 full-tier passes**; these were inspected, not rerun today.
+[Runtime](slice/runtime.py) pins Ollama `0.33.3` and the `gemma4:e4b` weight digest. The model receives the question and conversation context, with JSON Schema output. It receives neither filing text nor financial values. Cloud inference is disabled. The runtime rejects changes to the pinned runtime version or model weights and permits one active request.
 
-See the latest integration re-audit for exact methods and limitations. The same revision now has additional documented guard, bilingual, occurrence-selection, and saved-evidence limitations; unchanged code did not imply the earlier interpretation was complete. Filing Digest, Recruiting, original FOUNDATION, external profiles and applications were left unchanged.
+[Financial policy](slice/core.py) validates company, metric, period, basis and currency before displaying or calculating figures. [Workflow execution](slice/workflow.py) records three actual stages, with no simulated retrieval or extraction progress. PostgreSQL checkpoints retain graph position; application transactions preserve completed step outputs and answers.
 
-## Discussion priorities
+## Decisions backed by failures
 
-The owner confirmed Korea-based backend/applied-AI roles as the primary hiring audience, with equally strong English presentation. This is their only active project: quality and hands-on understanding take priority, with no fixed schedule or effort cap. The earlier **44–74 focused-hour core** predates the approved web interface and comparison requirements and needs replacement after scope is settled.
+| Observed problem | Implementation decision | Trade-off |
+|---|---|---|
+| Models selected correct source IDs while incorrectly saying revenue increased; Qwen also invented missing R&D as zero | Restrict the model to intent interpretation and construct financial answers in code | Less expressive prose; financial wording and arithmetic can be inspected and tested |
+| A company-free question produced a model guess | Validate explicit entities against accepted context and persist pending clarification separately | Ambiguous questions require an additional turn |
+| A process can stop between interpretation and saving an answer | Persist completed stages; mark interrupted work; permit one explicit retry that reuses completed outputs | Recovery resumes a stage, not individual generated tokens |
+| New evidence can change a previously saved answer | Keep the original snapshot immutable and create a new investigation for a rerun | Historical results remain separate from refreshed results |
+| Local inference competes for limited memory | Run one request at a time, use a 120-second interpretation deadline, and confirm model unload on cancellation | Concurrent requests are rejected while one is active; confirming a stop can extend timeout handling |
 
-The approved delivery model is a public interactive replay plus a real application running only on the owner’s Mac, with no online invitations or remote live sessions. Percentage changes require comparable figures and a positive prior-year baseline; historical explanations require supporting period-specific evidence. A versioned source catalog is under feasibility review. The release needs no account system, authentication provider, invitation email, tunnel, or hosted live server. Ordinary conversations expire after 30 inactive days; explicitly saved investigations remain until deleted. The bilingual replay leads with an annual comparison, followed by company-switch and missing-evidence examples. Read-only execution is automatic within limits; a reviewer queue is outside the first release. Saved investigations preserve their original answers and evidence; an explicit rerun creates a new result. New comparisons use the latest verified, comparable figures in the supported snapshot, labeling evidenced restatements. Live execution uses a fixed verified filing collection with visible coverage and dates, updated through deliberate validation. These decisions are recorded in [ADR 0001](docs/adr/0001-preserve-evidence-across-filing-snapshots.md).
+See the [model experiments](bench/runs/2026-09-07/README.md) and [workflow decision record](docs/adr/0006-persisted-local-workflows-and-release-scope.md) for the failed alternatives and implementation boundaries.
 
-The owner approved the audited fact/evidence snapshot, independent bilingual answer path, Python/FastAPI + LangGraph + PostgreSQL + React/TypeScript/Vite stack, model comparison, and release criteria. Inference is strictly local, with no cloud fallback. Ledger is the selected visual direction. Coverage verification produced a 15-fact local pilot; measured model experiments support a provisional Gemma intent-only baseline with financial output owned by code. The local application, three-trial execution-held-out evaluation, combined memory measurement, restart/cancellation checks and DART source navigation are implemented and recorded in the September 8 audit. SEC automated browser access remains restricted. The remote-availability question is settled in [ADR 0003](docs/adr/0003-public-replay-and-local-only-live-use.md). [ADR 0004](docs/adr/0004-ledger-and-prebuild-gates.md) records the latest decisions and approved checks. The September 8 implementation and release audit take precedence over earlier proposed implementation details.
+## Evaluation
 
-These documents contain recruiting strategy and employer-specific research. Review publication scope before making this folder public. The public source distribution includes the application README and explicit application files, excluding this private planning history.
+The release evaluation ran 40 scenarios held out from execution three times: **120 scenario runs and 138 actual conversation turns**. Each trial contained 20 Korean and 20 English scenarios.
+
+| Language | Supported answers, each trial | Withholding or clarification, each trial | Total across three trials |
+|---|---:|---:|---:|
+| Korean | 10/10 | 10/10 | 60/60 |
+| English | 10/10 | 10/10 | 60/60 |
+
+No source/value mismatch appeared in the recorded outputs. On an M1 Pro with 16 GiB RAM, per-turn latency was **2.96 seconds median**, **3.19 seconds observed p95**, and **9.78 seconds maximum**. Most requests used a loaded model; the first turn included loading. Concurrent app/browser profiling observed both normal and warning memory pressure.
+
+The implementing agent authored the scenarios. They share task families, companies and metrics with the development set; repeated runs use a fixed deterministic configuration. These results measure the guarded application on this collection, not independent accounting review or general financial-language accuracy.
+
+The release also passed 12 application tests and 31 benchmark tests. Separate checks exercised real process interruption, retry, cancellation and saved-result preservation, plus the browser interface in both languages and themes on desktop and mobile. The held-out run blocked application/model outbound traffic except localhost. The public replay was checked with local services stopped.
+
+[Evaluation method](evals/README.md) · [Results](evals/RESULTS.md) · [Release audit](docs/audits/2026-09-08-slice/README.md)
+
+## Local setup
+
+Tested on Apple Silicon with 16 GiB RAM. Install Python 3.11, Node 24, PostgreSQL 16 command-line tools and Ollama 0.33.3. Download `gemma4:e4b` and set `disable_ollama_cloud` to `true` in `~/.ollama/server.json`, preserving other settings. The app checks the pinned weight digest; runtime or model changes require requalification. No Ollama account is required for this local configuration.
+
+```sh
+python3.11 -m venv .venv
+.venv/bin/pip install -r slice/requirements.lock
+npm ci --prefix slice/web
+npm run build --prefix slice/web
+./slice/scripts/database.sh
+```
+
+Start these in separate terminals after stopping any existing Ollama server:
+
+```sh
+./bench/serve.sh
+```
+
+```sh
+./slice/scripts/serve.sh
+```
+
+Open **http://127.0.0.1:8765**. Agent uses a separate native PostgreSQL cluster on port `55439`; it does not connect to Digest's database. Package and model installation require internet. Questions over the installed snapshot use local services.
+
+[Operating guide](slice/README.md) covers the exact model digest, shutdown, private backup/restore, retention, diagnostics and replay export. The [public source archive](https://filing-agent.vercel.app/filing-agent-source.zip) includes the application and setup instructions without private planning or repository history.
+
+## Verification commands
+
+With the Agent database running:
+
+```sh
+.venv/bin/python -m unittest discover -s slice/tests -v
+.venv/bin/python -m unittest discover -s bench/tests -v
+npm run build --prefix slice/web
+```
+
+For browser checks, install `npm ci --prefix verification`, start the local app and Ollama, then run `node slice/scripts/verify-browser.mjs`. The [evaluation runner](evals/README.md) executes fresh scenarios through the real local API and preserves failed runs.
+
+## Coverage and security scope
+
+| Company | Fiscal years | Verified metrics |
+|---|---|---|
+| Samsung Electronics | 2022, 2023 | Consolidated revenue, operating income, as-reported net income |
+| NAVER | 2023 | Same three metrics |
+| Microsoft | 2023, 2024 | Same three metrics; fiscal year ends in June |
+
+The snapshot is historical. It does not cover every later amendment, arbitrary financial metric or business-cause explanation. Missing R&D evidence means the metric is outside this verified collection, not absent from the company's full filing. DART navigation was checked for the recorded filings; SEC denied automated browser navigation. Original links do not promise exact table-cell positioning or permanent availability.
+
+The app is a single-owner local service. Exact loopback Host/Origin checks and a mutation token protect the browser API; they do not protect against a compromised local account. PostgreSQL uses loopback trust authentication. Ordinary investigations expire after 30 idle days, saved results remain until deleted, and explicit backups may retain deleted data. Raw model diagnostics require opt-in and expire after 24 hours while the app is running.
+
+The public site serves selected static recordings, with no question API, sign-in or connection to the Mac. Production cloud operations, multi-user isolation and 8 GiB support have not been evaluated.
+
+## Source guide
+
+| Path | Responsibility |
+|---|---|
+| [`slice/`](slice/) | Local application, financial policy, persistence and React interface |
+| [`bench/`](bench/) | Local model experiments and the measured intent/financial resolver |
+| [`evals/`](evals/) | Development and held-out conversation scenarios, runner and recorded results |
+| [`docs/adr/`](docs/adr/) | Architecture decisions and alternatives |
+| [`docs/audits/`](docs/audits/) | Evidence verification, real execution, browser checks and release records |
+| [`release/`](release/) | Explicit source allowlist and verified static deployment |
+
+## License
+
+Copyright (c) 2026 Michael Ju. All rights reserved. The public source archive is available for portfolio review; no open-source license is granted for original project code. Dependency, model and bundled font licenses apply separately.

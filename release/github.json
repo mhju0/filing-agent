@@ -1,0 +1,21 @@
+{
+  "description": "Local LLM investigation of Korean DART and US SEC filings, with verified figures, persistent conversations and a bilingual replay. Sister project to Filing Digest.",
+  "homepage": "https://filing-agent.vercel.app",
+  "topics": [
+    "corporate-filings",
+    "financial-data",
+    "opendart",
+    "sec-edgar",
+    "bilingual",
+    "python",
+    "fastapi",
+    "postgresql",
+    "langgraph",
+    "ollama",
+    "local-llm",
+    "typescript",
+    "react",
+    "llm-evaluation"
+  ],
+  "sister_project": "https://github.com/mhju0/filing-digest"
+}

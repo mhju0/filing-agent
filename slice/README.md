@@ -1,8 +1,10 @@
 # Filing Agent local application
 
-Korean/English questions over a pinned, verified filing collection. Gemma interprets the question on the Mac; deterministic code selects evidence, computes changes and supplies the financial wording. The browser displays the original filing units and preserves sources with saved answers.
+Filing Agent is the conversational sister project to [Filing Digest](https://github.com/mhju0/filing-digest), which owns filing ingestion, retrieval and the iOS reader. Agent builds on that foundation with follow-up questions in Korean and English, annual comparisons and saved investigations.
 
-The public experience is a static recording. It has no question endpoint, login or connection to the owner's Mac.
+Agent queries a pinned historical snapshot of audited Digest facts and separately verified regulator supplements. It does not call Digest's live API or Solar service during a question. Gemma interprets the question on the Mac; code selects evidence, calculates changes and supplies the financial wording.
+
+[Open the recorded investigations](https://filing-agent.vercel.app) or [read the engineering notes](https://filing-agent.vercel.app/engineering-en.html). The public replay serves actual captured turns and works without the Mac. It has no live question endpoint or sign-in.
 
 ## Run locally
 
