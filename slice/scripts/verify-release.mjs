@@ -1,8 +1,10 @@
 import { chromium } from '../../verification/node_modules/playwright/index.mjs';
 import AxeBuilder from '../../verification/node_modules/@axe-core/playwright/dist/index.mjs';
-import {writeFile} from 'node:fs/promises';
+import {writeFile, mkdir} from 'node:fs/promises';
 import assert from 'node:assert/strict';
 const base=process.env.VERIFY_BASE||'http://127.0.0.1:4176';
+const out=process.env.VERIFY_OUT||'docs/audits/2026-09-08-slice';
+await mkdir(out,{recursive:true});
 const browser=await chromium.launch({channel:'chrome',headless:true});
 const checks=[];
 try{
@@ -20,7 +22,7 @@ try{
   for(const href of await page.locator('a').evaluateAll(links=>links.map(a=>a.href))){
    const response=await page.request.get(href);assert.equal(response.status(),200,href);
   }
-  await page.screenshot({path:`docs/audits/2026-09-08-slice/notes-${lang}-${width}.png`,fullPage:true});
+  await page.screenshot({path:`${out}/notes-${lang}-${width}.png`,fullPage:true});
   checks.push(lang+' '+width+' project notes: links, reflow, axe passed');await context.close();
  }
  const context=await browser.newContext();const page=await context.newPage();
@@ -32,6 +34,6 @@ try{
  await page.getByText('The recording could not be loaded.',{exact:true}).waitFor();
  checks.push('Recording asset failure is visible and reload works');
  await context.close();
- await writeFile('docs/audits/2026-09-08-slice/release-browser.json',JSON.stringify({status:'PASS',base,checks},null,2)+'\n');
+ await writeFile(`${out}/release-browser.json`,JSON.stringify({status:'PASS',base,checks},null,2)+'\n');
  console.log('RELEASE MATERIALS PASS');
 }finally{await browser.close()}

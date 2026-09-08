@@ -316,6 +316,10 @@ details {
   gap: 0.5rem;
   margin: 0.8rem 0;
 }
+.storage-recovery button {
+  margin: 0.5rem 0.5rem 0 0;
+}
+
 .composer {
   position: sticky;
   bottom: 0;

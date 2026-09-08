@@ -52,7 +52,7 @@ The previous review identified implementation corrections, recorded here so they
 
 ## Research and trade-off
 
-The installed [Emil skill](~/.agents/skills/emil-design-eng/SKILL.md) covers animation purpose, drawer easing, pointer capture, gesture interruption and reduced motion. It is guidance rather than a drop-in component. Its complexity is optional for this reading workflow.
+The installed Emil design engineering skill covers animation purpose, drawer easing, pointer capture, gesture interruption and reduced motion. It is guidance rather than a drop-in component. Its complexity is optional for this reading workflow.
 
 [GOV.UK language navigation](https://design-system.service.gov.uk/components/language-navigation/) recommends native-language names, consistent placement and preserving entered data. The component is currently in trial status; this project adopts those principles, not its package or visual identity.
 

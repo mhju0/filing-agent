@@ -1,0 +1,6 @@
+{
+  "status": "PASS",
+  "cases": 1800,
+  "baseline_sha256": "b26d2190b98ec54b414fc400cdae430b6b52346e9f1fc7adda83ba7e622fd431",
+  "scope": "Exact complete answer dictionaries over company, metric, year, basis, operation and causation/formula combinations; fixed approved snapshot. This is extraction equivalence, not model evaluation."
+}

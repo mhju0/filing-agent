@@ -10,36 +10,12 @@ import type {
 } from "./types";
 import "./styles.css";
 import glossary from "./glossary.json";
+import { useLiveInvestigation, executing, unresolved } from "./live";
+import { useReplayInvestigation } from "./replay";
 
 const replayMode = document.documentElement.dataset.mode === "replay";
-const replayLocation = new URLSearchParams(location.hash.slice(1));
-const boundedIndex = (key: string) => Math.max(0, Math.min(2, Number(replayLocation.get(key)) || 0));
-let token = "";
-async function api(path: string, body?: unknown) {
-  const r = await fetch("/api" + path, {
-    method: body === undefined ? "GET" : "POST",
-    headers:
-      body === undefined
-        ? {}
-        : { "Content-Type": "application/json", "X-Filing-Token": token },
-    body: body === undefined ? undefined : JSON.stringify(body),
-  });
-  const data = await r.json();
-  if (!r.ok) throw new Error(data.detail || "Local request failed");
-  return data;
-}
 const metricNames: Record<string, string[]> = glossary.metrics;
 const companyNames: Record<string, string[]> = glossary.companies;
-function readDraft(id: string | null) {
-  try {
-    const d = JSON.parse(
-      localStorage.getItem("filing-draft-" + (id || "new")) || "null",
-    );
-    return d && Date.now() - d.at < 30 * 86400000 ? d.text : "";
-  } catch {
-    return "";
-  }
-}
 function label(map: Record<string, string[]>, key: string, lang: Lang) {
   return map[key]?.[lang === "ko" ? 0 : 1] || key;
 }
@@ -61,7 +37,7 @@ function compact(f: Figure, lang: Lang) {
     (f.currency === "KRW" ? (lang === "ko" ? "조원" : "tn KRW") : "bn USD")
   );
 }
-const busy = (t: Turn) => ["running", "queued"].includes(t.status);
+const busy = executing;
 
 function Modal({
   children,
@@ -115,7 +91,26 @@ function Modal({
   );
 }
 
-function App() {
+type Session = ReturnType<typeof useLiveInvestigation> | ReturnType<typeof useReplayInvestigation>;
+function LiveApp() { return <Workspace session={useLiveInvestigation()} />; }
+function ReplayApp() { return <Workspace session={useReplayInvestigation()} />; }
+
+function Workspace({ session }: { session: Session }) {
+  const live = session.mode === "live" ? session : null;
+  const recorded = session.mode === "replay" ? session : null;
+  const { current, ready, error } = session;
+  const history = live?.history || null;
+  const draft = live?.draft || "";
+  const sending = live?.sending || false;
+  const replay = recorded?.replay || null;
+  const scenario = recorded?.scenario || 0;
+  const turnIndex = recorded?.turnIndex || 0;
+  const setHistory = (value: Investigation[] | null) => live?.setHistory(value);
+  const setDraft = (value: string) => live?.setDraft(value);
+  const setScenario = (value: number) => recorded?.setScenario(value);
+  const setTurnIndex = (value: number) => recorded?.setTurnIndex(value);
+  const action = async (fn: () => Promise<void>) => { if (live) await live.action(fn); };
+  const [discardTarget, setDiscardTarget] = useState<string | null>(null);
   const [lang, setLang] = useState<Lang>(
     localStorage.getItem("filing-language") === "en" ? "en" : "ko",
   );
@@ -128,18 +123,7 @@ function App() {
   const [narrow, setNarrow] = useState(
     matchMedia("(max-width: 850px)").matches,
   );
-  const [current, setCurrent] = useState<Investigation | null>(null);
-  const [history, setHistory] = useState<Investigation[] | null>(null);
-  const [draft, setDraft] = useState(() =>
-    replayMode ? "" : readDraft(localStorage.getItem("filing-investigation")),
-  );
-  const [error, setError] = useState("");
   const [evidence, setEvidence] = useState<Figure | Answer | null>(null);
-  const [replay, setReplay] = useState<Replay | null>(null);
-  const [scenario, setScenario] = useState(replayMode ? boundedIndex("scenario") : 0);
-  const [turnIndex, setTurnIndex] = useState(replayMode ? boundedIndex("turn") : 0);
-  const [ready, setReady] = useState(false);
-  const [sending, setSending] = useState(false);
   const [clock, setClock] = useState(Date.now());
   const [deleteTarget, setDeleteTarget] = useState<Investigation | null>(null);
   const [historyQuery, setHistoryQuery] = useState("");
@@ -148,7 +132,8 @@ function App() {
   const autoSeen = useRef("");
   const t = (ko: string, en: string) => (lang === "ko" ? ko : en);
   const dark = theme === "system" ? systemDark : theme === "dark";
-  const active = current?.turns.some(busy) || false;
+  const active = current?.turns.some(unresolved) || false;
+  const runtimeBusy = live?.running || false;
   useEffect(() => {
     if (!active) return;
     const timer = setInterval(() => setClock(Date.now()), 250);
@@ -174,147 +159,27 @@ function App() {
     localStorage.setItem("filing-language", lang);
   }, [lang]);
   useEffect(() => {
-    if (replayMode) {
-      fetch("./recording.json")
-        .then((r) => {
-          if (!r.ok) throw new Error("Recorded asset unavailable");
-          return r.json();
-        })
-        .then((d) => {
-          if (
-            !Array.isArray(d.investigations) ||
-            !d.investigations.length ||
-            d.investigations.some(
-              (i: Investigation) => !Array.isArray(i.turns) || !i.turns.length,
-            )
-          )
-            throw new Error("Invalid recording");
-          const selected = Math.min(boundedIndex("scenario"), d.investigations.length - 1);
-          setScenario(selected);
-          setTurnIndex(Math.min(boundedIndex("turn"), d.investigations[selected].turns.length - 1));
-          setReplay(d);
-          setReady(true);
-        })
-        .catch((e) => setError(e.message));
-    } else {
-      api("/session")
-        .then(async (d) => {
-          token = d.token;
-          setReady(true);
-          const id = localStorage.getItem("filing-investigation");
-          if (id) {
-            try {
-              setCurrent(await api("/investigations/" + id));
-            } catch {
-              localStorage.removeItem("filing-investigation");
-            }
-          }
-        })
-        .catch((e) => setError(e.message));
-    }
-  }, []);
-  useEffect(() => {
-    if (!replayMode && current)
-      localStorage.setItem("filing-investigation", current.id);
-  }, [current?.id]);
-  useEffect(() => {
-    if (!replayMode && ready) {
-      localStorage.setItem(
-        "filing-draft-" + (current?.id || "new"),
-        JSON.stringify({ text: draft, at: Date.now() }),
-      );
-      for (const key of Object.keys(localStorage)) {
-        if (
-          key.startsWith("filing-draft-") &&
-          !readDraft(key.slice("filing-draft-".length))
-        )
-          localStorage.removeItem(key);
-      }
-    }
-  }, [draft, current?.id, ready]);
-  useEffect(() => {
-    if (!current || !active || replayMode) return;
-    const timer = setInterval(
-      () =>
-        api("/investigations/" + current.id)
-          .then(setCurrent)
-          .catch((e) => setError(e.message)),
-      350,
-    );
-    return () => clearInterval(timer);
-  }, [current?.id, active]);
-  useEffect(() => {
-    if (!replay) return;
-    const inv = replay.investigations[scenario];
-    window.history.replaceState(null, "", `#scenario=${scenario}&turn=${turnIndex}`);
-    setCurrent(inv);
-    const turn = inv.turns[turnIndex];
-    setEvidence(
-      !narrow && turnIndex === 0
-        ? turn?.answer?.figures[0] || turn?.answer || null
-        : null,
-    );
-  }, [replay, scenario, turnIndex, narrow]);
+    const turn = current?.turns[turnIndex];
+    setEvidence(replayMode && !narrow && turnIndex === 0
+      ? turn?.answer?.figures[0] || turn?.answer || null : null);
+    selectedRef.current = null;
+  }, [current?.id, scenario, turnIndex, narrow]);
   useEffect(() => {
     if (replayMode || !current) return;
     const last = current.turns.at(-1);
-    if (
-      last?.status === "complete" &&
-      last.answer?.reason_code &&
-      last.answer.operation !== "clarify" &&
-      autoSeen.current !== last.id
-    ) {
+    if (last?.status === "complete" && last.answer?.reason_code &&
+        last.answer.operation !== "clarify" && autoSeen.current !== last.id) {
       autoSeen.current = last.id;
       setEvidence(last.answer);
     }
-    if (
-      last &&
-      [
-        "error",
-        "cancelled",
-        "timeout",
-        "interrupted",
-        "stop_unconfirmed",
-      ].includes(last.status) &&
-      autoSeen.current !== last.id
-    ) {
-      autoSeen.current = last.id;
-      setDraft(last.question);
-    }
   }, [current]);
-  async function action(fn: () => Promise<void>) {
-    setError("");
-    try {
-      await fn();
-    } catch (e) {
-      setError((e as Error).message);
-    }
-  }
   async function newInvestigation(text = "") {
-    setSending(true);
-    try {
-      const inv = await api("/investigations", {});
-      setCurrent(inv);
-      setEvidence(null);
-      setDraft(text);
-    } finally {setSending(false);}
-    requestAnimationFrame(()=>prompt.current?.focus());
+    if (!live) return;
+    await live.newInvestigation(text);
+    requestAnimationFrame(() => prompt.current?.focus());
   }
   async function submit(question = draft, retry?: Turn) {
-    if (!question.trim() || sending || active) return;
-    setSending(true);
-    await action(async () => {
-      const inv = current || (await api("/investigations", {}));
-      const turn = await api("/investigations/" + inv.id + "/turns", {
-        question,
-        language: retry?.language || lang,
-        request_id: crypto.randomUUID(),
-        retry_of: retry?.id,
-      });
-      setCurrent({ ...inv, turns: [...inv.turns, turn] });
-      setDraft("");
-    });
-    setSending(false);
+    await live?.submit(question, lang, retry);
   }
   function inspect(value: Figure | Answer, e?: React.MouseEvent<HTMLElement>) {
     selectedRef.current = e?.currentTarget || null;
@@ -435,13 +300,13 @@ function App() {
             <>
               <button
                 onClick={() => action(() => newInvestigation())}
-                disabled={active || sending || !ready}
+                disabled={sending || !ready}
               >
                 {t("새 조사", "New investigation")}
               </button>
               <button
                 onClick={() =>
-                  action(async () => setHistory(await api("/history")))
+                  action(async () => { await live?.openHistory(); })
                 }
               >
                 {t("기록", "History")}
@@ -837,7 +702,7 @@ function App() {
                                 : ["매출액", "영업이익", "당기순이익"]
                             ).map((choice) => (
                               <button
-                                disabled={active || current?.saved}
+                                disabled={active || runtimeBusy || current?.saved}
                                 key={choice}
                                 onClick={() => submit(choice)}
                               >
@@ -848,7 +713,21 @@ function App() {
                         )}
                     </div>
                   )}
-                  {turn.error && (
+                  {!replayMode && turn.status === "saving" && <p role="status">{t("결과를 기록하는 중…", "Saving result…")}</p>}
+                  {!replayMode && turn.status === "storage_failed" && (
+                    <div className="storage-recovery" role="status">
+                      <p>{t("결과를 기록하지 못했습니다.", "Couldn't store this result")}</p>
+                      <p>{t("로컬 앱을 종료하면 기록되지 않은 결과가 사라질 수 있습니다.", "Closing the local application could lose this result.")}</p>
+                      <button onClick={() => action(async () => { if (current) await live?.recover(current.id); })}>
+                        {t("기록 다시 시도", "Retry storage")}
+                      </button>
+                      <button onClick={() => setDiscardTarget(current!.id)}>
+                        {t("기록되지 않은 결과 버리기", "Discard unstored result")}
+                      </button>
+                    </div>
+                  )}
+                  {turn.status === "discarded" && <p role="status">{t("기록되지 않은 결과를 버렸습니다. 이전 대화는 유지됩니다.", "Unstored result discarded. Earlier turns are preserved.")}</p>}
+                  {turn.error && !["storage_failed", "discarded"].includes(turn.status) && (
                     <p className="error" role="status">
                       {t(
                         "로컬 실행이 완료되지 않았습니다.",
@@ -926,7 +805,7 @@ function App() {
                       <button
                         onClick={() =>
                           action(async () => {
-                            await api("/turns/" + turn.id + "/cancel", {});
+                            await live?.cancel(turn.id);
                           })
                         }
                       >
@@ -944,7 +823,7 @@ function App() {
                     !turn.retry_of &&
                     !current?.turns.some((t) => t.retry_of === turn.id) && (
                       <button
-                        disabled={active || current?.saved}
+                        disabled={active || runtimeBusy || current?.saved}
                         onClick={() => submit(turn.question, turn)}
                       >
                         {t("한 번 다시 시도", "Retry once")}
@@ -961,14 +840,7 @@ function App() {
                   {!current.saved && (
                     <button
                       onClick={() =>
-                        action(async () =>
-                          setCurrent(
-                            await api(
-                              "/investigations/" + current.id + "/save",
-                              {},
-                            ),
-                          ),
-                        )
+                        action(async () => { await live?.save(current.id); })
                       }
                     >
                       {t("조사 저장", "Save investigation")}
@@ -980,17 +852,7 @@ function App() {
                         key={mode}
                         onClick={() =>
                           action(async () => {
-                            const next = await api(
-                              "/investigations/" + current.id + "/fork",
-                              { mode },
-                            );
-                            setCurrent(next);
-                            setEvidence(null);
-                            setDraft(
-                              mode === "refresh"
-                                ? current.turns.at(-1)?.question || ""
-                                : "",
-                            );
+                            await live?.fork(current.id, mode);
                           })
                         }
                       >
@@ -1030,6 +892,7 @@ function App() {
                   ))}
                 </div>
               )}
+              {runtimeBusy && !current?.turns.some(busy) && <p role="status">{t("다른 조사가 실행 중입니다. 완료되면 질문할 수 있습니다.", "Another investigation is running. You can ask when it finishes.")}</p>}
               {error && (
                 <p className="error" role="alert">
                   {error}
@@ -1048,7 +911,7 @@ function App() {
                   <div className="prompt-row">
                     <textarea
                       id="prompt"
-                      disabled={sending}
+                      disabled={!ready || sending}
                       ref={prompt}
                       rows={2}
                       maxLength={2000}
@@ -1071,7 +934,7 @@ function App() {
                     />
                     <button
                       className="send"
-                      disabled={!ready || sending || active || !draft.trim()}
+                      disabled={!ready || sending || active || runtimeBusy || !draft.trim()}
                       type="submit"
                     >
                       {t("질문", "Ask")}
@@ -1137,22 +1000,23 @@ function App() {
                   <button
                     className="history-row"
                     onClick={() => {
-                      setCurrent(inv);
+                      live?.select(inv);
                       setHistory(null);
-                      setEvidence(null);
-                      setDraft(readDraft(inv.id));
                     }}
                   >
                     {inv.turns[0]?.question ||
                       t("새 조사", "New investigation")}
                     <small>
-                      {inv.saved ? t("저장됨", "Saved") : t("최근", "Recent")} ·{" "}
+                      {inv.turns.some(turn => turn.status === "storage_failed")
+                        ? t("기록 실패", "Storage failed")
+                        : inv.turns.some(busy) ? t("실행 중", "Running")
+                        : inv.saved ? t("저장됨", "Saved") : t("최근", "Recent")} ·{" "}
                       {new Date(inv.created_at).toLocaleDateString(lang)}
                     </small>
                   </button>
                   <button
                     aria-label={t("이 조사 삭제", "Delete this investigation")}
-                    disabled={inv.turns.some(busy)}
+                    disabled={inv.turns.some(unresolved)}
                     onClick={() => setDeleteTarget(inv)}
                   >
                     {t("삭제", "Delete")}
@@ -1160,6 +1024,16 @@ function App() {
                 </div>
               ))
           )}
+        </Modal>
+      )}
+      {discardTarget && (
+        <Modal title={t("기록되지 않은 결과 버리기", "Discard unstored result")} close={() => setDiscardTarget(null)}>
+          <p>{t("이 결과를 버립니다. 이전에 기록된 대화와 문맥은 유지됩니다. 버림 처리를 기록할 때까지 새 질문은 제한됩니다.", "Discard this result and preserve earlier stored turns and context. New turns remain blocked until the discard is recorded.")}</p>
+          <button onClick={() => action(async () => {
+            await live?.recover(discardTarget, true);
+            setDiscardTarget(null);
+          })}>{t("버리기 확인", "Confirm discard")}</button>
+          {error && <p role="alert">{error}</p>}
         </Modal>
       )}
       {deleteTarget && (
@@ -1176,15 +1050,7 @@ function App() {
           <button
             onClick={() =>
               action(async () => {
-                await api("/investigations/" + deleteTarget.id + "/delete", {});
-                localStorage.removeItem("filing-draft-" + deleteTarget.id);
-                if (current?.id === deleteTarget.id) {
-                  setDraft("");
-                  setCurrent(null);
-                  setEvidence(null);
-                  localStorage.removeItem("filing-investigation");
-                }
-                setHistory(await api("/history"));
+                await live?.remove(deleteTarget.id);
                 setDeleteTarget(null);
               })
             }
@@ -1196,4 +1062,4 @@ function App() {
     </>
   );
 }
-createRoot(document.getElementById("root")!).render(<App />);
+createRoot(document.getElementById("root")!).render(replayMode ? <ReplayApp /> : <LiveApp />);

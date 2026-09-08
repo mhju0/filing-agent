@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Late A response preserves B conversation, draft and evidence; navigation does not cancel A; global execution blocks new inference",
+    "Storage failure retains figures; repeated explicit retry restores one turn; KO/EN light/dark recovery passes axe and reflow at 1440/390/320",
+    "Discard requires confirmation and removes only the unstored result",
+    "Composer waits for new investigation creation; its draft is present immediately on reload",
+    "Replay restores URL selection, resets turn on scenario switch, has no composer and makes no live requests"
+  ],
+  "errors": []
+}

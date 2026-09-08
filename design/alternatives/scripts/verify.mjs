@@ -136,19 +136,31 @@ try {
     await reset(variant);
     for (const lang of ["ko", "en"]) {
       for (const theme of ["light", "dark"]) {
-        await page.getByRole("button", { name: /^(설정|Settings)$/ }).click();
+        if (variant !== "b")
+          await page.getByRole("button", { name: /^(설정|Settings)$/ }).click();
         await page
           .getByRole("button", {
             name: lang === "ko" ? "한국어" : "English",
             exact: true,
           })
           .click();
-        await page
-          .getByRole("button", {
-            name: theme === "dark" ? /^(다크|Dark)$/ : /^(라이트|Light)$/,
-          })
-          .click();
-        await page.keyboard.press("Escape");
+        if (variant === "b") {
+          if ((await page.locator("html").getAttribute("data-theme")) !== theme)
+            await page.locator(".theme-toggle").click();
+          assert.equal(
+            await page
+              .getByRole("button", { name: /^(설정|Settings)$/ })
+              .count(),
+            0,
+          );
+        } else {
+          await page
+            .getByRole("button", {
+              name: theme === "dark" ? /^(다크|Dark)$/ : /^(라이트|Light)$/,
+            })
+            .click();
+          await page.keyboard.press("Escape");
+        }
         assert.equal(await page.locator("html").getAttribute("lang"), lang);
         assert.equal(
           await page.locator("html").getAttribute("data-theme"),
@@ -192,8 +204,20 @@ try {
         `${variant} overflows at ${width}`,
       );
       if (width === 390) {
+        if (variant === "b") {
+          assert.equal(await page.locator(".evidence").count(), 0);
+          await page
+            .getByRole("button", { name: "English", exact: true })
+            .click();
+          await page
+            .getByRole("button", { name: "한국어", exact: true })
+            .click();
+          await page.locator(".ledger-heroes .figure-button").first().click();
+        }
         const bounds = await page.locator(".evidence").boundingBox();
-        assert.ok(Math.abs(bounds.height - 844 * 0.4) < 3);
+        assert.ok(
+          Math.abs(bounds.height - 844 * (variant === "b" ? 1 : 0.4)) < 3,
+        );
         await page.screenshot({ path: `screenshots/${variant}-mobile.png` });
         const mobileAudit = await new AxeBuilder({ page })
           .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
@@ -210,17 +234,37 @@ try {
             2,
           ),
         );
-        await page.getByRole("button", { name: "펼치기", exact: true }).click();
-        assert.ok((await page.locator(".evidence").boundingBox()).height > 800);
-        await page.getByRole("button", { name: "접기", exact: true }).click();
-        const handle = await page.locator(".sheet-grip").boundingBox();
-        await page.mouse.move(handle.x + handle.width / 2, handle.y + 8);
-        await page.mouse.down();
-        await page.mouse.move(handle.x + handle.width / 2, handle.y - 85);
-        await page.mouse.up();
+        if (variant !== "b") {
+          await page
+            .getByRole("button", { name: "펼치기", exact: true })
+            .click();
+          assert.ok(
+            (await page.locator(".evidence").boundingBox()).height > 800,
+          );
+          await page.getByRole("button", { name: "접기", exact: true }).click();
+          const handle = await page.locator(".sheet-grip").boundingBox();
+          await page.mouse.move(handle.x + handle.width / 2, handle.y + 8);
+          await page.mouse.down();
+          await page.mouse.move(handle.x + handle.width / 2, handle.y - 85);
+          await page.mouse.up();
+        } else {
+          assert.equal(
+            await page.locator(".sheet-grip, .sheet-expand").count(),
+            0,
+          );
+        }
         assert.ok((await page.locator(".evidence").boundingBox()).height > 800);
         await page.keyboard.press("Escape");
         assert.equal(await page.locator(".evidence").count(), 0);
+        if (variant === "b") {
+          assert.equal(
+            await page
+              .locator(".ledger-heroes .figure-button")
+              .first()
+              .evaluate((el) => el === document.activeElement),
+            true,
+          );
+        }
         assert.equal(await page.getByRole("textbox").isVisible(), true);
         await page.screenshot({
           path: `screenshots/${variant}-mobile-conversation.png`,
@@ -228,12 +272,17 @@ try {
       }
     }
     checks.push(
-      "No document overflow at 375/390/768/1024/1280; 390px peek at 40%; expand/collapse/drag/Escape; composer reachable after sheet close",
+      variant === "b"
+        ? "No overflow at 375/390/768/1024/1280; mobile starts in conversation; visible language controls; full-height evidence without drag/detents; Escape restores figure focus"
+        : "No document overflow at 375/390/768/1024/1280; 390px peek at 40%; expand/collapse/drag/Escape; composer reachable after sheet close",
     );
     await page.setViewportSize({ width: 390, height: 844 });
     await reset(variant, "en", "dark");
     assert.equal(await overflowing(), false);
-    await page.getByRole("button", { name: "Expand", exact: true }).click();
+    if (variant === "b")
+      await page.locator(".ledger-heroes .figure-button").first().click();
+    else
+      await page.getByRole("button", { name: "Expand", exact: true }).click();
     const englishMobileAudit = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
       .analyze();

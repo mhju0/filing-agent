@@ -7,9 +7,7 @@ from pathlib import Path
 
 from slice.core import DIGEST, MODEL, OPTIONS, ROOT, SCHEMA, guard_intent, parse_intent
 
-# The core establishes the measured benchmark module path before these imports.
-# isort: split
-from run import api, chat_worker, local_model_info
+from bench.run import api, chat_worker, local_model_info
 
 
 class Stopped(Exception):

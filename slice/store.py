@@ -8,7 +8,10 @@ from datetime import datetime, timedelta, timezone
 import psycopg
 from psycopg.types.json import Jsonb
 
-from slice.core import SNAPSHOT, validate_snapshot
+from slice.core import SNAPSHOT
+from slice.financial import validate_snapshot
+
+BLOCKING = ("running", "queued", "saving", "storage_failed")
 
 DSN = "host=127.0.0.1 port=55439 dbname=filing_agent_slice user=filing_agent connect_timeout=3"
 
@@ -72,7 +75,7 @@ class Store:
         }
         if parent:
             old = self.get(parent)
-            if any(t["status"] in ("running", "queued") for t in old["turns"]):
+            if any(t["status"] in BLOCKING for t in old["turns"]):
                 raise ValueError("Wait for the current turn before forking")
             data["lineage"] = {"investigation_id": parent, "mode": mode}
             data["accepted"] = copy.deepcopy(old["accepted"])
@@ -136,7 +139,7 @@ class Store:
 
     def save(self, identity):
         def freeze(body):
-            if any(t["status"] in ("running", "queued") for t in body["turns"]):
+            if any(t["status"] in BLOCKING for t in body["turns"]):
                 raise ValueError("Wait for completion before saving")
             body["saved"] = True
 
@@ -145,11 +148,11 @@ class Store:
     def recover(self):
         recovered = False
         for data in self.history():
-            if any(t["status"] in ("running", "queued") for t in data["turns"]):
+            if any(t["status"] in BLOCKING for t in data["turns"]):
 
                 def mark(body):
                     for t in body["turns"]:
-                        if t["status"] in ("running", "queued"):
+                        if t["status"] in BLOCKING:
                             t.update(
                                 status="interrupted",
                                 error="Application stopped; retry the interrupted step explicitly.",
@@ -168,7 +171,7 @@ class Store:
                 "SELECT body FROM investigations WHERE id=%s FOR UPDATE", (identity,)
             ).fetchone()
             if row and any(
-                t["status"] in ("running", "queued") for t in row[0]["turns"]
+                t["status"] in BLOCKING for t in row[0]["turns"]
             ):
                 raise ValueError(
                     "Cancel and wait before deleting a running investigation"

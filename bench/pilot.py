@@ -11,6 +11,9 @@ from datetime import datetime, timezone
 from decimal import Decimal, ROUND_HALF_UP
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from slice.financial import verify_snapshot, calculated
+
 from memory_monitor import Monitor, command
 from run import ROOT, api, local_model_info, select_models, timed_chat
 from scoring import number_tokens, reject_constant, unique_object
@@ -28,27 +31,8 @@ def load_catalog():
                       for fact in snapshot['facts']]
 
 
-def verify_snapshot(snapshot):
-    content = {k: v for k, v in snapshot.items() if k != 'snapshot_id'}
-    digest = hashlib.sha256(json.dumps(content, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
-    if snapshot.get('snapshot_id') != 'sha256:' + digest:
-        raise ValueError('Pilot snapshot changed without a new verified identity')
 
 
-def calculated(facts):
-    if len(facts) != 2:
-        raise ValueError('A change requires exactly two figures')
-    prior, current = sorted(facts, key=lambda fact: fact['period'])
-    if any(prior[k] != current[k] for k in ('company', 'metric', 'currency', 'basis')):
-        raise ValueError('Incompatible comparison')
-    if any(prior[k][5:] != current[k][5:] for k in ('period_start', 'period_end')):
-        raise ValueError('Incompatible fiscal-period definitions')
-    if Decimal(prior['value']) <= 0:
-        raise ValueError('Nonpositive prior baseline')
-    delta = Decimal(current['value']) - Decimal(prior['value'])
-    return {'inputs': [current['id'], prior['id']], 'absolute_change': str(delta),
-            'percentage_change': str((delta / Decimal(prior['value']) * 100).quantize(Decimal('.01'), rounding=ROUND_HALF_UP)),
-            'currency': prior['currency']}
 
 
 def assess(content, expected, catalog):

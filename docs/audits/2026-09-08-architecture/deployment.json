@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "id": "dpl_DnjiTQYCDiY13TGSswpi4C9vxirT",
+  "url": "https://filing-agent-pi3c3xksl-mhju0s-projects.vercel.app",
+  "production": "https://filing-agent.vercel.app",
+  "verified_public_file_hashes": [
+    "FONT-LICENSE.txt",
+    "LOCAL-SETUP.md",
+    "actual-run.webm",
+    "assets/PretendardVariable-CJuje-Rk.woff2",
+    "assets/index-B3ksql1p.css",
+    "assets/index-DxNHgVe6.js",
+    "engineering-en.html",
+    "engineering-ko.html",
+    "engineering.css",
+    "evaluation-cases.json",
+    "evaluation.json",
+    "filing-agent-source.zip",
+    "index.html",
+    "recording.json",
+    "theme.js"
+  ],
+  "github_push": "Authorized; see repository publication audit for delivery verification"
+}

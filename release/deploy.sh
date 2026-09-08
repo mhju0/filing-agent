@@ -2,11 +2,11 @@
 set -eu
 TASK_ROOT=$(CDPATH= cd -- "$(dirname "$0")/.." && pwd)
 TASK_RELEASE="$TASK_ROOT/slice/replay-release"
-python3 - "$TASK_ROOT" "$TASK_RELEASE" <<'PY'
+python3 - "$TASK_ROOT" "$TASK_RELEASE" "${RELEASE_AUDIT:-docs/audits/2026-09-08-architecture/artifact.json}" <<'PY'
 import hashlib,json,sys
 from pathlib import Path
 root=Path(sys.argv[1]);out=Path(sys.argv[2])
-report=json.loads((root/'docs/audits/2026-09-08-slice/artifact.json').read_text())
+report=json.loads((root/sys.argv[3]).read_text())
 assert report['status']=='PASS' and (root/report['path']).resolve()==out.resolve()
 actual={str(p.relative_to(out)) for p in out.rglob('*') if p.is_file() and '.vercel' not in p.parts}
 assert actual==set(report['files']), 'Unexpected or missing release files'

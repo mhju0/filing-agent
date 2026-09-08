@@ -1,8 +1,9 @@
 # Filing Agent
 
-Current phase: implementation and verified static replay release. README.md
-indexes the application, release evidence, and historical planning. FOUNDATION.md is historical context;
-its build-start prompt and superseded assumptions are not current instructions.
+Current phase: implementation and verified static replay release.
+[README.md](README.md) introduces the application; [docs/README.md](docs/README.md)
+indexes current guides, decisions and verification. Private planning remains local and ignored.
+Before publishing, run `python3 release/check_publication.py`.
 
 Filing Digest is the partner project. Inspect it read-only and keep
 this project's changes within filing-agent.

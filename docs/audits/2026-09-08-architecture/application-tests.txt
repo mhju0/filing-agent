@@ -1,0 +1,24 @@
+test_completion_contains_timing_and_delete_cannot_cross_finalization (test_lifecycle.LifecycleTests.test_completion_contains_timing_and_delete_cannot_cross_finalization) ... ok
+test_discard_requires_durable_resolution_and_keeps_previous_context (test_lifecycle.LifecycleTests.test_discard_requires_durable_resolution_and_keeps_previous_context) ... ok
+test_restart_recovers_only_durable_receipts (test_lifecycle.LifecycleTests.test_restart_recovers_only_durable_receipts) ... ok
+test_storage_retries_preserve_result_context_and_single_inference (test_lifecycle.LifecycleTests.test_storage_retries_preserve_result_context_and_single_inference) ... ok
+test_uncertain_commit_retries_without_duplicating_turn (test_lifecycle.LifecycleTests.test_uncertain_commit_retries_without_duplicating_turn) ... ok
+test_clarification_survives_store_recreation_without_accepting_partial (test_slice.SliceTests.test_clarification_survives_store_recreation_without_accepting_partial) ... ok
+test_duplicate_request_and_serial_execution (test_slice.SliceTests.test_duplicate_request_and_serial_execution) ... ok
+test_every_pilot_fact_roundtrips_and_partial_never_substitutes (test_slice.SliceTests.test_every_pilot_fact_roundtrips_and_partial_never_substitutes) ... ok
+test_expiry_does_not_delete_saved (test_slice.SliceTests.test_expiry_does_not_delete_saved) ... ok
+test_export_refuses_uncaptured_or_unsaved_results (test_slice.SliceTests.test_export_refuses_uncaptured_or_unsaved_results) ... ok
+test_host_origin_and_token_protect_mutations (test_slice.SliceTests.test_host_origin_and_token_protect_mutations) ... ~/Workspace/Projects/filing-agent/.venv/lib/python3.11/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+  _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+ok
+test_interrupted_step_reuses_only_completed_evidence_and_one_retry (test_slice.SliceTests.test_interrupted_step_reuses_only_completed_evidence_and_one_retry) ... ok
+test_native_graph_checkpoints_survive_new_engine_and_delete (test_slice.SliceTests.test_native_graph_checkpoints_survive_new_engine_and_delete) ... ok
+test_private_backup_restore_and_diagnostic_expiry (test_slice.SliceTests.test_private_backup_restore_and_diagnostic_expiry) ... ok
+test_save_continue_and_refresh_preserve_original (test_slice.SliceTests.test_save_continue_and_refresh_preserve_original) ... ok
+test_snapshot_missing_does_not_silently_refresh (test_slice.SliceTests.test_snapshot_missing_does_not_silently_refresh) ... ok
+test_unknown_is_not_zero_or_wrong_company (test_slice.SliceTests.test_unknown_is_not_zero_or_wrong_company) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 1.771s
+
+OK

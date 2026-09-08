@@ -14,7 +14,7 @@ Support light and dark themes, initially following the system preference, with a
 
 Default to a concise answer and key figures with expandable explanation and evidence. The local application's entry view exposes supported companies, periods, and example questions alongside a free-form prompt. Editing an earlier question prefills a new investigation; conversation branching is deferred. Changing language updates controls and future answers while preserving earlier answer text. Public replay language controls use deliberately prepared recorded content rather than live translation or inference.
 
-For the public artifact, follow the [public replay and presentation brief](docs/planning/2026-09-06-public-replay-presentation.md). It records the recruiting rationale, honest recorded-execution presentation, and the evidence and interaction checks needed to support a professional release.
+[ADR 0006](docs/adr/0006-persisted-local-workflows-and-release-scope.md) records the implemented release scope; the [release audit](docs/audits/2026-09-08-slice/README.md) records its verification.
 
 Apply antislop during design and implementation as configured in AGENTS.md. Use this brief as the visual direction; document the reasons for major design choices and verify the eventual interface across languages, screen sizes, keyboard navigation, and loading, empty, partial, and error states.
 

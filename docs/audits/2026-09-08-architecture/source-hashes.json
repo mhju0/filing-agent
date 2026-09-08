@@ -1,0 +1,21 @@
+{
+  "slice/store.py": "0fc842595f1552c7e12478c4e2c8e8fe611dbd7df7ef07f1f587ad82bd676768",
+  "slice/backup.py": "1aab084f2173d03f92bd6be56125053899e5c875c2c85bf0ed68fe4adcaa40de",
+  "slice/__init__.py": "e00e18d2967b2dfb34529338bd4680d3dcabdc60500291e9fc7ffa00221a087e",
+  "slice/core.py": "aa356edca930f2fd2d04942c0dc794dd9865d6e01361f8b6413b6c080cac39a3",
+  "slice/financial.py": "26d3ea1f0251c3a8f8a81557d49a6235ae70a074a72f3b246db86d014a81c8d2",
+  "slice/export.py": "00b586d9ffb0ed7950b7dee8d505833b97d514892e856a17dc36dda3f86bfa44",
+  "slice/runtime.py": "93fb81b4eab1951632a99c0f478087a59cd74363218902dfa3626418419f41b4",
+  "slice/lifecycle.py": "7e47c30977cad4f977d80fb46d377764d8a96f218753c0f461242f78ad15e93b",
+  "slice/app.py": "a5a5d21cbe94abeeabd245c2898973b06cd272c036a2b15c8f66fa55fec7085a",
+  "slice/workflow.py": "f9fc5dc8ea05908c42fd72cc2047f1db34250151873f68afbd428e983e6383bb",
+  "slice/web/src/main.tsx": "475d521fffada5be5666b05abbe47cb47deff24e06486267ce6178469e44b3af",
+  "slice/web/src/styles.css": "cddfcfe3b760f8dd42288f555bfe43735441818d8ce3bd190d569a5f091e6336",
+  "slice/web/src/live.ts": "96009d11dc8df6743e09a5fa65d270e187e923084e7bffd814f2bcf74fb6b376",
+  "slice/web/src/replay.ts": "23262bc41f0c42b5ba7be8812c1d5ef506a3fc573332ce1476e3a8d228492ab4",
+  "slice/web/src/glossary.json": "9083fbcc9fb330256cd3299b65b381f7ab884851543712a54392301db3ce45fc",
+  "slice/web/src/types.ts": "33e1f38a05762352d7202b252dc67b78368bfecf6ec048f4cccf380b86a54a1a",
+  "bench/intent.py": "72105596a1ee3d8f5cca6a5804a16d271679913ce2911dca3b8824910f90f808",
+  "bench/pilot.py": "dc7ec21a604b023fac70bd0cac9bf13eca21c5d0a6aebbae8aa125b005a7d910",
+  "bench/run.py": "18e5a2ba028cd129e0be971c476d96f4e32451193933c88f5903cafeb7b05adf"
+}

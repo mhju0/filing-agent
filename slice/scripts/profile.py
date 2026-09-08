@@ -7,9 +7,7 @@ from pathlib import Path
 
 from slice.core import ROOT
 
-# The core establishes the measured benchmark module path before these imports.
-# isort: split
-from memory_monitor import snapshot
+from bench.memory_monitor import snapshot
 
 out = []
 for _ in range(90):

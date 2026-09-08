@@ -1,17 +1,62 @@
-.DS_Store
+# Credentials and machine-specific configuration
 .env
 .env.*
 !.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+.envrc
+.npmrc
+id_rsa
+id_ed25519
+.codex/
+.claude/
+.agents/
+service-account*.json
+.DS_Store
+.idea/
+.vscode/
+
+# Local conversations, database clusters, backups and diagnostics
+.local/
+private/
+backups/
+*.log
+*.sqlite
+*.sqlite3
+*.db
+*.db-wal
+*.db-shm
+*.dump
+*.sql.gz
+
+# Private planning and recruiting material, including historical paths
+/FOUNDATION.md
+/docs/planning/
+/docs/archive/
+/docs/research/
+/docs/design-review.md
+/docs/audits/2026-09-08-repository-presentation.*
+
+# Dependencies, caches and generated builds
 .venv/
+venv/
 __pycache__/
+*.py[cod]
 .pytest_cache/
 .ruff_cache/
-.local/
-slice/web/node_modules/
-slice/web/dist/
-slice/replay/
-verification/node_modules/
-.vercel/
+.mypy_cache/
+.coverage
+htmlcov/
+node_modules/
+dist/
+*.tsbuildinfo
+playwright-report/
+test-results/
 
+# Static release assembly and hosting credentials
+.vercel/
+slice/replay/
 slice/replay-*/
-.vercel

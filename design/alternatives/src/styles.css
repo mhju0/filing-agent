@@ -200,6 +200,25 @@ dialog {
   align-items: center;
   justify-content: center;
 }
+.language-control {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  border-left: 1px solid var(--rule);
+  padding-left: 14px;
+}
+.language-control button {
+  min-height: 44px;
+  padding: 0 9px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.language-control [aria-pressed="true"] {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-color: var(--accent);
+}
 .workspace {
   display: flex;
   min-height: 0;
@@ -1257,6 +1276,28 @@ mark {
   }
   .topbar-actions > button span {
     display: none;
+  }
+  .variant-b .topbar {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 10px 16px 6px;
+    gap: 2px;
+  }
+  .variant-b .topbar-actions {
+    width: 100%;
+    justify-content: space-between;
+    gap: 4px;
+  }
+  .variant-b .language-control {
+    margin-left: auto;
+    padding-left: 8px;
+  }
+  .variant-b .evidence.full-sheet {
+    top: 0;
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+    padding-top: env(safe-area-inset-top);
   }
   .workspace {
     position: relative;

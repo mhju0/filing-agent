@@ -1,0 +1,10 @@
+[extend]
+useDefault = true
+
+# Public regulator-response content hashes, not API credentials.
+[[rules]]
+id = "generic-api-key"
+[[rules.allowlists]]
+description = "Public filing API response SHA-256"
+regexTarget = "match"
+regexes = ['''api_sha256"\s*:\s*"[a-f0-9]{64}"''']

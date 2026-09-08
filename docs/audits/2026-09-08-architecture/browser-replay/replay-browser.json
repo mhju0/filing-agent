@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "browser": "152.0.7977.76",
+  "checks": [
+    "compare-ko-light no overflow; axe WCAG A/AA checks passed",
+    "compare-en-dark no overflow; axe WCAG A/AA checks passed",
+    "refusal-en-dark no overflow; axe WCAG A/AA checks passed",
+    "Three captured scenarios; stable turns; formula/source selection; no live prompt; recorded actual timings; bilingual answer text",
+    "mobile-en-dark-evidence no overflow; axe WCAG A/AA checks passed",
+    "mobile-en-dark-conversation no overflow; axe WCAG A/AA checks passed",
+    "mobile-ko-light-320 no overflow; axe WCAG A/AA checks passed",
+    "390px and 320px reflow; modal focus trap; Escape and close restore figure focus; original filing URL retained; reduced-motion mode"
+  ],
+  "errors": [],
+  "requests": [
+    "http://127.0.0.1:4176/",
+    "http://127.0.0.1:4176/theme.js",
+    "http://127.0.0.1:4176/assets/index-DxNHgVe6.js",
+    "http://127.0.0.1:4176/assets/index-B3ksql1p.css",
+    "http://127.0.0.1:4176/recording.json",
+    "http://127.0.0.1:4176/assets/PretendardVariable-CJuje-Rk.woff2",
+    "http://127.0.0.1:4176/",
+    "http://127.0.0.1:4176/theme.js",
+    "http://127.0.0.1:4176/assets/index-DxNHgVe6.js",
+    "http://127.0.0.1:4176/assets/index-B3ksql1p.css",
+    "http://127.0.0.1:4176/recording.json",
+    "http://127.0.0.1:4176/assets/PretendardVariable-CJuje-Rk.woff2"
+  ]
+}

@@ -1,5 +1,7 @@
 # Filing Agent — decisions record and next task
 
+Historical owner-supplied brief below. On September 7 the owner selected Ledger and revised the controls/mobile direction. [ADR 0004](../../docs/adr/0004-ledger-and-prebuild-gates.md) and [DESIGN.md](../../DESIGN.md) supersede conflicting defaults and the completed task below. Ledger now has visible language/theme controls and no mobile peek state; A/C preserve the earlier studies.
+
 Paste into Codex. Sections 1–4 are decisions; section 5 is the task.
 
 ## 1. Locked product decisions

@@ -56,6 +56,12 @@ Edit starts a new investigation. Changing interface language preserves earlier l
 
 Three real graph stages are shown: interpretation; evidence resolution and arithmetic; answer persistence. There is no invented filing-download or extraction progress. Completed steps persist in PostgreSQL. After a process interruption, the owner can retry once; completed step outputs are reused and the interrupted step starts from its persisted inputs. This is explicit step recovery, not token-level generation resumption or a native tool-calling claim.
 
+Verified figures can appear while the result is being stored. Completion requires durable result and timing metadata. If storage fails, the local application retains the pending result in memory and History marks the investigation as “Storage failed.” Retry storage writes the same result without repeating inference or creating another turn. Storage retries are separate from the one-retry limit for inference. Closing the local application can lose any result that has not reached durable storage.
+
+“Discard unstored result” requires confirmation, preserves earlier durable turns and context, and keeps the investigation blocked until the discard is recorded. Save, Continue, Refresh and new turns remain unavailable for an unresolved investigation. You can browse other investigations; navigation never cancels execution. Only one inference runs at a time, and background responses update their own investigation.
+
+Financial rules live in `slice/financial.py`, with no model or database access. `slice/lifecycle.py` owns investigation transitions and storage recovery. The live and replay modules under `slice/web/src/` own their respective state while sharing answer and source presentation. To exercise their browser regressions against a running local app, use `RECORDING_FIXTURE=/path/to/exported/recording.json node slice/scripts/verify-architecture.mjs`; recorded content is used as test input, and live responses are controlled test doubles.
+
 Cancellation terminates the client worker, requests model unload and checks the local runtime. An unconfirmed stop blocks further inference until the controlled runtime is reset. All model requests are serial.
 
 ## Private data commands

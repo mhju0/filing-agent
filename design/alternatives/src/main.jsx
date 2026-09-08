@@ -11,7 +11,8 @@ import {
 } from "./data";
 import "./styles.css";
 
-const variant = location.pathname.match(/\/([abc])\.html$/)?.[1] || "a";
+const variant = location.pathname.match(/\/([abc])\.html$/)?.[1] || "b";
+const ledger = variant === "b";
 const names = { a: "Reading first", b: "Ledger", c: "Card stack" };
 function Icon({ name, ...props }) {
   const paths = {
@@ -23,6 +24,8 @@ function Icon({ name, ...props }) {
     document: "M7 3h7l4 4v14H6V3h1m7 0v5h4M9 12h6M9 16h6",
     down: "m6 9 6 6 6-6",
     menu: "M5 12h.01M12 12h.01M19 12h.01",
+    sun: "M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5",
+    moon: "M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5Z",
   };
   return (
     <svg
@@ -52,7 +55,9 @@ function App() {
     document.documentElement.dataset.theme || "light",
   );
   const [selected, setSelected] = useState("2023");
-  const [evidenceOpen, setEvidenceOpen] = useState(true);
+  const [evidenceOpen, setEvidenceOpen] = useState(
+    () => !ledger || !matchMedia("(max-width: 760px)").matches,
+  );
   const [fullSheet, setFullSheet] = useState(false);
   const [formulaOpen, setFormulaOpen] = useState(false);
   const [translated, setTranslated] = useState(false);
@@ -305,21 +310,62 @@ function App() {
           <i aria-hidden="true">↗</i>
         </a>
         <div className="topbar-actions">
-          <button onClick={() => setModal("new")}>
+          <button aria-label={t.new} onClick={() => setModal("new")}>
             <Icon name="plus" />
             <span>{t.new}</span>
           </button>
-          <button onClick={() => setModal("history")}>
+          <button aria-label={t.history} onClick={() => setModal("history")}>
             <Icon name="history" />
             <span>{t.history}</span>
           </button>
-          <button
-            className="icon-button"
-            aria-label={t.settings}
-            onClick={() => setModal("settings")}
-          >
-            <Icon name="menu" />
-          </button>
+          {ledger ? (
+            <>
+              <div
+                className="language-control"
+                role="group"
+                aria-label={t.language}
+              >
+                <button
+                  lang="ko"
+                  aria-pressed={lang === "ko"}
+                  onClick={() => setLang("ko")}
+                >
+                  한국어
+                </button>
+                <button
+                  lang="en"
+                  aria-pressed={lang === "en"}
+                  onClick={() => setLang("en")}
+                >
+                  English
+                </button>
+              </div>
+              <button
+                className="icon-button theme-toggle"
+                aria-label={
+                  lang === "ko"
+                    ? `${theme === "light" ? "다크" : "라이트"} 모드로 전환`
+                    : `Switch to ${theme === "light" ? "dark" : "light"} mode`
+                }
+                title={
+                  lang === "ko"
+                    ? `${theme === "light" ? "다크" : "라이트"} 모드로 전환`
+                    : `Switch to ${theme === "light" ? "dark" : "light"} mode`
+                }
+                onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+              >
+                <Icon name={theme === "light" ? "moon" : "sun"} />
+              </button>
+            </>
+          ) : (
+            <button
+              className="icon-button"
+              aria-label={t.settings}
+              onClick={() => setModal("settings")}
+            >
+              <Icon name="menu" />
+            </button>
+          )}
         </div>
       </header>
       <div className="workspace">
@@ -485,29 +531,31 @@ function App() {
         {evidenceOpen && (
           <aside
             ref={evidence}
-            className={`evidence ${fullSheet ? "full-sheet" : ""}`}
+            className={`evidence ${fullSheet || ledger ? "full-sheet" : ""}`}
             role={mobile ? "dialog" : "complementary"}
             aria-modal={mobile ? "true" : undefined}
             aria-label={t.evidence}
           >
-            <div
-              className="sheet-grip"
-              onPointerDown={(event) => {
-                drag.current = event.clientY;
-                event.currentTarget.setPointerCapture(event.pointerId);
-              }}
-              onPointerUp={(event) => {
-                if (
-                  drag.current !== null &&
-                  Math.abs(event.clientY - drag.current) > 30
-                )
-                  setFullSheet(event.clientY < drag.current);
-                drag.current = null;
-              }}
-              aria-hidden="true"
-            >
-              <span />
-            </div>
+            {!ledger && (
+              <div
+                className="sheet-grip"
+                onPointerDown={(event) => {
+                  drag.current = event.clientY;
+                  event.currentTarget.setPointerCapture(event.pointerId);
+                }}
+                onPointerUp={(event) => {
+                  if (
+                    drag.current !== null &&
+                    Math.abs(event.clientY - drag.current) > 30
+                  )
+                    setFullSheet(event.clientY < drag.current);
+                  drag.current = null;
+                }}
+                aria-hidden="true"
+              >
+                <span />
+              </div>
+            )}
             <div className="evidence-top">
               <div className="flex items-center gap-2">
                 <span className="citation-number">
@@ -516,13 +564,15 @@ function App() {
                 <h2>{t.evidence}</h2>
               </div>
               <div className="flex items-center">
-                <button
-                  className="sheet-expand"
-                  onClick={() => setFullSheet(!fullSheet)}
-                  aria-expanded={fullSheet}
-                >
-                  {fullSheet ? t.collapse : t.expand}
-                </button>
+                {!ledger && (
+                  <button
+                    className="sheet-expand"
+                    onClick={() => setFullSheet(!fullSheet)}
+                    aria-expanded={fullSheet}
+                  >
+                    {fullSheet ? t.collapse : t.expand}
+                  </button>
+                )}
                 <button
                   className="icon-button"
                   aria-label={`${t.evidence} ${t.close}`}

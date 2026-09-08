@@ -2,6 +2,26 @@
 
 Scope: the three owner-requested static investigation screens. These checks do not establish application, model, retrieval, persistence, cancellation, or production-security behavior.
 
+## September 7 Ledger refinement
+
+Owner selected B. `npm run build` and `npm run verify` passed after the changes below. The refreshed `verification.json` records Chrome 152.0.7977.76, no page/console errors, and no external application requests. Desktop, mobile conversation, and full-height source screenshots were visually inspected.
+
+| Before | After | Why |
+| --- | --- | --- |
+| Language and theme hidden under Settings | Native-language buttons and sun/moon control directly in Ledger's top bar | Preferences are discoverable and one action away; active language has an underline and pressed state |
+| Mobile source begins at 40%, expands or drags | One full-height evidence view, opened from a figure, with Close and Escape | Full reading space without detents or gesture handling; focus returns to the figure |
+| Mobile arrival opens evidence immediately | Ledger opens on the conversation; desktop keeps the first source open | A full-screen source should not obscure the investigation on arrival |
+| Default route selects A | Default route selects Ledger | Entry matches the owner's selection |
+
+Antislop delivery gate for the refinement:
+
+- Hard gate PASS: production build and browser checks passed, including KO/EN and light/dark axe audits, visible controls, keyboard formula/source behavior, Escape/focus return, and no outer overflow at 375/390/768/1024/1280px. Mobile New/History now have explicit accessible names when their visible labels are collapsed.
+- Purpose gate PASS: native-language text communicates the two choices, sun/moon communicates the theme action, and no sheet-motion dependency was added. Header controls get a dedicated mobile row to preserve their hit areas.
+- Liveliness PASS: selected Ledger retains ENERGY 1 / RHYTHM 2 / MOTION 1, paired reported heroes and matching source highlights; these changes do not add decorative motion.
+- Craftsmanship PASS within static-prototype scope: all changed controls are functional; bilingual theme styling and mobile evidence were rendered and inspected. Existing physical-device, VoiceOver, Safari and full zoom limitations below remain release work, not claimed passes.
+
+The earlier peek/drag checks below apply only to A/C after this refinement. The assertions and captures for B now verify closed initial mobile evidence, full viewport height when opened, absence of drag/expand controls, and return focus after Escape.
+
 ## Browser evidence
 
 `npm run build` produces all three pages plus the default A entry. `npm run verify` launches local Google Chrome against the production preview, records its actual version in `verification.json`, and captures the pages under `screenshots/`.

@@ -5,7 +5,7 @@ import { writeFile, mkdir } from "node:fs/promises";
 const mode = process.env.VERIFY_MODE || "live";
 const base = process.env.VERIFY_BASE || (
   mode === "replay" ? "http://127.0.0.1:4176" : "http://127.0.0.1:8765");
-const out = "docs/audits/2026-09-08-slice";
+const out = process.env.VERIFY_OUT || "docs/audits/2026-09-08-slice";
 await mkdir(out, { recursive: true });
 const browser = await chromium.launch({ channel: "chrome", headless: true });
 const context = await browser.newContext({

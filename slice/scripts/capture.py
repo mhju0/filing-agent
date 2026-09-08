@@ -2,6 +2,8 @@
 
 import hashlib
 import json
+import os
+from pathlib import Path
 import time
 
 import requests
@@ -9,12 +11,10 @@ import requests
 from slice.core import MODEL, ROOT
 from slice.store import Store, uid
 
-# The core establishes the measured benchmark module path before these imports.
-# isort: split
-from memory_monitor import Monitor
+from bench.memory_monitor import Monitor
 
 BASE = "http://127.0.0.1:8765/api"
-OUT = ROOT / "docs/audits/2026-09-08-slice"
+OUT = Path(os.environ.get("CAPTURE_OUT", str(ROOT / "docs/audits/2026-09-08-slice")))
 session = requests.Session()
 session.trust_env = False
 TOKEN = session.get(BASE + "/session").json()["token"]
@@ -43,7 +43,7 @@ def ask(identity, question, language="ko", cancel=False):
     while time.monotonic() < deadline:
         inv = api("/investigations/" + identity)
         current = next(t for t in inv["turns"] if t["id"] == turn["id"])
-        if current["status"] not in ("queued", "running") and "wall_seconds" in current:
+        if current["status"] not in ("queued", "running", "saving") and "wall_seconds" in current:
             return inv, current
         time.sleep(0.15)
     raise TimeoutError("Application turn failed to terminate")

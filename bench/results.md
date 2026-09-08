@@ -1,17 +1,17 @@
 # Local model benchmark
 
-Recorded: 2026-09-07T03:33:47.507512+00:00
+Recorded: 2026-09-07T09:33:56.113515+00:00
 
-Status: blocked. Local Ollama preflight failed at http://127.0.0.1:11434: ConnectionError
+Status: complete.
 
 | Model | Case | Median seconds | Accuracy | Parse rate | Hallucinations | Notes |
 | --- | --- | ---: | --- | --- | ---: | --- |
-| qwen3:8b | compare | N/A | N/A (0/3 run) | N/A (0/3 run) | N/A | Local Ollama preflight failed at http://127.0.0.1:11434: ConnectionError; Refusal gate: not evaluated |
-| qwen3:8b | switch | N/A | N/A (0/3 run) | N/A (0/3 run) | N/A | Local Ollama preflight failed at http://127.0.0.1:11434: ConnectionError; Refusal gate: not evaluated |
-| qwen3:8b | missing | N/A | N/A (0/3 run) | N/A (0/3 run) | N/A | Local Ollama preflight failed at http://127.0.0.1:11434: ConnectionError; Refusal gate: not evaluated |
-| gemma4:e4b | compare | N/A | N/A (0/3 run) | N/A (0/3 run) | N/A | Local Ollama preflight failed at http://127.0.0.1:11434: ConnectionError; Refusal gate: not evaluated |
-| gemma4:e4b | switch | N/A | N/A (0/3 run) | N/A (0/3 run) | N/A | Local Ollama preflight failed at http://127.0.0.1:11434: ConnectionError; Refusal gate: not evaluated |
-| gemma4:e4b | missing | N/A | N/A (0/3 run) | N/A (0/3 run) | N/A | Local Ollama preflight failed at http://127.0.0.1:11434: ConnectionError; Refusal gate: not evaluated |
+| qwen3:8b | compare | 57.51 | 0/3 | 3/3 | 12 | Invented numbers: `14.38`, `14.38`, `100`, `-14.38`, `14.38`, `14.38`, `100`, `-14.38`, `14.38`, `14.38`, `100`, `-14.38`; Refusal gate: passed 3/3 missing trials; inspect bilingual prose manually |
+| qwen3:8b | switch | 79.83 | 0/3 | 3/3 | 3 | Invented numbers: `967,064`, `967,064`, `967,064`; Refusal gate: passed 3/3 missing trials; inspect bilingual prose manually |
+| qwen3:8b | missing | 21.30 | 3/3 | 3/3 | 0 | Refusal gate: passed 3/3 missing trials; inspect bilingual prose manually |
+| gemma4:e4b | compare | 51.10 | 0/3 | 0/3 | 12 | Invented numbers: `-14.45`, `14.45`, `100`, `-14.45`, `-14.45`, `14.45`, `100`, `-14.45`, `-14.45`, `14.45`, `100`, `-14.45`; Refusal gate: passed 3/3 missing trials; inspect bilingual prose manually |
+| gemma4:e4b | switch | 67.64 | 0/3 | 0/3 | 0 | Refusal gate: passed 3/3 missing trials; inspect bilingual prose manually |
+| gemma4:e4b | missing | 17.29 | 3/3 | 3/3 | 0 | Refusal gate: passed 3/3 missing trials; inspect bilingual prose manually |
 
 Three trials per case. Switch accuracy and parsing require both turns to pass; its time is the two-turn total.
 Median includes attempted failures/timeouts, excludes unattempted runs. Each case has a 120s wall deadline.

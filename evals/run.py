@@ -81,7 +81,7 @@ def main():
                     inv = api("/investigations/" + inv["id"])
                     current = next(t for t in inv["turns"] if t["id"] == turn["id"])
                     if (
-                        current["status"] not in ("running", "queued")
+                        current["status"] not in ("running", "queued", "saving")
                         and "wall_seconds" in current
                     ):
                         break

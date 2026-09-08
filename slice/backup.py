@@ -8,15 +8,16 @@ from pathlib import Path
 
 from psycopg.types.json import Jsonb
 
-from slice.core import checksum, financial_answer, validate_snapshot
-from slice.store import Store, now, uid
+from slice.core import checksum
+from slice.financial import financial_answer, validate_snapshot
+from slice.store import BLOCKING, Store, now, uid
 
 
 def backup(path):
     store = Store()
     investigations = store.history()
     if any(
-        t["status"] in ("running", "queued") for i in investigations for t in i["turns"]
+        t["status"] in BLOCKING for i in investigations for t in i["turns"]
     ):
         raise ValueError("Finish or cancel running work before backup")
     for i in investigations:
@@ -53,7 +54,7 @@ def restore(path):
             raise ValueError("Backup lacks pinned evidence")
         facts = {f["id"]: f for f in snapshots[inv["snapshot_id"]]["facts"]}
         for turn in inv["turns"]:
-            if turn["status"] in ("running", "queued"):
+            if turn["status"] in BLOCKING:
                 raise ValueError("Cannot restore an active attempt")
             for figure in turn.get("answer", {}).get("figures", []):
                 if facts.get(figure["id"]) != figure:

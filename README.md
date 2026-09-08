@@ -2,7 +2,7 @@
 
 A bilingual research workspace for Korean DART and US SEC filings. Ask follow-up questions, compare annual figures and inspect the original evidence. Inference runs locally on a Mac.
 
-**Sister project to [Filing Digest](https://github.com/mhju0/filing-digest).** Digest handles filing ingestion, retrieval and the iOS reader. Agent extends that work with conversational context, annual comparisons and saved investigations. Both keep financial figures separate from model-generated prose.
+**Sister project to [Filing Digest](https://github.com/mhju0/filing-digest).** Digest handles filing ingestion, retrieval and the iOS reader. Agent adds conversational context, annual comparisons and saved investigations. Both projects keep financial figures separate from model-generated prose.
 
 [Explore the recorded investigations](https://filing-agent.vercel.app) · [Engineering notes](https://filing-agent.vercel.app/engineering-en.html) · [Evaluation](evals/RESULTS.md) · [Local setup](#local-setup)
 
@@ -61,7 +61,7 @@ Local question path
 
 [Runtime](slice/runtime.py) pins Ollama `0.33.3` and the `gemma4:e4b` weight digest. The model receives the question and conversation context, with JSON Schema output. It receives neither filing text nor financial values. Cloud inference is disabled. The runtime rejects changes to the pinned runtime version or model weights and permits one active request.
 
-[Financial policy](slice/core.py) validates company, metric, period, basis and currency before displaying or calculating figures. [Workflow execution](slice/workflow.py) records three actual stages, with no simulated retrieval or extraction progress. PostgreSQL checkpoints retain graph position; application transactions preserve completed step outputs and answers.
+[Question/context guards](slice/core.py) check explicit intent, and the shared [financial policy](slice/financial.py) selects eligible figures, calculates comparisons and constructs bilingual answers. [Workflow execution](slice/workflow.py) records three actual stages, with no simulated retrieval or extraction progress. The [investigation lifecycle](slice/lifecycle.py) owns durable completion and storage recovery; PostgreSQL checkpoints retain graph position.
 
 ## Decisions backed by failures
 
@@ -86,9 +86,9 @@ The release evaluation ran 40 scenarios held out from execution three times: **1
 
 No source/value mismatch appeared in the recorded outputs. On an M1 Pro with 16 GiB RAM, per-turn latency was **2.96 seconds median**, **3.19 seconds observed p95**, and **9.78 seconds maximum**. Most requests used a loaded model; the first turn included loading. Concurrent app/browser profiling observed both normal and warning memory pressure.
 
-The implementing agent authored the scenarios. They share task families, companies and metrics with the development set; repeated runs use a fixed deterministic configuration. These results measure the guarded application on this collection, not independent accounting review or general financial-language accuracy.
+The implementing agent authored the scenarios. They share task families, companies and metrics with the development set; repeated runs use a fixed deterministic configuration. These results measure the guarded application on this collection. They do not establish independent accounting review or general financial-language accuracy.
 
-The release also passed 12 application tests and 31 benchmark tests. Separate checks exercised real process interruption, retry, cancellation and saved-result preservation, plus the browser interface in both languages and themes on desktop and mobile. The held-out run blocked application/model outbound traffic except localhost. The public replay was checked with local services stopped.
+The architecture refactor passed 17 application tests and 31 benchmark tests, with 1,800 financial outputs unchanged across extraction. Separate checks exercised storage failure and uncertain commits, retry, cancellation and saved-result preservation, plus the browser interface in both languages and themes on desktop and mobile. The original held-out run blocked application/model outbound traffic except localhost. The public replay was checked with local services stopped. [Architecture verification](docs/audits/2026-09-08-architecture/README.md) separates current checks from the earlier model evaluation.
 
 [Evaluation method](evals/README.md) · [Results](evals/RESULTS.md) · [Release audit](docs/audits/2026-09-08-slice/README.md)
 
@@ -146,10 +146,12 @@ The public site serves selected static recordings, with no question API, sign-in
 
 ## Source guide
 
+The [documentation index](docs/README.md) links current guides, architecture decisions, verification records and design studies.
+
 | Path | Responsibility |
 |---|---|
 | [`slice/`](slice/) | Local application, financial policy, persistence and React interface |
-| [`bench/`](bench/) | Local model experiments and the measured intent/financial resolver |
+| [`bench/`](bench/) | Local model experiments and benchmark harnesses and recorded model results |
 | [`evals/`](evals/) | Development and held-out conversation scenarios, runner and recorded results |
 | [`docs/adr/`](docs/adr/) | Architecture decisions and alternatives |
 | [`docs/audits/`](docs/audits/) | Evidence verification, real execution, browser checks and release records |

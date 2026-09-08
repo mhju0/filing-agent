@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "browser": "152.0.7977.76",
+  "checks": [
+    "compare-ko-light no overflow; axe WCAG A/AA checks passed",
+    "compare-en-dark no overflow; axe WCAG A/AA checks passed",
+    "refusal-en-dark no overflow; axe WCAG A/AA checks passed",
+    "Three captured scenarios; stable turns; formula/source selection; no live prompt; recorded actual timings; bilingual answer text",
+    "mobile-en-dark-evidence no overflow; axe WCAG A/AA checks passed",
+    "mobile-en-dark-conversation no overflow; axe WCAG A/AA checks passed",
+    "mobile-ko-light-320 no overflow; axe WCAG A/AA checks passed",
+    "390px and 320px reflow; modal focus trap; Escape and close restore figure focus; original filing URL retained; reduced-motion mode"
+  ],
+  "errors": [],
+  "requests": [
+    "https://filing-agent.vercel.app/",
+    "https://filing-agent.vercel.app/theme.js",
+    "https://filing-agent.vercel.app/assets/index-DxNHgVe6.js",
+    "https://filing-agent.vercel.app/assets/index-B3ksql1p.css",
+    "https://filing-agent.vercel.app/recording.json",
+    "https://filing-agent.vercel.app/assets/PretendardVariable-CJuje-Rk.woff2",
+    "https://filing-agent.vercel.app/",
+    "https://filing-agent.vercel.app/theme.js",
+    "https://filing-agent.vercel.app/assets/index-DxNHgVe6.js",
+    "https://filing-agent.vercel.app/assets/index-B3ksql1p.css",
+    "https://filing-agent.vercel.app/recording.json",
+    "https://filing-agent.vercel.app/assets/PretendardVariable-CJuje-Rk.woff2"
+  ]
+}

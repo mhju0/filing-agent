@@ -12,7 +12,7 @@ Default models are exact installed tags `qwen3:8b`, `gemma4:e4b`, plus installed
 
 ## Local-only boundary
 
-The URL is fixed to IPv4 loopback. Environment proxies and HTTP redirects are disabled. Cloud tags, remote-host metadata, remote model references, and models without verifiable architecture/positive local size are rejected before generation. These checks assume a trusted local Ollama daemon; they cannot constrain a modified daemon's network behavior. Start the **server** with `OLLAMA_NO_CLOUD=1` for Ollama's cloud-disable control. Setting that variable only on this client does not reconfigure an already-running server. Model acquisition is a separate owner operation. [Ollama local-only mode](https://docs.ollama.com/faq)
+The URL is fixed to IPv4 loopback. Environment proxies and HTTP redirects are disabled. Cloud tags, remote-host metadata, remote model references, and models without verifiable architecture/positive local size are rejected before generation. These checks assume a trusted local Ollama daemon; they cannot constrain a modified daemon's network behavior. Start the **server** with `OLLAMA_NO_CLOUD=1` for Ollama's cloud-disable control. Setting that variable only on this client does not reconfigure an already-running server. Model acquisition is separate from the benchmark runner. [Ollama local-only mode](https://docs.ollama.com/faq)
 
 ## What is measured
 
@@ -55,3 +55,43 @@ python3 -m unittest discover -s bench/tests -v
 ```
 
 Tests cover calculation exemptions, wrong operands/sources/periods/units, invented prose amounts, false refusals, JSON errors, company-switch history, local-model rejection, a real process deadline, and report generation with mocked API responses. Test answers are never written as model benchmark results.
+
+## September 7 verified-pilot extension
+
+[Measured setup and findings](runs/2026-09-07/README.md) records the installed runtime, original diagnostic, and the verified-pilot experiment. Ollama was installed through Homebrew after the owner authorized this feasibility check. No account or login was used. Model downloads are network acquisition; inference uses local weights. `~/.ollama/server.json` also disables cloud support persistently. No login/startup service was installed.
+
+From the repository root, start the controlled daemon in a separate terminal:
+
+```sh
+./bench/serve.sh
+```
+
+With the already installed models and project virtual environment, run both suites serially:
+
+```sh
+.venv/bin/python bench/run.py && .venv/bin/python bench/pilot.py
+```
+
+The second suite is intentionally separate: it uses the audit's complete 15-fact verified catalog, exact evidence-ID selection, and deterministic arithmetic. It tests Korean/English requests, company switching, missing evidence, pressure to invent zero or reuse the wrong year, currency incompatibility, unsupported separate statements, and clarification. It does not ask the model to copy full source objects or financial values. Code resolves IDs back to the pinned source; model prose must contain no financial amounts. This is an experiment, not the production router: scoring uses an independent expected intent per case, which the model never receives. Production must validate inferred intent without that test oracle. Two-turn cases retain the actual first response even when it fails scoring; no corrected answer is injected into history.
+
+`pilot-results/` contains three repetitions per case: first after a confirmed unload and two with the model kept warm. Cold here means load-inclusive with possible OS cache; no caches are purged. The complete switch conversation shares the 120-second case deadline. The model is unloaded between cases and after the suite. Per-trial memory samples record system swap/pressure, Ollama process RSS and `/api/ps` allocations. Process RSS is not the complete unified-memory footprint; pressure and swap include other applications. All runs are serial with one loaded model. Server settings are in `serve.sh`; neither suite changes a server started elsewhere.
+
+Use `BENCH_OUTPUT_DIR=bench/runs/<name>` for a separate original-diagnostic report and `PILOT_OUTPUT_DIR=bench/runs/<name>` for a separate pilot report. Both paths must stay inside `bench`. Keep previous trials when changing a prompt, runtime or configuration. A completed suite means all calls were attempted, not that the candidate passed. The original table fixtures remain unchanged so results stay comparable; their older issuer-publication provenance is not silently upgraded to the regulator-verified pilot.
+
+## Intent-only survivor experiment
+
+The [final September 7 findings](runs/2026-09-07/README.md) supersede any earlier unrun status: Qwen 8B fabricated an absent amount under pressure and is disqualified. Gemma is the provisional candidate only with the smaller intent-only contract. Run that experiment with:
+
+```sh
+.venv/bin/python bench/intent.py
+```
+
+It writes `intent-results/results.json` and `results.md`; `INTENT_OUTPUT_DIR=bench/runs/<name>` preserves a separate run. The default is `gemma4:e4b`. It uses JSON Schema output, context 4096, output cap 256, temperature zero, seed 42, disabled thinking, and serial cold/warm measurements. The model receives the question and accepted intent context, with no financial values. Code selects the source-bound rows, applies missing-evidence/basis/currency checks, performs Decimal arithmetic and produces both financial answer sentences. This follows [Ollama's structured-output API](https://docs.ollama.com/capabilities/structured-outputs); the client still validates every field.
+
+All three suites can be run serially with `.venv/bin/python bench/run.py && .venv/bin/python bench/pilot.py && .venv/bin/python bench/intent.py`. This reruns the rejected configurations for comparison; it does not reinstate Qwen as a candidate. Keep previous output directories when changing anything.
+
+To check the captured September 7 artifacts without calling any model, run `.venv/bin/python bench/verify_results.py`. The [source archive](runs/2026-09-07/harness-source.zip) retains the exact benchmark scripts, prompts and fixtures used during measurement. The report separates strict numeric/intent scores from the [semantic review](runs/2026-09-07/semantic-review.json): both models could select correct IDs and still write a false trend sentence.
+
+## Shared application policy
+
+New intent-only runs use `slice/financial.py`, the same deterministic financial policy as the application. The extraction preserves the verified coverage and keeps model execution outside that module. Recorded September 7 results and `runs/2026-09-07/harness-source.zip` retain the original experiments; use that archived source to reproduce their exact implementation.

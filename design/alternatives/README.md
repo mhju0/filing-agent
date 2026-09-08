@@ -1,6 +1,6 @@
 # Filing Agent: three investigation-screen alternatives
 
-Three static React + Tailwind studies of the **same Samsung revenue comparison**, with the 2023 source initially selected. No model, backend, or captured live execution is involved. The owner's [decisions and task](DECISIONS.md) are preserved verbatim; these alternatives do not select a winner.
+Three static React + Tailwind studies of the **same Samsung revenue comparison**. No model, backend, or captured live execution is involved. On September 7 the owner selected **B: Ledger**. Ledger and the default entry now expose language/theme controls in the top bar and use a single full-height mobile evidence view. A/C remain earlier comparison studies. The original [decisions and task](DECISIONS.md) are retained below a supersession notice; [ADR 0004](../../docs/adr/0004-ledger-and-prebuild-gates.md) records current direction.
 
 ## Compare the screens
 
@@ -10,11 +10,11 @@ Desktop: 1440 × 1200, Korean, light theme. The taller capture includes the comp
 | --- | --- | --- |
 | [![A desktop](screenshots/a-desktop.png)](screenshots/a-desktop.png) | [![B desktop](screenshots/b-desktop.png)](screenshots/b-desktop.png) | [![C desktop](screenshots/c-desktop.png)](screenshots/c-desktop.png) |
 
-Mobile: 390 × 844, evidence sheet at the 40% peek detent. Expand with the button or drag the handle. Close to return to the composer. The focus indicator in these screenshots is intentional keyboard-access evidence.
+Mobile: 390 × 844. Ledger shows its single full-height evidence view after tapping a figure; it starts with the conversation visible. A/C retain the earlier 40% peek detent and drag/expand controls for comparison. Close evidence to return to the selected figure. The focus indicator in conversation screenshots is intentional keyboard-access evidence.
 
 | A · Reading first | B · Ledger | C · Card stack |
 | --- | --- | --- |
-| [![A mobile peek](screenshots/a-mobile.png)](screenshots/a-mobile.png) | [![B mobile peek](screenshots/b-mobile.png)](screenshots/b-mobile.png) | [![C mobile peek](screenshots/c-mobile.png)](screenshots/c-mobile.png) |
+| [![A mobile peek](screenshots/a-mobile.png)](screenshots/a-mobile.png) | [![B full-height evidence](screenshots/b-mobile.png)](screenshots/b-mobile.png) | [![C mobile peek](screenshots/c-mobile.png)](screenshots/c-mobile.png) |
 
 Five comparison lines per alternative:
 
@@ -24,7 +24,7 @@ Five comparison lines per alternative:
 | Hierarchy | Percentage change is primary; reported values supply scale beneath it. | The two reported figures are primary; change occupies a smaller third column. | Current revenue leads its own card; comparison rows and explanation occupy separate cards. |
 | Source discoverability | The quiet document column follows the selected figure without competing with the answer. | The mini statement table preserves the relationship between both periods and nearby metrics. | Bounded excerpt, metadata, and conversion sections echo the answer's card structure. |
 | Korean/English fit | Short Korean copy leaves more space; English uses wrapped unit labels and explanations. | Tabular figures remain aligned; longer English source names wrap in narrow layouts. | Cards accommodate English wrapping, with additional vertical height. |
-| Mobile trade-off | The change and conclusion remain above the peek sheet; underlying rows require closing or scrolling. | Both reported heroes remain visible above the sheet; the third comparison column becomes a row. | The first card remains visible above the sheet; later cards take more vertical travel. |
+| Mobile trade-off | The change and conclusion remain above the peek sheet; underlying rows require closing or scrolling. | Conversation and full-height evidence have separate reading space; close evidence to compare another figure. No detents or drag gesture to learn. | The first card remains visible above the sheet; later cards take more vertical travel. |
 
 ## Open the interactive studies
 
@@ -38,7 +38,7 @@ npm run dev -- --port 4173
 - [B · Ledger](http://127.0.0.1:4173/b.html)
 - [C · Card stack](http://127.0.0.1:4173/c.html)
 
-Use the top A/B/C links to switch composition. The right-side overflow opens working Korean/English and light/dark controls. The first theme follows the system; the screenshot runner explicitly selects light. Theme initialization is inlined before first paint; preferences remain local.
+Use the top A/B/C links to switch composition. Ledger exposes `한국어 / English` and a sun/moon theme button directly beside History; on mobile the controls occupy a deliberate second row. A/C retain their original overflow controls. The first theme follows the system; the screenshot runner explicitly selects light. Theme initialization runs before first paint; preferences remain local.
 
 Click a figure or filing chip to inspect that period, expand `계산됨 / calc` to see the formula and both source operands, open the explanation or labeled translation, and try the History drawer. New investigation opens a prototype explanation and focuses a fresh draft in the current static screen; it does not create a persisted investigation. Sending a question produces an explicit static-prototype message and preserves the draft. Context chips explain the fixed study context rather than pretending to edit a running investigation.
 
@@ -59,7 +59,7 @@ Antislop is applied during implementation. Dials: **ENERGY 1**, **MOTION 1**; **
 
 UI UX Pro Max's first broad search produced an unrelated portfolio layout and was not adopted. Focused reading/line-height and responsive-layout guidance was applied to the owner's brief. Emil's guidance informed stable controls, immediate keyboard behavior, explicit interaction state, and restrained press feedback. Reduced motion removes movement.
 
-The brief's identity default asks to share Digest's type family, while its explicit typography default names Pretendard. Read-only inspection found Digest uses system New York/SF families. These studies follow the explicit Pretendard choice and share the warm neutral direction, with a distinct accent and typographic wordmark. Whether to align the actual font families remains the owner's identity choice.
+The brief's identity default asked to share Digest's type family, while its explicit typography default named Pretendard. Read-only inspection found Digest uses system New York/SF families. Selecting Ledger retains Pretendard as the implementation baseline, shares the warm neutral direction, and keeps a distinct accent and typographic wordmark; an identical font family is not required.
 
 ## Evidence honesty
 

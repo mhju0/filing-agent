@@ -15,8 +15,12 @@ from pathlib import Path
 
 import requests
 
-from memory_monitor import Monitor
-from scoring import figure_from_row, score, expected_figures
+if __package__:
+    from .memory_monitor import Monitor
+    from .scoring import figure_from_row, score, expected_figures
+else:
+    from memory_monitor import Monitor
+    from scoring import figure_from_row, score, expected_figures
 
 ROOT = Path(__file__).resolve().parent
 BASE_URL = "http://127.0.0.1:11434"

@@ -1,0 +1,36 @@
+test_cloud_or_unverifiable_models_rejected (test_benchmark.HarnessTests.test_cloud_or_unverifiable_models_rejected) ... ok
+test_defaults_include_installed_exaone_exact_tag (test_benchmark.HarnessTests.test_defaults_include_installed_exaone_exact_tag) ... ok
+test_end_to_end_control_flow_without_model_calls (test_benchmark.HarnessTests.test_end_to_end_control_flow_without_model_calls) ... ok
+test_http_redirects_and_environment_proxies_are_disabled (test_benchmark.HarnessTests.test_http_redirects_and_environment_proxies_are_disabled) ... ok
+test_missing_fabrication_disqualifies_and_quotes_amount (test_benchmark.HarnessTests.test_missing_fabrication_disqualifies_and_quotes_amount) ... ok
+test_switch_preserves_actual_prior_answer (test_benchmark.HarnessTests.test_switch_preserves_actual_prior_answer) ... ok
+test_timeout_halts_remaining_generation (test_benchmark.HarnessTests.test_timeout_halts_remaining_generation) ... ok
+test_unavailable_runtime_records_unrun_not_incorrect (test_benchmark.HarnessTests.test_unavailable_runtime_records_unrun_not_incorrect) ... ok
+test_wall_deadline_terminates_worker (test_benchmark.HarnessTests.test_wall_deadline_terminates_worker) ... ok
+test_all_exact_oracles_pass (test_benchmark.ScoringTests.test_all_exact_oracles_pass) ... ok
+test_correct_calculated_number_not_hallucinated (test_benchmark.ScoringTests.test_correct_calculated_number_not_hallucinated) ... ok
+test_extra_figures_and_wrong_value_fail (test_benchmark.ScoringTests.test_extra_figures_and_wrong_value_fail) ... ok
+test_false_refusal_fails (test_benchmark.ScoringTests.test_false_refusal_fails) ... ok
+test_invalid_strict_json_rejected (test_benchmark.ScoringTests.test_invalid_strict_json_rejected) ... ok
+test_invented_number_in_prose_caught_verbatim (test_benchmark.ScoringTests.test_invented_number_in_prose_caught_verbatim) ... ok
+test_missing_disallows_other_supplied_figures_and_zero (test_benchmark.ScoringTests.test_missing_disallows_other_supplied_figures_and_zero) ... ok
+test_no_fixture_has_deliberately_missing_metric (test_benchmark.ScoringTests.test_no_fixture_has_deliberately_missing_metric) ... ok
+test_wrong_formula_or_operands_fail (test_benchmark.ScoringTests.test_wrong_formula_or_operands_fail) ... ok
+test_wrong_source_period_unit_or_company_fails (test_benchmark.ScoringTests.test_wrong_source_period_unit_or_company_fails) ... ok
+test_duplicate_fields_unknown_keys_and_companies_rejected (test_intent.IntentTests.test_duplicate_fields_unknown_keys_and_companies_rejected) ... ok
+test_nonzero_change_rounding_to_zero_is_not_flat (test_intent.IntentTests.test_nonzero_change_rounding_to_zero_is_not_flat) ... ok
+test_policy_matches_all_cases_without_receiving_oracle (test_intent.IntentTests.test_policy_matches_all_cases_without_receiving_oracle) ... ok
+test_samsung_comparison_direction_in_both_languages (test_intent.IntentTests.test_samsung_comparison_direction_in_both_languages) ... ok
+test_wrong_company_is_not_silently_substituted (test_intent.IntentTests.test_wrong_company_is_not_silently_substituted) ... ok
+test_all_case_oracles_and_source_ids_resolve (test_pilot.PilotTests.test_all_case_oracles_and_source_ids_resolve) ... ok
+test_arithmetic_rejects_currency_basis_period_and_zero (test_pilot.PilotTests.test_arithmetic_rejects_currency_basis_period_and_zero) ... ok
+test_changed_evidence_snapshot_rejected (test_pilot.PilotTests.test_changed_evidence_snapshot_rejected) ... ok
+test_comparison_exact_independent_value (test_pilot.PilotTests.test_comparison_exact_independent_value) ... ok
+test_duplicate_keys_and_schema_violation_fail (test_pilot.PilotTests.test_duplicate_keys_and_schema_violation_fail) ... ok
+test_missing_zero_and_borrowed_fact_disqualify (test_pilot.PilotTests.test_missing_zero_and_borrowed_fact_disqualify) ... ok
+test_wrong_company_source_and_extra_id_fail (test_pilot.PilotTests.test_wrong_company_source_and_extra_id_fail) ... ok
+
+----------------------------------------------------------------------
+Ran 31 tests in 1.731s
+
+OK
