@@ -160,3 +160,5 @@ The [documentation index](docs/README.md) links current guides, architecture dec
 ## License
 
 Copyright (c) 2026 Michael Ju. All rights reserved. The public source archive is available for portfolio review; no open-source license is granted for original project code. Dependency, model and bundled font licenses apply separately.
+
+Release follow-up: [approved remediation and coverage boundaries](docs/audits/2026-09-09-remediation/README.md). Digest now has 18 local companies; Agent retains its separately qualified three-company snapshot.

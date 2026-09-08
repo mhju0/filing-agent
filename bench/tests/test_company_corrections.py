@@ -14,3 +14,19 @@ class CompanyCorrectionTests(unittest.TestCase):
 
     def test_unknown_name_does_not_become_model_guess(self):
         self.assertEqual(guard_intent("Tesla revenue in 2023?", BASE, None)["companies"], [])
+
+    def test_unknown_name_does_not_inherit_context(self):
+        for question in ["Tesla revenue in 2023?", "테슬라 2023년 매출액은?"]:
+            self.assertEqual(guard_intent(question, BASE, BASE)["companies"], [])
+
+    def test_correction_with_further_company_mentions_clarifies(self):
+        for question in ["Not Samsung, but NAVER and Samsung revenue in 2023?", "삼성이 아니라 네이버와 삼성의 2023년 매출액은?"]:
+            self.assertEqual(guard_intent(question, BASE, BASE)["companies"], [])
+
+    def test_bounded_followup_keeps_company(self):
+        for question in ["What about 2023?", "그럼 2023년은?", "revenue in 2023?"]:
+            self.assertEqual(guard_intent(question, BASE, BASE)["companies"], ["Samsung"])
+
+    def test_correction_with_unknown_alternative_or_negation_clarifies(self):
+        for question in ["Not Samsung, but NAVER or Tesla revenue in 2023?", "삼성이 아니라 네이버도 아닌 테슬라의 2023년 매출액을 알려줘."]:
+            self.assertEqual(guard_intent(question, BASE, BASE)["companies"], [])

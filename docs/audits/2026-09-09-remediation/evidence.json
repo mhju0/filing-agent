@@ -1,0 +1,129 @@
+{
+  "date": "2026-09-09",
+  "agent": {
+    "benchmark_tests": 38,
+    "application_tests": 17,
+    "local_live_edge_cases": 6,
+    "snapshot_changed": false,
+    "review_findings": [
+      "Unsupported company with context now clarifies",
+      "Direct corrections reject additional company scope",
+      "Mixed-script Digest questions prioritize question syntax"
+    ]
+  },
+  "digest": {
+    "offline_passed": 436,
+    "offline_skipped": 21,
+    "postgres_passed": 21,
+    "ios_unit_passed": 36,
+    "ios_ui_passed": 3,
+    "python_advisories": 0,
+    "working_corpus": {
+      "counts": {
+        "companies": 18,
+        "filings": 23,
+        "financials": 153,
+        "filing_chunks": 2057
+      },
+      "fully_indexed": true,
+      "queries": [
+        {
+          "ticker": "066570",
+          "query": "주요 사업 부문은?",
+          "hits": 5
+        },
+        {
+          "ticker": "066570",
+          "query": "What are the main business segments?",
+          "hits": 5
+        },
+        {
+          "ticker": "COST",
+          "query": "주요 사업 부문은?",
+          "hits": 5
+        },
+        {
+          "ticker": "COST",
+          "query": "What are the main business segments?",
+          "hits": 5
+        }
+      ]
+    },
+    "promotion": {
+      "before": {
+        "companies": {
+          "count": 8,
+          "sha256": "8a7b8f1d53802ded7a5207bb734704a503ca339683abcfcaa8e2fdcadd4af6a1"
+        },
+        "filings": {
+          "count": 13,
+          "sha256": "7c108a536465de5c981437c542e9f8be38967a0bad61fe63f87435e44b8bc61c"
+        },
+        "financials": {
+          "count": 86,
+          "sha256": "a05b95e40e6da2f93556ca0eb2b394d2036316db8c7f4d01936f228f375af6e1"
+        },
+        "filing_chunks": {
+          "count": 1191,
+          "sha256": "7df920dcd1d3cd3ab4462fae15b560312daf4f60217e07c39ee5215b58424136"
+        }
+      },
+      "restored_backup": {
+        "companies": {
+          "count": 8,
+          "sha256": "8a7b8f1d53802ded7a5207bb734704a503ca339683abcfcaa8e2fdcadd4af6a1"
+        },
+        "filings": {
+          "count": 13,
+          "sha256": "7c108a536465de5c981437c542e9f8be38967a0bad61fe63f87435e44b8bc61c"
+        },
+        "financials": {
+          "count": 86,
+          "sha256": "a05b95e40e6da2f93556ca0eb2b394d2036316db8c7f4d01936f228f375af6e1"
+        },
+        "filing_chunks": {
+          "count": 1191,
+          "sha256": "7df920dcd1d3cd3ab4462fae15b560312daf4f60217e07c39ee5215b58424136"
+        }
+      },
+      "original_rows_after": {
+        "companies": {
+          "count": 8,
+          "sha256": "8a7b8f1d53802ded7a5207bb734704a503ca339683abcfcaa8e2fdcadd4af6a1"
+        },
+        "filings": {
+          "count": 13,
+          "sha256": "7c108a536465de5c981437c542e9f8be38967a0bad61fe63f87435e44b8bc61c"
+        },
+        "financials": {
+          "count": 86,
+          "sha256": "a05b95e40e6da2f93556ca0eb2b394d2036316db8c7f4d01936f228f375af6e1"
+        },
+        "filing_chunks": {
+          "count": 1191,
+          "sha256": "7df920dcd1d3cd3ab4462fae15b560312daf4f60217e07c39ee5215b58424136"
+        }
+      },
+      "after": {
+        "companies": {
+          "count": 18,
+          "sha256": "49845f03a464424f88f69d916e29b576ec56de095b11592356a721986ef83c7b"
+        },
+        "filings": {
+          "count": 23,
+          "sha256": "6d4848466f043993f2dfde48bb49454a0476df6a7736b59488bf57556eeda2e5"
+        },
+        "financials": {
+          "count": 153,
+          "sha256": "bd4aa79dbb094169ac05a83350c8a4249bc6864fcff967e18125ddbccc3ef175"
+        },
+        "filing_chunks": {
+          "count": 2057,
+          "sha256": "f3c8b3588d4f969bfa4da7a152402fb7fb81675aee7482d42ec1619ea0aeb28c"
+        }
+      },
+      "original_rows_unchanged": true,
+      "companies_added": 10
+    }
+  }
+}
