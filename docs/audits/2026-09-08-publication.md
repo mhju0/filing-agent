@@ -10,7 +10,7 @@ The verified local application and static replay are now represented on GitHub. 
 - Added `release/check_publication.py` to reject tracked ignored paths and Markdown links to unpublished files. A controlled index containing six forcibly added private/generated paths was rejected. GitHub Actions runs the check on pull requests and main.
 - Kept current architecture decisions, regulator evidence, benchmark results, evaluation records, design studies and implementation code public. The documentation index links only public material.
 
-Removing branch history does not erase previously downloaded copies or guarantee removal of GitHub's cached, unreferenced commit objects. No forks, releases, issues or pre-existing pull requests were present during the review.
+A direct lookup confirmed that GitHub still serves an old planning file by its old commit hash after the rewrite. Removing branch history does not erase downloaded copies or GitHub's cached, unreferenced objects. [GitHub documents cache removal through Support](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository), subject to its sensitive-data criteria. No forks, releases, issues or pre-existing pull requests were present during the review.
 
 ## Verification
 
@@ -22,6 +22,6 @@ All 15 served production assets matched the reviewed release hashes. The public 
 
 ## Repository settings
 
-GitHub secret scanning, push protection and dependency vulnerability alerts are enabled. Merged branches are deleted automatically. The description, homepage and topics match `release/github.json`; the README describes the implemented local app, bounded evidence collection, evaluation limits and relationship to Filing Digest. A read-only check of Filing Digest confirmed the README responsibility boundary; no partner files were changed.
+GitHub secret scanning, push protection and dependency vulnerability alerts are enabled. Merged branches are deleted automatically. Main requires the publication check for ordinary changes and disallows force pushes and deletion; repository administrators retain their normal bypass ability. The description, homepage and topics match `release/github.json`; the README describes the implemented local app, bounded evidence collection, evaluation limits and relationship to Filing Digest. A read-only check of Filing Digest confirmed the README responsibility boundary; no partner files were changed.
 
 The full application verification and deployment evidence remain in the [architecture audit](2026-09-08-architecture/README.md).
