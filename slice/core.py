@@ -40,13 +40,22 @@ def guard_intent(question, intent, context):
         for c, pattern in ALIASES.items()
         if re.search(pattern, question, re.IGNORECASE)
     }
+    # Only a direct correction between two known names can narrow this set.
+    if len(explicit) == 2:
+        for excluded in explicit:
+            selected = next(company for company in explicit if company != excluded)
+            correction = (
+                rf"^(?:{ALIASES[excluded]})(?:가|이)?\s*아니라\s*(?:{ALIASES[selected]})"
+                rf"|^not\s+(?:{ALIASES[excluded]})\s*[,;]?\s*(?:but\s+)?(?:{ALIASES[selected]})"
+            )
+            if re.search(correction, question.strip(), re.IGNORECASE):
+                explicit = {selected}
+                break
     actual = set(intent["companies"])
     if len(explicit) == 1:
         intent["companies"] = sorted(explicit)
     elif explicit and actual != explicit:
-        raise ValueError(
-            "Company interpretation conflicts with the question; rephrase with one company"
-        )
+        intent["companies"] = []
     if not explicit and not (context or {}).get("companies"):
         intent["companies"] = []
     elif not explicit and context and actual != set(context["companies"]):
