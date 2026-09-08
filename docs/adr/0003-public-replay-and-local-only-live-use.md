@@ -1,0 +1,11 @@
+# Public replay and local-only live use
+
+The owner chose a public demonstration for viewers and real application execution only on their personal Mac, explicitly removing online invitations and remote live sessions. The public artifact remains a clearly labeled interactive replay of captured investigations; the Mac runs the actual application, local inference, databases, and isolated Digest dependency.
+
+This supersedes remote invitation, sign-in, revocation, multi-user account, and hosted live-dependency requirements from earlier interview rounds and narrows ADR 0002's authentication/exposure scope. No account system, email delivery, tunnel, or continuously available live server is required. Local conversation isolation, saved evidence, retention/deletion, source verification, and the approved bilingual quality targets remain; evaluation cases for remote accounts are replaced with local isolation, replay separation, and persistence cases.
+
+The public replay must work without connecting to the owner's Mac, model runtime, or private data. Publishing the static artifact is separate from running the application; remote live access can be reconsidered only as a future scope decision.
+
+The decision reflects the owner's preference for local control, fewer third-party dependencies, and a high-quality recruiting presentation that is easy to inspect without arranging access. The [Korean and US recruiting assessment](../research/2026-09-06-replay-portfolio-assessment.md) supports a complete local product as credible portfolio evidence; it does not establish that nobody tries live demos or guarantee how every recruiter will respond. Omitting remote access leaves public-service operations unproven, especially relevant to cloud/platform/SRE roles, rather than making the declared local product inherently unfinished.
+
+Professional presentation depends on authentic captured execution, clear recorded-demo labeling, polished bilingual interactions, inspectable evidence, and a working local application that withstands technical review. The [public replay and presentation brief](../planning/2026-09-06-public-replay-presentation.md) preserves this context and defines the presentation checks. Those are release standards; no completed interface or visual verification is claimed at this planning stage.

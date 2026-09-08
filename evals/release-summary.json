@@ -1,0 +1,105 @@
+{
+  "status": "PASS",
+  "scenarios": 40,
+  "trials": 3,
+  "scenario_runs": 120,
+  "turns": 138,
+  "scores": [
+    {
+      "language": "ko",
+      "trial": 1,
+      "correct": 20,
+      "total": 20,
+      "supported": {
+        "correct": 10,
+        "total": 10
+      },
+      "withheld_or_clarification": {
+        "correct": 10,
+        "total": 10
+      }
+    },
+    {
+      "language": "ko",
+      "trial": 2,
+      "correct": 20,
+      "total": 20,
+      "supported": {
+        "correct": 10,
+        "total": 10
+      },
+      "withheld_or_clarification": {
+        "correct": 10,
+        "total": 10
+      }
+    },
+    {
+      "language": "ko",
+      "trial": 3,
+      "correct": 20,
+      "total": 20,
+      "supported": {
+        "correct": 10,
+        "total": 10
+      },
+      "withheld_or_clarification": {
+        "correct": 10,
+        "total": 10
+      }
+    },
+    {
+      "language": "en",
+      "trial": 1,
+      "correct": 20,
+      "total": 20,
+      "supported": {
+        "correct": 10,
+        "total": 10
+      },
+      "withheld_or_clarification": {
+        "correct": 10,
+        "total": 10
+      }
+    },
+    {
+      "language": "en",
+      "trial": 2,
+      "correct": 20,
+      "total": 20,
+      "supported": {
+        "correct": 10,
+        "total": 10
+      },
+      "withheld_or_clarification": {
+        "correct": 10,
+        "total": 10
+      }
+    },
+    {
+      "language": "en",
+      "trial": 3,
+      "correct": 20,
+      "total": 20,
+      "supported": {
+        "correct": 10,
+        "total": 10
+      },
+      "withheld_or_clarification": {
+        "correct": 10,
+        "total": 10
+      }
+    }
+  ],
+  "source_value_violations": [],
+  "seconds": {
+    "n": 138,
+    "median": 2.9595429170003626,
+    "p95": 3.186031792021822,
+    "max": 9.77545816602651,
+    "definition": "Per application turn, includes model preflight, worker startup and PostgreSQL graph/persistence; mostly warm, first turn load-inclusive."
+  },
+  "scope": "Three companies, three verified metrics, fixed historical snapshot. Agent-authored paraphrases share task families with development; not independent review or arbitrary financial language certification.",
+  "runtime_network": "Application and Ollama ran under a macOS outbound-network deny policy allowing localhost only.",
+  "failures_retained": "Development initially exposed guessed context and an SEC metadata adapter bug; an English follow-up was safely blocked before explicit company handling was refined. Prior benchmark Qwen fabrication and generated-prose errors remain disqualifying evidence.",
+  "raw_result_sha256": "b33a54740e4c19f1b5deb46b6a90c78e96390c962346da616569a32afe124515"
+}

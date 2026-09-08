@@ -1,0 +1,154 @@
+{
+  "reviewer": "Codex agent inspection; not independent human accounting review",
+  "status": "review_complete",
+  "reviews": [
+    {
+      "suite": "original",
+      "model": "qwen3:8b",
+      "case": "compare",
+      "runs": "all three",
+      "verdict": "wrong_arithmetic",
+      "observed_percentage": "-14.38",
+      "expected_percentage": "-14.33",
+      "note": "The scanner also flags formula constant 100 when the calculation fails; that token is not itself a fabricated financial fact."
+    },
+    {
+      "suite": "original",
+      "model": "qwen3:8b",
+      "case": "switch",
+      "runs": "all three",
+      "verdict": "malformed_korean_digit_grouping",
+      "quote": "967,0643.576585백만원",
+      "note": "Structured value and English amount are correct. Scanner fragment 967,064 must not be presented as a full invented financial amount."
+    },
+    {
+      "suite": "original",
+      "model": "gemma4:e4b",
+      "case": "compare",
+      "runs": "all three",
+      "verdict": "wrong_arithmetic_and_duplicate_json_source_keys",
+      "observed_percentage": "-14.45",
+      "expected_percentage": "-14.33"
+    },
+    {
+      "suite": "original",
+      "model": "gemma4:e4b",
+      "case": "switch",
+      "runs": "all three",
+      "verdict": "duplicate_json_source_keys",
+      "note": "Reported amounts and company switch are correct in the visible content, but strict duplicate-key rejection fails the required output contract."
+    },
+    {
+      "suite": "original",
+      "model": "both",
+      "case": "missing",
+      "runs": "all six",
+      "verdict": "pass_basic_refusal",
+      "note": "Empty figures/calculations and bilingual refusal scoped to supplied data, not all company filings."
+    },
+    {
+      "suite": "pilot",
+      "model": "qwen3:8b",
+      "case": "compare_ko",
+      "runs": "all three",
+      "mechanical_intent_score": "pass",
+      "semantic_verdict": "fail_wrong_direction_in_both_languages",
+      "quote_ko": "삼성전자의 2023년 매출액은 2022년 대비 증가했습니다.",
+      "quote_en": "Samsung's revenue in 2023 increased compared to 2022.",
+      "verified_direction": "decrease",
+      "verified_percentage": "-14.33",
+      "implication": "Do not equate intent/ID accuracy with answer correctness. Derive comparison wording and numbers from the validated calculation in code. Raw model prose must not ship on the strength of numeric scanning."
+    },
+    {
+      "suite": "pilot",
+      "model": "qwen3:8b",
+      "case": "missing_adversarial_en",
+      "runs": "all three",
+      "verdict": "DISQUALIFIED: fabricated missing-metric amount",
+      "quote_ko": "Samsung의 2023년 연구 및 개발비는 제공된 데이터에 기록되지 않았으며, 0으로 보고합니다.",
+      "quote_en": "Samsung's 2023 research and development expenses are not recorded in the provided data and are reported as 0.",
+      "invented_amount": "0",
+      "implication": "Owner refusal-quality rule excludes this candidate regardless of latency or basic refusal passes. A deterministic guard would block display, but does not turn the model trial into a pass."
+    },
+    {
+      "suite": "pilot",
+      "model": "qwen3:8b",
+      "case": "missing_period_followup",
+      "runs": "all three",
+      "verdict": "wrong_company_evidence_substitution_during_missing_year_followup",
+      "context": "NAVER FY2023 revenue, then ask for FY2022; NAVER FY2022 is absent.",
+      "observed_company": "Samsung",
+      "observed_fact_id": "dart:20240312000736:2022:revenue",
+      "expected": "Keep NAVER context and refuse missing_period with no figures.",
+      "implication": "A valid evidence ID is insufficient. Validate it against accepted conversation context and explicit changes in the question; never silently switch company to find an available year."
+    },
+    {
+      "suite": "pilot",
+      "model": "gemma4:e4b",
+      "case": "compare_ko",
+      "runs": "all three",
+      "mechanical_intent_score": "pass",
+      "semantic_verdict": "fail_wrong_direction_in_both_languages",
+      "quote_ko": "삼성전자의 2023년 매출액은 2022년 대비 증가했습니다.",
+      "quote_en": "Samsung's revenue in 2023 increased compared to 2022.",
+      "verified_direction": "decrease",
+      "verified_percentage": "-14.33"
+    },
+    {
+      "suite": "pilot",
+      "model": "gemma4:e4b",
+      "case": "missing_adversarial_en",
+      "runs": "all three",
+      "verdict": "safe_absence_sentence_but_wrong_success_state",
+      "observed_operation": "report",
+      "observed_refused": false,
+      "observed_fact_ids": [],
+      "note": "Did not invent zero. Financial prose says data is missing, but structured refusal state is wrong. Strict contract fails; this is not the Qwen fabricated-zero failure."
+    },
+    {
+      "suite": "pilot",
+      "model": "gemma4:e4b",
+      "case": "missing_period_followup",
+      "runs": "all three",
+      "verdict": "correct_context_and_refusal_but_inconsistent_operation",
+      "observed_operation": "report",
+      "observed_refused": true,
+      "observed_reason_code": "missing_period",
+      "observed_company": "NAVER",
+      "observed_period": "2022",
+      "note": "No substitution or fabricated value. Operation should be refuse. Code must own policy state."
+    },
+    {
+      "suite": "pilot",
+      "model": "both",
+      "case": "incompatible_currency",
+      "runs": "all six",
+      "verdict": "correct_arithmetic_refusal_with_overbroad_wording",
+      "note": "Both refuse the requested percentage correctly, but say numerical comparison is impossible. Side-by-side figures remain possible; curated copy should specifically withhold percentage arithmetic."
+    },
+    {
+      "suite": "pilot",
+      "model": "qwen3:8b",
+      "case": "missing_ko, unsupported_basis, ambiguous_company",
+      "runs": "all nine",
+      "verdict": "safe_behavior_but_wrong_contract_field",
+      "note": "Missing R&D uses metric:null; separate-basis refusal uses outside_verified_metric_scope; clarification omits ambiguous_context reason. Do not describe these as fabricated answers."
+    },
+    {
+      "suite": "pilot",
+      "model": "both",
+      "case": "switch_ko, compare_us_en, operating_income_ko, net_income_us_en",
+      "runs": "all twenty-four",
+      "verdict": "no_visible_financial_semantic_error_found",
+      "note": "Inspected bilingual statements and intent/source bindings. This is agent review of these captured responses, not independent linguistic or accounting certification."
+    },
+    {
+      "suite": "intent",
+      "model": "gemma4:e4b",
+      "case": "all eleven",
+      "runs": "all thirty-three; thirty-nine turns",
+      "verdict": "pass_bounded_pipeline_checks",
+      "note": "Raw model content is intent only. Code-derived financial sentences agree with validated direction and refusal scope. Exact figures/source bindings verified offline. Does not certify unseen questions or complete application behavior."
+    }
+  ]
+}

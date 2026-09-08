@@ -15,6 +15,7 @@ from pathlib import Path
 
 import requests
 
+from memory_monitor import Monitor
 from scoring import figure_from_row, score, expected_figures
 
 ROOT = Path(__file__).resolve().parent
@@ -148,7 +149,7 @@ def run_trial(model, case, fixtures, system, thinking):
 
 def markdown(result):
     lines = ["# Local model benchmark", "", f"Recorded: {result['created_at']}", "",
-             "Status: " + result["status"] + ". " + result.get("preflight_error", ""), "",
+             ("Status: " + result["status"] + ". " + result.get("preflight_error", "")).rstrip(), "",
              "| Model | Case | Median seconds | Accuracy | Parse rate | Hallucinations | Notes |",
              "| --- | --- | ---: | --- | --- | ---: | --- |"]
     for entry in result["results"]:
@@ -176,11 +177,15 @@ def markdown(result):
 
 
 def save(result):
+    destination = Path(os.environ.get("BENCH_OUTPUT_DIR", str(ROOT))).resolve()
+    if not destination.is_relative_to(ROOT):
+        raise ValueError("BENCH_OUTPUT_DIR must stay within bench")
+    destination.mkdir(parents=True, exist_ok=True)
     for filename, content in (("results.json", json.dumps(result, ensure_ascii=False, indent=2) + "\n"),
                               ("results.md", markdown(result))):
-        temporary = ROOT / (filename + ".tmp")
+        temporary = destination / (filename + ".tmp")
         temporary.write_text(content)
-        temporary.replace(ROOT / filename)
+        temporary.replace(destination / filename)
 
 
 def main():
@@ -233,7 +238,9 @@ def main():
             for index in range(RUNS):
                 print(f"{model} / {case['id']} / {index + 1}/{RUNS}", flush=True)
                 info = result["model_metadata"][model]
-                trial = run_trial(model, case, fixtures, system, "thinking" in (info.get("capabilities") or []))
+                with Monitor() as monitor:
+                    trial = run_trial(model, case, fixtures, system, "thinking" in (info.get("capabilities") or []))
+                trial["memory"] = monitor.summary()
                 entry["runs"].append(trial)
                 if case["id"] == "missing":
                     if trial["invented_numbers"] or trial["refusal_violation"]:
@@ -255,7 +262,8 @@ def main():
     result["attempted_trials"] = attempted
     result["planned_trials"] = planned
     save(result)
-    print(f"{result['status']}: {attempted}/{planned} trials; {ROOT / 'results.md'}")
+    destination = Path(os.environ.get("BENCH_OUTPUT_DIR", str(ROOT))).resolve()
+    print(f"{result['status']}: {attempted}/{planned} trials; {destination / 'results.md'}")
     return 0 if result["status"] == "complete" else 2
 
 

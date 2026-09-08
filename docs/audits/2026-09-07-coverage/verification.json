@@ -1,0 +1,15 @@
+{
+  "result": "PASS",
+  "source_payload_hashes": 31,
+  "corpus_fingerprint": "matched",
+  "stored_facts_matched_to_regulator_api": 86,
+  "original_document_value_candidates": 86,
+  "dart_labels_disambiguated": 46,
+  "pilot_fact_bindings_verified": 15,
+  "corrupted_bindings_rejected": [
+    "value changed",
+    "source period column changed",
+    "account taxonomy changed"
+  ],
+  "scope": "Offline evidence audit only; no model, public replay, live application or browser-link release pass."
+}

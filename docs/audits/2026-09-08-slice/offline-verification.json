@@ -1,0 +1,17 @@
+{
+  "profile": "slice/scripts/offline.sb",
+  "method": "macOS sandbox-exec denies outbound network except localhost for both the application process and Ollama server, inherited by their children",
+  "negative_control": {
+    "destination": "1.1.1.1:443",
+    "observed": "PermissionError",
+    "errno": 1
+  },
+  "positive_control": {
+    "destination": "127.0.0.1:8765",
+    "observed": "connected"
+  },
+  "application_pid": 82453,
+  "heldout_run": "evals/results/heldout-01.json",
+  "status": "PASS: network controls verified; 120 held-out case runs completed over 138 real local turns",
+  "limits": "Package/model installation and deliberate regulator navigation are separate online operations. The browser and PostgreSQL were not placed inside this application/model sandbox. Static replay requests are verified separately."
+}

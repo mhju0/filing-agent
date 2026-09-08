@@ -1,0 +1,7 @@
+# Own verified evidence and prefer local execution
+
+The owner approved an Agent-owned verified fact/evidence snapshot, independent bilingual answer validation, and the Python/FastAPI, LangGraph, PostgreSQL, React/TypeScript/Vite stack, then requested maximum practical locality and fewer third-party dependencies. Agent owns its verified read model and saved evidence because Digest's latest-only REST selection and replace-on-ingest rows cannot satisfy the stronger historical-selection and saved-investigation contracts alone; Digest continues to own regulator ingestion and normalization.
+
+Prefer owner-controlled application, data, inference, authentication, and evaluation execution. This supersedes hosted-primary inference and managed-authentication defaults: retain maintained local libraries, avoid mandatory hosted services, and make any cloud benchmark or fallback explicit. Local operation must meet the approved quality bar; it is not evidence that a suitable local model is already installed or that the stack has passed offline verification.
+
+An isolated, pinned Digest runtime/corpus remains part of the approved dependency boundary on the Mac. [ADR 0003](0003-public-replay-and-local-only-live-use.md) subsequently resolves availability as public replay plus local-only live use, removing the authentication and remote-exposure requirements discussed here. The [local-first architecture](../planning/2026-09-06-local-first-architecture.md) reflects that scope.

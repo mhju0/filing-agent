@@ -1,0 +1,307 @@
+{
+  "before": {
+    "id": "e02be54d-ae10-407a-8aa1-5441707fe159",
+    "saved": false,
+    "turns": [
+      {
+        "id": "be3c4e39-65c6-47a7-ad33-a8fdd4227b74",
+        "steps": [
+          {
+            "name": "interpret",
+            "status": "running",
+            "started_at": "2026-09-08T02:33:55.795362+00:00"
+          },
+          {
+            "name": "evidence",
+            "status": "pending"
+          },
+          {
+            "name": "answer",
+            "status": "pending"
+          }
+        ],
+        "status": "running",
+        "context": null,
+        "language": "en",
+        "question": "What was Microsoft revenue in FY2024?",
+        "retry_of": null,
+        "created_at": "2026-09-08T02:33:55.780345+00:00",
+        "request_id": "683e2dea-f5f4-4c44-9ff5-6297f9aae64b",
+        "diagnostics": false
+      }
+    ],
+    "lineage": null,
+    "pending": null,
+    "accepted": null,
+    "created_at": "2026-09-08T02:33:55.761043+00:00",
+    "touched_at": "2026-09-08T02:33:55.795371+00:00",
+    "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb"
+  },
+  "app_pid": 82453,
+  "child_pids": [
+    "14952",
+    "82821"
+  ],
+  "recovered": {
+    "id": "e02be54d-ae10-407a-8aa1-5441707fe159",
+    "saved": false,
+    "turns": [
+      {
+        "id": "be3c4e39-65c6-47a7-ad33-a8fdd4227b74",
+        "error": "Application stopped; retry the interrupted step explicitly.",
+        "steps": [
+          {
+            "name": "interpret",
+            "status": "interrupted",
+            "started_at": "2026-09-08T02:33:55.795362+00:00"
+          },
+          {
+            "name": "evidence",
+            "status": "pending"
+          },
+          {
+            "name": "answer",
+            "status": "pending"
+          }
+        ],
+        "status": "interrupted",
+        "context": null,
+        "language": "en",
+        "question": "What was Microsoft revenue in FY2024?",
+        "retry_of": null,
+        "created_at": "2026-09-08T02:33:55.780345+00:00",
+        "request_id": "683e2dea-f5f4-4c44-9ff5-6297f9aae64b",
+        "diagnostics": false
+      }
+    ],
+    "lineage": null,
+    "pending": null,
+    "accepted": null,
+    "created_at": "2026-09-08T02:33:55.761043+00:00",
+    "touched_at": "2026-09-08T02:34:02.971139+00:00",
+    "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb"
+  },
+  "status": "PASS",
+  "after": {
+    "id": "e02be54d-ae10-407a-8aa1-5441707fe159",
+    "saved": false,
+    "turns": [
+      {
+        "id": "be3c4e39-65c6-47a7-ad33-a8fdd4227b74",
+        "error": "Application stopped; retry the interrupted step explicitly.",
+        "steps": [
+          {
+            "name": "interpret",
+            "status": "interrupted",
+            "started_at": "2026-09-08T02:33:55.795362+00:00"
+          },
+          {
+            "name": "evidence",
+            "status": "pending"
+          },
+          {
+            "name": "answer",
+            "status": "pending"
+          }
+        ],
+        "status": "interrupted",
+        "context": null,
+        "language": "en",
+        "question": "What was Microsoft revenue in FY2024?",
+        "retry_of": null,
+        "created_at": "2026-09-08T02:33:55.780345+00:00",
+        "request_id": "683e2dea-f5f4-4c44-9ff5-6297f9aae64b",
+        "diagnostics": false
+      },
+      {
+        "id": "9da8274f-7d0d-411a-a0c9-53cc9f924473",
+        "steps": [
+          {
+            "name": "interpret",
+            "reused": false,
+            "status": "complete",
+            "seconds": 6.846584166982211,
+            "started_at": "2026-09-08T02:34:18.612913+00:00"
+          },
+          {
+            "name": "evidence",
+            "reused": false,
+            "status": "complete",
+            "seconds": 0.010167208034545183,
+            "started_at": "2026-09-08T02:34:25.463684+00:00"
+          },
+          {
+            "name": "answer",
+            "reused": false,
+            "status": "complete",
+            "seconds": 0.00543074996676296,
+            "started_at": "2026-09-08T02:34:25.474988+00:00"
+          }
+        ],
+        "answer": {
+          "metric": "revenue",
+          "figures": [
+            {
+              "id": "sec:0000950170-24-087843:2024-annual:revenue",
+              "basis": "consolidated_entity_total",
+              "scale": 1,
+              "value": "245122000000",
+              "metric": "revenue",
+              "origin": "verified_digest_fact",
+              "period": "2024",
+              "source": {
+                "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/msft-20240630.htm",
+                "context": {
+                  "id": "C_6dbdb3a2-9baf-41b4-922d-f59879124337",
+                  "enddate": "2024-06-30",
+                  "startdate": "2023-07-01",
+                  "identifier": "0000789019",
+                  "dimensional": false
+                },
+                "excerpt": "Total revenue 245,122 211,915 198,270",
+                "api_path": "sources/sec-companyfacts-0000789019.json.gz",
+                "filed_at": "2024-07-30",
+                "api_match": {
+                  "tag": "RevenueFromContractWithCustomerExcludingAssessedTax",
+                  "days": 366,
+                  "unit": "USD",
+                  "entry": {
+                    "fp": "FY",
+                    "fy": 2024,
+                    "end": "2024-06-30",
+                    "val": 245122000000,
+                    "accn": "0000950170-24-087843",
+                    "form": "10-K",
+                    "filed": "2024-07-30",
+                    "start": "2023-07-01"
+                  }
+                },
+                "regulator": "sec",
+                "inline_fact": {
+                  "id": "F_3c083f9d-9cbe-4037-b6c1-310e199227a1",
+                  "name": "us-gaap:RevenueFromContractWithCustomerExcludingAssessedTax",
+                  "text": "245,122",
+                  "scale": "6",
+                  "format": "ixt:num-dot-decimal",
+                  "unitref": "U_USD",
+                  "decimals": "-6",
+                  "row_text": "Total revenue 245,122 211,915 198,270",
+                  "contextref": "C_6dbdb3a2-9baf-41b4-922d-f59879124337"
+                },
+                "link_status": "original_document_downloaded_http_200",
+                "filing_title": "Form 10-K (FY2024)",
+                "document_path": "sources/filing-0000950170-24-087843.html.gz",
+                "unit_measures": [
+                  "iso4217:USD"
+                ],
+                "document_sha256": "43829a12cc9cd7198474b3d735c4fc1aba1f871fb637d237aa5979d57e6b8c95",
+                "filing_identity": "0000950170-24-087843"
+              },
+              "company": "Microsoft",
+              "currency": "USD",
+              "period_end": "2024-06-30",
+              "company_code": "0000789019",
+              "period_start": "2023-07-01",
+              "source_label": "Total revenue 245,122 211,915 198,270",
+              "verification": "exact accession/tag/unit/amount/date match in SEC companyfacts and dimensionless company context in original inline XBRL",
+              "original_unit": "USD millions",
+              "original_value": "245,122",
+              "digest_fact_ids": [
+                "5f77b7e7-b2ef-4d36-9450-d8295af887af"
+              ]
+            }
+          ],
+          "periods": [
+            "2024"
+          ],
+          "refused": false,
+          "fact_ids": [
+            "sec:0000950170-24-087843:2024-annual:revenue"
+          ],
+          "searched": [
+            {
+              "period": "2023",
+              "company": "Microsoft",
+              "section": "Inline XBRL facts",
+              "filing_title": "Form 10-K (FY2023)"
+            },
+            {
+              "period": "2024",
+              "company": "Microsoft",
+              "section": "Inline XBRL facts",
+              "filing_title": "Form 10-K (FY2024)"
+            }
+          ],
+          "answer_en": "These are the verified figures for the requested company, metric and fiscal year.",
+          "answer_ko": "요청한 회사, 지표, 회계연도의 검증된 수치입니다.",
+          "companies": [
+            "Microsoft"
+          ],
+          "operation": "report",
+          "calculated": [],
+          "reason_code": null,
+          "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb"
+        },
+        "intent": {
+          "basis": "consolidated",
+          "action": "report",
+          "metric": "revenue",
+          "periods": [
+            "2024"
+          ],
+          "companies": [
+            "Microsoft"
+          ]
+        },
+        "status": "complete",
+        "context": null,
+        "language": "en",
+        "question": "What was Microsoft revenue in FY2024?",
+        "retry_of": "be3c4e39-65c6-47a7-ad33-a8fdd4227b74",
+        "created_at": "2026-09-08T02:34:18.603055+00:00",
+        "request_id": "33d4a7f0-38ea-47a0-b18d-238d1792650a",
+        "diagnostics": false,
+        "completed_at": "2026-09-08T02:34:25.477875+00:00",
+        "model_record": {
+          "model": "gemma4:e4b",
+          "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+          "metrics": {
+            "eval_count": 35,
+            "eval_duration": 1310712000,
+            "load_duration": 3933658875
+          },
+          "options": {
+            "seed": 42,
+            "num_ctx": 4096,
+            "num_predict": 256,
+            "temperature": 0
+          },
+          "runtime": "0.33.3",
+          "wall_seconds": 6.840636540960986
+        },
+        "wall_seconds": 6.878630042017903
+      }
+    ],
+    "lineage": null,
+    "pending": null,
+    "accepted": {
+      "basis": "consolidated",
+      "action": "report",
+      "metric": "revenue",
+      "periods": [
+        "2024"
+      ],
+      "companies": [
+        "Microsoft"
+      ]
+    },
+    "created_at": "2026-09-08T02:33:55.761043+00:00",
+    "touched_at": "2026-09-08T02:34:25.482069+00:00",
+    "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb"
+  },
+  "checks": [
+    "SIGKILL during real interpretation; startup marked interrupted and did not accept context",
+    "Controlled model unload confirmed before retry",
+    "New explicit retry completed with exact Microsoft FY2024 revenue"
+  ]
+}

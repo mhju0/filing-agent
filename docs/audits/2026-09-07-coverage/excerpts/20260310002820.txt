@@ -1,0 +1,192 @@
+<TITLE ATOC="Y" ENG="2-2. Consolidated Income Statement" ATOCID="567">2-2. 연결 손익계산서</TITLE>
+
+<TABLE ACLASS="NORMAL" AFIXTABLE="Y" WIDTH="600" BORDER="0">
+
+<COLGROUP WIDTH="600">
+<COL WIDTH="600"></COL>
+</COLGROUP>
+
+<TBODY>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TE ENG="Consolidated Income Statement" ALIGN="CENTER" VALIGN="MIDDLE" WIDTH="591" AUPDATECONT="N" HEIGHT="23">연결 손익계산서</TE>
+</TR>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TE ENG="FY 2025               From 01/01/2025 To 12/31/2025" ALIGN="CENTER" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="591" HEIGHT="23">제 57 기 2025.01.01 부터 2025.12.31 까지</TE>
+</TR>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TE ENG="FY 2024               From 01/01/2024 To 12/31/2024" ALIGN="CENTER" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="591" HEIGHT="23">제 56 기 2024.01.01 부터 2024.12.31 까지</TE>
+</TR>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TE ENG="FY 2023               From 01/01/2023 To 12/31/2023" ALIGN="CENTER" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="591" HEIGHT="23">제 55 기 2023.01.01 부터 2023.12.31 까지</TE>
+</TR>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TE ENG="(Unit : million, KRW)" ALIGN="RIGHT" VALIGN="BOTTOM" AUPDATECONT="N" WIDTH="591" HEIGHT="23">(단위 : 백만원)</TE>
+</TR>
+</TBODY>
+</TABLE>
+
+<TABLE ACLASS="NORMAL" AFIXTABLE="Y" WIDTH="600" BORDER="1" FRAME="BORDER" RULES="ALL">
+
+<COLGROUP WIDTH="600">
+<COL WIDTH="199"></COL>
+<COL WIDTH="134"></COL>
+<COL WIDTH="134"></COL>
+<COL WIDTH="133"></COL>
+</COLGROUP>
+
+<THEAD>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TH VALIGN="MIDDLE" AUPDATECONT="N" ACOPYCOL="N" ADELETECOL="N" AMOVECOL="N" WIDTH="190" HEIGHT="23">　</TH>
+<TH VALIGN="MIDDLE" AUPDATECONT="N" ACOPYCOL="N" ADELETECOL="N" AMOVECOL="N" WIDTH="125" ENG="FY 2025" HEIGHT="23">제 57 기</TH>
+<TH VALIGN="MIDDLE" AUPDATECONT="N" ACOPYCOL="N" ADELETECOL="N" AMOVECOL="N" WIDTH="125" ENG="FY 2024" HEIGHT="23">제 56 기</TH>
+<TH VALIGN="MIDDLE" AUPDATECONT="N" ACOPYCOL="N" ADELETECOL="N" AMOVECOL="N" WIDTH="124" ENG="FY 2023" HEIGHT="23">제 55 기</TH>
+</TR>
+</THEAD>
+
+<TBODY>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TE ENG="Revenue (Note30)" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="190" HEIGHT="23">매출액 (주30)</TE>
+<TE ACODE="ifrs-full_Revenue" ACONTEXT="CFY2025dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">333,605,938</TE>
+<TE ACODE="ifrs-full_Revenue" ACONTEXT="PFY2024dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">300,870,903</TE>
+<TE ACODE="ifrs-full_Revenue" ACONTEXT="BPFY2023dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="124" HEIGHT="23">258,935,494</TE>
+</TR>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TE ENG="Cost of sales (Note21)" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="190" HEIGHT="23">매출원가 (주21)</TE>
+<TE ACODE="ifrs-full_CostOfSales" ACONTEXT="CFY2025dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">202,235,513</TE>
+<TE ACODE="ifrs-full_CostOfSales" ACONTEXT="PFY2024dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">186,562,268</TE>
+<TE ACODE="ifrs-full_CostOfSales" ACONTEXT="BPFY2023dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="124" HEIGHT="23">180,388,580</TE>
+</TR>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TE ENG="Gross profit" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="190" HEIGHT="23">매출총이익</TE>
+<TE ACODE="ifrs-full_GrossProfit" ACONTEXT="CFY2025dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">131,370,425</TE>
+<TE ACODE="ifrs-full_GrossProfit" ACONTEXT="PFY2024dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">114,308,635</TE>
+<TE ACODE="ifrs-full_GrossProfit" ACONTEXT="BPFY2023dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="124" HEIGHT="23">78,546,914</TE>
+</TR>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TE ENG="Selling and administrative expenses (Note21,22)" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="190" HEIGHT="23">판매비와관리비 (주21,22)</TE>
+<TE ACODE="dart_TotalSellingGeneralAdministrativeExpenses" ACONTEXT="CFY2025dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">87,769,374</TE>
+<TE ACODE="dart_TotalSellingGeneralAdministrativeExpenses" ACONTEXT="PFY2024dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">81,582,674</TE>
+<TE ACODE="dart_TotalSellingGeneralAdministrativeExpenses" ACONTEXT="BPFY2023dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="124" HEIGHT="23">71,979,938</TE>
+</TR>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TE ENG="Operating profit (Note30)" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="190" HEIGHT="23">영업이익 (주30)</TE>
+<TE ACODE="dart_OperatingIncomeLoss" ACONTEXT="CFY2025dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">43,601,051</TE>
+<TE ACODE="dart_OperatingIncomeLoss" ACONTEXT="PFY2024dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">32,725,961</TE>
+<TE ACODE="dart_OperatingIncomeLoss" ACONTEXT="BPFY2023dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="124" HEIGHT="23">6,566,976</TE>
+</TR>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TE ENG="Other non-operating income (Note23)" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="190" HEIGHT="23">기타수익 (주23)</TE>
+<TE ACODE="dart_OtherGains" ACONTEXT="CFY2025dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">2,267,083</TE>
+<TE ACODE="dart_OtherGains" ACONTEXT="PFY2024dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">1,960,338</TE>
+<TE ACODE="dart_OtherGains" ACONTEXT="BPFY2023dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="124" HEIGHT="23">1,180,448</TE>
+</TR>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TE ENG="Other non-operating expense (Note23)" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="190" HEIGHT="23">기타비용 (주23)</TE>
+<TE ACODE="dart_OtherLosses" ACONTEXT="CFY2025dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">1,575,901</TE>
+<TE ACODE="dart_OtherLosses" ACONTEXT="PFY2024dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">1,625,229</TE>
+<TE ACODE="dart_OtherLosses" ACONTEXT="BPFY2023dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="124" HEIGHT="23">1,083,327</TE>
+</TR>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TE ENG="Share of net profit of associates and joint ventures (Note9)" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="190" HEIGHT="23">지분법이익 (주9)</TE>
+<TE ACODE="ifrs-full_ShareOfProfitLossOfAssociatesAndJointVenturesAccountedForUsingEquityMethod" ACONTEXT="CFY2025dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">682,700</TE>
+<TE ACODE="ifrs-full_ShareOfProfitLossOfAssociatesAndJointVenturesAccountedForUsingEquityMethod" ACONTEXT="PFY2024dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">751,044</TE>
+<TE ACODE="ifrs-full_ShareOfProfitLossOfAssociatesAndJointVenturesAccountedForUsingEquityMethod" ACONTEXT="BPFY2023dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="124" HEIGHT="23">887,550</TE>
+</TR>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TE ENG="Finance income (Note24)" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="190" HEIGHT="23">금융수익 (주24)</TE>
+<TE ACODE="ifrs-full_FinanceIncome" ACONTEXT="CFY2025dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">16,240,302</TE>
+<TE ACODE="ifrs-full_FinanceIncome" ACONTEXT="PFY2024dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">16,703,304</TE>
+<TE ACODE="ifrs-full_FinanceIncome" ACONTEXT="BPFY2023dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="124" HEIGHT="23">16,100,148</TE>
+</TR>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TE ENG="Financial expense (Note24)" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="190" HEIGHT="23">금융비용 (주24)</TE>
+<TE ACODE="ifrs-full_FinanceCosts" ACONTEXT="CFY2025dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">11,733,764</TE>
+<TE ACODE="ifrs-full_FinanceCosts" ACONTEXT="PFY2024dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">12,985,684</TE>
+<TE ACODE="ifrs-full_FinanceCosts" ACONTEXT="BPFY2023dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="124" HEIGHT="23">12,645,530</TE>
+</TR>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TE ENG="Profit before income tax" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="190" HEIGHT="23">법인세비용차감전순이익</TE>
+<TE ACODE="ifrs-full_ProfitLossBeforeTax" ACONTEXT="CFY2025dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">49,481,471</TE>
+<TE ACODE="ifrs-full_ProfitLossBeforeTax" ACONTEXT="PFY2024dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">37,529,734</TE>
+<TE ACODE="ifrs-full_ProfitLossBeforeTax" ACONTEXT="BPFY2023dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="124" HEIGHT="23">11,006,265</TE>
+</TR>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TE ENG="Tax expense (income) (Note25)" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="190" HEIGHT="23">법인세비용(수익) (주25)</TE>
+<TE ACODE="ifrs-full_IncomeTaxExpenseContinuingOperations" ACONTEXT="CFY2025dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">4,274,666</TE>
+<TE ACODE="ifrs-full_IncomeTaxExpenseContinuingOperations" ACONTEXT="PFY2024dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">3,078,383</TE>
+<TE ACODE="ifrs-full_IncomeTaxExpenseContinuingOperations" ACONTEXT="BPFY2023dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="124" HEIGHT="23">(4,480,835)</TE>
+</TR>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TE ENG="Profit for the year" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="190" HEIGHT="23">당기순이익</TE>
+<TE ACODE="ifrs-full_ProfitLoss" ACONTEXT="CFY2025dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">45,206,805</TE>
+<TE ACODE="ifrs-full_ProfitLoss" ACONTEXT="PFY2024dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">34,451,351</TE>
+<TE ACODE="ifrs-full_ProfitLoss" ACONTEXT="BPFY2023dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="124" HEIGHT="23">15,487,100</TE>
+</TR>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TE ENG="Profit attributable to" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="190" HEIGHT="23">당기순이익의 귀속</TE>
+<TE ACODE="ifrs-full_ProfitLossAttributableToAbstract" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">　</TE>
+<TE ACODE="ifrs-full_ProfitLossAttributableToAbstract" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">　</TE>
+<TE ACODE="ifrs-full_ProfitLossAttributableToAbstract" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="124" HEIGHT="23">　</TE>
+</TR>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TE ENG="　Owners of the parent company" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="190" HEIGHT="23">　지배기업 소유주지분</TE>
+<TE ACODE="ifrs-full_ProfitLossAttributableToOwnersOfParent" ACONTEXT="CFY2025dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">44,260,956</TE>
+<TE ACODE="ifrs-full_ProfitLossAttributableToOwnersOfParent" ACONTEXT="PFY2024dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">33,621,363</TE>
+<TE ACODE="ifrs-full_ProfitLossAttributableToOwnersOfParent" ACONTEXT="BPFY2023dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="124" HEIGHT="23">14,473,401</TE>
+</TR>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TE ENG="　Non-controlling interests" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="190" HEIGHT="23">　비지배지분</TE>
+<TE ACODE="ifrs-full_ProfitLossAttributableToNoncontrollingInterests" ACONTEXT="CFY2025dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">945,849</TE>
+<TE ACODE="ifrs-full_ProfitLossAttributableToNoncontrollingInterests" ACONTEXT="PFY2024dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">829,988</TE>
+<TE ACODE="ifrs-full_ProfitLossAttributableToNoncontrollingInterests" ACONTEXT="BPFY2023dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="-6" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="124" HEIGHT="23">1,013,699</TE>
+</TR>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TE ENG="Earnings per share  (Note26)" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="190" HEIGHT="23">주당이익  (주26)</TE>
+<TE ACODE="ifrs-full_EarningsPerShareAbstract" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">　</TE>
+<TE ACODE="ifrs-full_EarningsPerShareAbstract" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">　</TE>
+<TE ACODE="ifrs-full_EarningsPerShareAbstract" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="124" HEIGHT="23">　</TE>
+</TR>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TE ENG="　Basic earnings per share (Unit : KRW)" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="190" HEIGHT="23">　기본주당이익 (단위 : 원)</TE>
+<TE ACODE="ifrs-full_BasicEarningsLossPerShare" ACONTEXT="CFY2025dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="INF" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">6,605</TE>
+<TE ACODE="ifrs-full_BasicEarningsLossPerShare" ACONTEXT="PFY2024dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="INF" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">4,950</TE>
+<TE ACODE="ifrs-full_BasicEarningsLossPerShare" ACONTEXT="BPFY2023dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="INF" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="124" HEIGHT="23">2,131</TE>
+</TR>
+
+<TR ACOPY="N" ADELETE="N" HEIGHT="30">
+<TE ENG="　Diluted earnings per share (Unit : KRW)" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="190" HEIGHT="23">　희석주당이익 (단위 : 원)</TE>
+<TE ACODE="ifrs-full_DilutedEarningsLossPerShare" ACONTEXT="CFY2025dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="INF" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">6,603</TE>
+<TE ACODE="ifrs-full_DilutedEarningsLossPerShare" ACONTEXT="PFY2024dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="INF" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="125" HEIGHT="23">4,950</TE>
+<TE ACODE="ifrs-full_DilutedEarningsLossPerShare" ACONTEXT="BPFY2023dFY_ifrs-full_ConsolidatedAndSeparateFinancialStatementsAxis_ifrs-full_ConsolidatedMember" ADECIMAL="INF" ANEGATED="N" ALIGN="RIGHT" VALIGN="MIDDLE" AUPDATECONT="N" WIDTH="124" HEIGHT="23">2,131</TE>
+</TR>
+</TBODY>
+</TABLE>
+</TABLE-GROUP>
+<P></P>
+<PGBRK></PGBRK>
+
+<TABLE-GROUP ACLASS="{XBRL}IS_C3">

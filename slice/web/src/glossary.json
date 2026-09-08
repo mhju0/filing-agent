@@ -1,0 +1,14 @@
+{
+  "metrics": {
+    "revenue": ["매출액", "Revenue"],
+    "operating_income": ["영업이익", "Operating income"],
+    "net_income": ["당기순이익", "Net income"],
+    "research_and_development": ["연구개발비", "R&D"]
+  },
+  "companies": {
+    "Samsung": ["삼성전자", "Samsung"],
+    "삼성전자": ["삼성전자", "Samsung"],
+    "NAVER": ["네이버", "NAVER"],
+    "Microsoft": ["마이크로소프트", "Microsoft"]
+  }
+}

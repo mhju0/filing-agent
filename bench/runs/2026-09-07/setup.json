@@ -1,0 +1,147 @@
+{
+  "date": "2026-09-07",
+  "chip": "Apple M1 Pro",
+  "ram_bytes": 17179869184,
+  "macos": "26.6.2",
+  "runtime": {
+    "version": "0.33.3"
+  },
+  "server_environment": {
+    "OLLAMA_NO_CLOUD": "1",
+    "OLLAMA_HOST": "127.0.0.1:11434",
+    "OLLAMA_NUM_PARALLEL": "1",
+    "OLLAMA_MAX_LOADED_MODELS": "1",
+    "OLLAMA_CONTEXT_LENGTH": "8192",
+    "OLLAMA_FLASH_ATTENTION": "1",
+    "OLLAMA_KV_CACHE_TYPE": "q8_0"
+  },
+  "cloud_disable_log_observed": "Ollama cloud disabled: true",
+  "persistent_cloud_disabled": true,
+  "initial_swap_used_mib_before_install": 4234.5,
+  "pre_benchmark_memory": {
+    "monotonic_seconds": 257943.9702995,
+    "swap": "total = 5120.00M  used = 4186.50M  free = 933.50M  (encrypted)",
+    "swap_used_mib": 4186.5,
+    "pressure_level": "1",
+    "ollama_rss_kib": 61840,
+    "loaded_models": []
+  },
+  "homebrew_changes": {
+    "installed": {
+      "ollama": "0.33.3",
+      "mlx": "0.32.1",
+      "mlx-c": "0.6.0_4"
+    },
+    "upgraded_dependencies": {
+      "openssl@3": "3.6.4",
+      "sqlite": "3.53.4",
+      "python@3.14": "3.14.7"
+    }
+  },
+  "python": "3.11.15 (main, Mar  3 2026, 00:52:57) [Clang 21.0.0 (clang-2100.0.123.102)]",
+  "pip_freeze": [
+    "certifi==2026.7.22",
+    "charset-normalizer==3.5.1",
+    "idna==3.19",
+    "requests==2.34.2",
+    "urllib3==2.7.0"
+  ],
+  "startup_service_installed": false,
+  "limitations": [
+    "No user apps were closed; measurements include existing system workload.",
+    "Cloud-disabled config and local API/model checks are enforced; this is not a packet-capture network certification."
+  ],
+  "harness_sha256": {
+    "bench/run.py": "1ea1484f49f61640ccc5bcc2e1d4d8fedaacdf64faab499d1a22cbdc076ac19c",
+    "bench/scoring.py": "b6e866c0a2df439fef0f820d133d1d964c20c3dd80a5b258e6170148f28233ee",
+    "bench/memory_monitor.py": "42c29aebb25b3e33b86630b713bb3262a1c391c9673526d709248c8900e4ec26",
+    "bench/pilot.py": "abe5b78299a0b5484658ca332fbf428d201a4f37f2a332757af1e18c0b048f02",
+    "bench/pilot-cases.json": "c50e45eaacf7283c98f8cb40c58d556ed335faa373aab8a7b99ffa2a4727d14c",
+    "bench/prompts/pilot.txt": "a4c442c7ac7266746570eebfc6ec631efc5779a91dc7840f06164735cb2c3778"
+  },
+  "source_archive": {
+    "path": "harness-source.zip",
+    "sha256": "432c7cae32ad5e6a8fca11d292fc1f228be26fb326915b6edcd378d5347ae7f6",
+    "files": {
+      "bench/cases.json": "9d7159b4467d57fe84d4d8045ded8fbfd02a4c0e0ece3afeb08d941de83251e4",
+      "bench/fixtures/naver_is.json": "db4727dd441a1c77ee6ac8001fd0d6a5b09cc70d780521ef3a29b378394e6c75",
+      "bench/fixtures/samsung_is.json": "764e09f7bc1bd1a792701c59b9d355433f5d68ab621ec985b7682f66404a5145",
+      "bench/intent.py": "7c16f779cc2724087195695112ba7f1be83a829c8b1732f328497402d691e1c7",
+      "bench/memory_monitor.py": "42c29aebb25b3e33b86630b713bb3262a1c391c9673526d709248c8900e4ec26",
+      "bench/pilot-cases.json": "c50e45eaacf7283c98f8cb40c58d556ed335faa373aab8a7b99ffa2a4727d14c",
+      "bench/pilot.py": "abe5b78299a0b5484658ca332fbf428d201a4f37f2a332757af1e18c0b048f02",
+      "bench/prompts/intent.txt": "2d479d9423802a2a23623645ce8e5bf7f35e234fb50434ed9e0a33def8fa9773",
+      "bench/prompts/pilot.txt": "a4c442c7ac7266746570eebfc6ec631efc5779a91dc7840f06164735cb2c3778",
+      "bench/prompts/system.txt": "d472ac5c86d1f12805f528945ea935ee1cdd320a38ebe1f8d1766899619336b6",
+      "bench/requirements.txt": "0afbc052355162fc5dc245fe96f2db52557b8cb1756cb8cab30ee48960c4e915",
+      "bench/run.py": "1ea1484f49f61640ccc5bcc2e1d4d8fedaacdf64faab499d1a22cbdc076ac19c",
+      "bench/scoring.py": "b6e866c0a2df439fef0f820d133d1d964c20c3dd80a5b258e6170148f28233ee",
+      "bench/serve.sh": "66547392481a9e003dde62fe3c4b703e2a23844ff72508ebbb0ba17ace15688f",
+      "bench/verify_results.py": "a3e5e476f4bf293a6e04ff2b3c93959918059b7d14e0650b8fb8718ed4e0b2b6"
+    },
+    "note": "Exact source used for the recorded experiments, captured before final reporting-only cleanup."
+  },
+  "after_all_trials": {
+    "loaded_models": [],
+    "memory": {
+      "monotonic_seconds": 260662.541641458,
+      "swap": "total = 7168.00M  used = 5728.44M  free = 1439.56M  (encrypted)",
+      "swap_used_mib": 5728.44,
+      "pressure_level": "2",
+      "ollama_rss_kib": 22560,
+      "loaded_models": []
+    },
+    "runtime_version": {
+      "version": "0.33.3"
+    },
+    "installed_models": [
+      {
+        "name": "gemma4:e4b",
+        "model": "gemma4:e4b",
+        "modified_at": "2026-09-07T18:33:50.096740898+09:00",
+        "size": 9608350718,
+        "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "gemma4",
+          "families": [
+            "gemma4"
+          ],
+          "parameter_size": "8.0B",
+          "quantization_level": "Q4_K_M"
+        },
+        "capabilities": [
+          "completion",
+          "tools",
+          "thinking"
+        ]
+      },
+      {
+        "name": "qwen3:8b",
+        "model": "qwen3:8b",
+        "modified_at": "2026-09-07T18:29:03.427376217+09:00",
+        "size": 5225388164,
+        "digest": "500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41",
+        "details": {
+          "parent_model": "",
+          "format": "gguf",
+          "family": "qwen3",
+          "families": [
+            "qwen3"
+          ],
+          "parameter_size": "8.2B",
+          "quantization_level": "Q4_K_M",
+          "context_length": 40960,
+          "embedding_length": 4096
+        },
+        "capabilities": [
+          "completion",
+          "tools",
+          "thinking"
+        ]
+      }
+    ]
+  },
+  "final_runtime_state": "Controlled Ollama server stopped after confirming all models unloaded; runtime and both weight sets remain installed. No login service."
+}

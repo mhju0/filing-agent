@@ -1,0 +1,1 @@
+{"name":"filing-agent-verification","private":true,"type":"module","devDependencies":{"playwright":"1.63.0","@axe-core/playwright":"4.13.0"}}

@@ -1,0 +1,186 @@
+{
+  "captured_at": "2026-09-07T07:50:59.720227+00:00",
+  "upstream_revision": "e1ec00911f3447f4e1317af945e98413a2d961e6",
+  "corpus_sha256": "5e0cdc3793529dc1f947e0dd37ad63f5f76f3dfebb94dc04f4085783eea33f67",
+  "counts": {
+    "companies": 8,
+    "filings": 13,
+    "facts": 86,
+    "chunks": 1191
+  },
+  "api_exact_matches": 86,
+  "document_value_candidates": 86,
+  "statuses": {
+    "candidate_source_supported": 86
+  },
+  "companies": [
+    {
+      "name": "Apple Inc.",
+      "regulator": "sec",
+      "periods": {
+        "2023-annual": [
+          "eps",
+          "eps_diluted",
+          "net_income",
+          "operating_income",
+          "revenue"
+        ],
+        "2024-annual": [
+          "eps",
+          "eps_diluted",
+          "net_income",
+          "operating_income",
+          "revenue"
+        ],
+        "2025-annual": [
+          "eps",
+          "eps_diluted",
+          "net_income",
+          "operating_income",
+          "revenue"
+        ]
+      }
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "regulator": "sec",
+      "periods": {
+        "2023-annual": [
+          "eps",
+          "eps_diluted",
+          "net_income",
+          "operating_income",
+          "revenue"
+        ],
+        "2024-annual": [
+          "eps",
+          "eps_diluted",
+          "net_income",
+          "operating_income",
+          "revenue"
+        ],
+        "2025-annual": [
+          "eps",
+          "eps_diluted",
+          "net_income",
+          "operating_income",
+          "revenue"
+        ]
+      }
+    },
+    {
+      "name": "NAVER",
+      "regulator": "dart",
+      "periods": {
+        "2024-annual": [
+          "eps",
+          "eps_diluted",
+          "operating_income",
+          "revenue"
+        ],
+        "2025-annual": [
+          "eps",
+          "eps_diluted",
+          "operating_income",
+          "revenue"
+        ]
+      }
+    },
+    {
+      "name": "NVIDIA CORP",
+      "regulator": "sec",
+      "periods": {
+        "2026-annual": [
+          "eps",
+          "eps_diluted",
+          "net_income",
+          "operating_income",
+          "revenue"
+        ]
+      }
+    },
+    {
+      "name": "SK하이닉스",
+      "regulator": "dart",
+      "periods": {
+        "2024-annual": [
+          "eps",
+          "eps_diluted",
+          "operating_income",
+          "revenue"
+        ],
+        "2025-annual": [
+          "eps",
+          "eps_diluted",
+          "operating_income",
+          "revenue"
+        ]
+      }
+    },
+    {
+      "name": "Tesla, Inc.",
+      "regulator": "sec",
+      "periods": {
+        "2025-annual": [
+          "eps",
+          "eps_diluted",
+          "net_income",
+          "operating_income",
+          "revenue"
+        ]
+      }
+    },
+    {
+      "name": "삼성전자",
+      "regulator": "dart",
+      "periods": {
+        "2023-annual": [
+          "eps",
+          "eps_diluted",
+          "net_income",
+          "net_income_attributable",
+          "operating_income",
+          "revenue"
+        ],
+        "2024-annual": [
+          "eps",
+          "eps_diluted",
+          "net_income",
+          "net_income_attributable",
+          "operating_income",
+          "revenue"
+        ],
+        "2025-annual": [
+          "eps",
+          "eps_diluted",
+          "net_income",
+          "net_income_attributable",
+          "operating_income",
+          "revenue"
+        ]
+      }
+    },
+    {
+      "name": "현대자동차",
+      "regulator": "dart",
+      "periods": {
+        "2024-annual": [
+          "eps",
+          "eps_diluted",
+          "net_income",
+          "net_income_attributable",
+          "operating_income",
+          "revenue"
+        ],
+        "2025-annual": [
+          "eps",
+          "eps_diluted",
+          "net_income",
+          "net_income_attributable",
+          "operating_income",
+          "revenue"
+        ]
+      }
+    }
+  ]
+}

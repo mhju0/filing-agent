@@ -1,0 +1,121 @@
+{
+  "status": "checked; see per-source outcomes",
+  "browser": "152.0.7977.76",
+  "results": [
+    {
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240312000736",
+      "title": "삼성전자/사업보고서/2024.03.12",
+      "http_status": 200,
+      "checked_at": "2026-09-08T02:03:21.775Z",
+      "figures": [
+        {
+          "id": "dart:20240312000736:2022:net_income",
+          "original_value": "55,654,077",
+          "found": true
+        },
+        {
+          "id": "dart:20240312000736:2022:operating_income",
+          "original_value": "43,376,630",
+          "found": true
+        },
+        {
+          "id": "dart:20240312000736:2022:revenue",
+          "original_value": "302,231,360",
+          "found": true
+        },
+        {
+          "id": "dart:20240312000736:2023:net_income",
+          "original_value": "15,487,100",
+          "found": true
+        },
+        {
+          "id": "dart:20240312000736:2023:operating_income",
+          "original_value": "6,566,976",
+          "found": true
+        },
+        {
+          "id": "dart:20240312000736:2023:revenue",
+          "original_value": "258,935,494",
+          "found": true
+        }
+      ],
+      "screenshot": "source-20240312000736.png",
+      "status": "verified"
+    },
+    {
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240318000844",
+      "title": "NAVER/사업보고서/2024.03.18",
+      "http_status": 200,
+      "checked_at": "2026-09-08T02:03:23.538Z",
+      "figures": [
+        {
+          "id": "dart:20240318000844:2023:net_income",
+          "original_value": "985,017,762,493",
+          "found": true
+        },
+        {
+          "id": "dart:20240318000844:2023:operating_income",
+          "original_value": "1,488,820,269,608",
+          "found": true
+        },
+        {
+          "id": "dart:20240318000844:2023:revenue",
+          "original_value": "9,670,643,576,585",
+          "found": true
+        }
+      ],
+      "screenshot": "source-20240318000844.png",
+      "status": "verified"
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017023035122/msft-20230630.htm",
+      "title": "SEC.gov | Your Request Originates from an Undeclared Automated Tool",
+      "http_status": 403,
+      "checked_at": "2026-09-08T02:03:23.805Z",
+      "figures": [
+        {
+          "id": "sec:0000950170-23-035122:2023-annual:net_income",
+          "original_value": "72,361",
+          "found": false
+        },
+        {
+          "id": "sec:0000950170-23-035122:2023-annual:operating_income",
+          "original_value": "88,523",
+          "found": false
+        },
+        {
+          "id": "sec:0000950170-23-035122:2023-annual:revenue",
+          "original_value": "211,915",
+          "found": false
+        }
+      ],
+      "screenshot": "source-0000950170-23-035122.png",
+      "status": "automated_browser_access_denied"
+    },
+    {
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/msft-20240630.htm",
+      "title": "SEC.gov | Your Request Originates from an Undeclared Automated Tool",
+      "http_status": 403,
+      "checked_at": "2026-09-08T02:03:24.085Z",
+      "figures": [
+        {
+          "id": "sec:0000950170-24-087843:2024-annual:net_income",
+          "original_value": "88,136",
+          "found": false
+        },
+        {
+          "id": "sec:0000950170-24-087843:2024-annual:operating_income",
+          "original_value": "109,433",
+          "found": false
+        },
+        {
+          "id": "sec:0000950170-24-087843:2024-annual:revenue",
+          "original_value": "245,122",
+          "found": false
+        }
+      ],
+      "screenshot": "source-0000950170-24-087843.png",
+      "status": "automated_browser_access_denied"
+    }
+  ]
+}

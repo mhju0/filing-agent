@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "path": "slice/replay-release",
+  "files": {
+    "FONT-LICENSE.txt": "b04538c9abec39a3db75108cf0af0fd9c77032fe8aa2cf38345b4d250e98e38e",
+    "LOCAL-SETUP.md": "00aaa7af41170e3e7c1f493c1a4b452cf060d95ae2c967a2e2d0f65f7ec0ae9d",
+    "actual-run.webm": "bfa4e28f196a685c096b54a738e482eced061fbd3816fbdd1ca6d06d887841f0",
+    "assets/PretendardVariable-CJuje-Rk.woff2": "9599f12fd42fc0bce1cd50b47a0c022e108d7aa64dd0d1bb0ed44f3282d900b4",
+    "assets/index-ChMXSYIa.js": "85c127e65b205bef8d31f37d08188c2579f3411c775a51451e0e29cb5948b729",
+    "assets/index-DTPEd0dj.css": "aeb84d91be8120f04203664e01507b85acc9752b395334d16a96f021cd77344c",
+    "engineering-en.html": "6fc77f2d8f955b6f4099c5b2252a03fc7eafbea41cc1c26184b3392ec3c743d8",
+    "engineering-ko.html": "8944d144ae958b9f3ad17b1500751e5b897e4a3e6711431efb57102ffaa80d13",
+    "engineering.css": "c74986e65842bec45984d1cfb65dbd6d083128021dbe9e157f218c2ec58165ce",
+    "evaluation-cases.json": "34f530bd8949333358f22de41703ef32a1a0d68394c140c3c0f67da338f80e07",
+    "evaluation.json": "6bc1c03ba318ee20dbedd8dc7456024ff3dc94beeeeceae0ba719a99292f0945",
+    "execution.json": "73ae281a01decbaebee74905777fca97b9291e6c0216f5d645b251fa06155c15",
+    "filing-agent-source.zip": "557311dac7233db7845e550aeefa00fc16d6ac85a5085d22e0894dd4eb0e583a",
+    "index.html": "9ec3988a47c2b46dc757d74892cb162c0b4b002c27ee2b03a43a6e15bbacfced",
+    "recording.json": "05554200c6719f71a4b375d92160eaaa13facc24b5d27dfb2c71ed6491ef0316",
+    "theme.js": "dfe09c3b167d75d65ed524287643880222734669e5919c7ff01d26d651c79ce4",
+    "vercel.json": "0e16df38586217e8b24c3123a207918a8354a607612b3ac371305e4c6de23a57"
+  },
+  "private_history_included": false,
+  "application_and_model_stopped_for_replay_verification": true
+}

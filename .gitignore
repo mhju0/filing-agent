@@ -6,3 +6,12 @@
 __pycache__/
 .pytest_cache/
 .ruff_cache/
+.local/
+slice/web/node_modules/
+slice/web/dist/
+slice/replay/
+verification/node_modules/
+.vercel/
+
+slice/replay-*/
+.vercel

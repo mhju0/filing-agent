@@ -1,0 +1,96 @@
+[
+  {
+    "company_code": "00164779",
+    "source_rows": [
+      {
+        "rcept_no": "20260317000635",
+        "reprt_code": "11011",
+        "bsns_year": "2025",
+        "corp_code": "00164779",
+        "sj_div": "CIS",
+        "sj_nm": "포괄손익계산서",
+        "account_id": "ifrs-full_ProfitLoss",
+        "account_nm": "당기순이익(손실)",
+        "account_detail": "-",
+        "thstrm_nm": "제 78 기",
+        "thstrm_amount": "42947902000000",
+        "thstrm_add_amount": "",
+        "frmtrm_nm": "제 77 기",
+        "frmtrm_amount": "19796902000000",
+        "bfefrmtrm_nm": "제 76 기",
+        "bfefrmtrm_amount": "-9137547000000",
+        "ord": "29",
+        "currency": "KRW"
+      },
+      {
+        "rcept_no": "20260317000635",
+        "reprt_code": "11011",
+        "bsns_year": "2025",
+        "corp_code": "00164779",
+        "sj_div": "CIS",
+        "sj_nm": "포괄손익계산서",
+        "account_id": "ifrs-full_ProfitLossAttributableToOwnersOfParent",
+        "account_nm": "지배기업의 소유주지분",
+        "account_detail": "-",
+        "thstrm_nm": "제 78 기",
+        "thstrm_amount": "42919287000000",
+        "thstrm_add_amount": "",
+        "frmtrm_nm": "제 77 기",
+        "frmtrm_amount": "19788681000000",
+        "bfefrmtrm_nm": "제 76 기",
+        "bfefrmtrm_amount": "-9112428000000",
+        "ord": "32",
+        "currency": "KRW"
+      }
+    ],
+    "retained_net_income_rows": 0,
+    "method": "Invoke existing pure DartClient._parse_financials_payload on captured official API response; no client construction, network or DB writes."
+  },
+  {
+    "company_code": "00266961",
+    "source_rows": [
+      {
+        "rcept_no": "20260313001021",
+        "reprt_code": "11011",
+        "bsns_year": "2025",
+        "corp_code": "00266961",
+        "sj_div": "CIS",
+        "sj_nm": "포괄손익계산서",
+        "account_id": "ifrs-full_ProfitLoss",
+        "account_nm": "당기순이익",
+        "account_detail": "-",
+        "thstrm_nm": "제 27 기",
+        "thstrm_amount": "1818746310015",
+        "thstrm_add_amount": "",
+        "frmtrm_nm": "제 26 기",
+        "frmtrm_amount": "1931976372953",
+        "bfefrmtrm_nm": "제 25 기",
+        "bfefrmtrm_amount": "985017762493",
+        "ord": "32",
+        "currency": "KRW"
+      },
+      {
+        "rcept_no": "20260313001021",
+        "reprt_code": "11011",
+        "bsns_year": "2025",
+        "corp_code": "00266961",
+        "sj_div": "CIS",
+        "sj_nm": "포괄손익계산서",
+        "account_id": "ifrs-full_ProfitLossAttributableToOwnersOfParent",
+        "account_nm": "지배기업 소유주지분",
+        "account_detail": "-",
+        "thstrm_nm": "제 27 기",
+        "thstrm_amount": "1953214734956",
+        "thstrm_add_amount": "",
+        "frmtrm_nm": "제 26 기",
+        "frmtrm_amount": "1923237257015",
+        "bfefrmtrm_nm": "제 25 기",
+        "bfefrmtrm_amount": "1012321527624",
+        "ord": "35",
+        "currency": "KRW"
+      }
+    ],
+    "retained_net_income_rows": 0,
+    "method": "Invoke existing pure DartClient._parse_financials_payload on captured official API response; no client construction, network or DB writes."
+  }
+]

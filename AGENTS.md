@@ -1,7 +1,7 @@
 # Filing Agent
 
-Current phase: research and planning. README.md indexes the current
-research and proposed plan. FOUNDATION.md is historical context;
+Current phase: implementation and verified static replay release. README.md
+indexes the application, release evidence, and historical planning. FOUNDATION.md is historical context;
 its build-start prompt and superseded assumptions are not current instructions.
 
 Filing Digest is the partner project. Inspect it read-only and keep

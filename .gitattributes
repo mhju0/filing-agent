@@ -1,0 +1,4 @@
+# Preserve regulator responses and upstream license bytes for provenance hashes.
+docs/audits/2026-09-07-coverage/sources/* -text -diff
+docs/audits/2026-09-07-coverage/coverage.csv -text -diff
+slice/web/public/FONT-LICENSE.txt -text -diff

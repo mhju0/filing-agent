@@ -1,0 +1,317 @@
+{
+  "kind": "Unedited browser capture, actual local inference",
+  "investigation": {
+    "id": "5d1547f9-8482-4025-952d-af81347c01b6",
+    "saved": true,
+    "turns": [
+      {
+        "id": "626f6c61-431d-4111-87a2-dec2e8c9c65c",
+        "steps": [
+          {
+            "name": "interpret",
+            "reused": false,
+            "status": "complete",
+            "seconds": 2.9347222079522908,
+            "started_at": "2026-09-08T02:37:20.137447+00:00"
+          },
+          {
+            "name": "evidence",
+            "reused": false,
+            "status": "complete",
+            "seconds": 0.008985708991531283,
+            "started_at": "2026-09-08T02:37:23.072721+00:00"
+          },
+          {
+            "name": "answer",
+            "reused": false,
+            "status": "complete",
+            "seconds": 0.005412459024228156,
+            "started_at": "2026-09-08T02:37:23.082959+00:00"
+          }
+        ],
+        "answer": {
+          "metric": "revenue",
+          "figures": [
+            {
+              "id": "dart:20240312000736:2023:revenue",
+              "basis": "consolidated",
+              "scale": 1,
+              "value": "258935494000000",
+              "metric": "revenue",
+              "origin": "verified_digest_fact",
+              "period": "2023",
+              "source": {
+                "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240312000736",
+                "section": "2-2. 연결 손익계산서",
+                "api_path": "sources/dart-financials-00126380-2023.json",
+                "filed_at": "2024-03-12",
+                "api_field": "thstrm_amount",
+                "regulator": "dart",
+                "row_index": 6,
+                "account_id": "ifrs-full_Revenue",
+                "account_nm": "영업수익",
+                "api_sha256": "b6fed7752ccfc2cfe67f0fda6e88664ec381a6c23c118aff417387ef8d9e5ee7",
+                "link_status": "denial_page_http_200",
+                "filing_title": "사업보고서 (2023.12)",
+                "section_path": "excerpts/20240312000736.txt",
+                "document_path": "sources/dart-document-20240312000736.zip",
+                "excerpt_cells": [
+                  "영업수익 (주29)",
+                  "258,935,494",
+                  "302,231,360",
+                  "279,604,799"
+                ],
+                "period_column": 1,
+                "section_sha256": "6e2626ac151167494e91ff7ea669baf476f96f8df2cbf7730442276fa888b433",
+                "document_member": "20240312000736.xml",
+                "document_sha256": "fab047663d94f99a24f0177c9695874cbbc9ea54172b2769f159b3728a6a3c29",
+                "filing_identity": "20240312000736",
+                "filing_metadata_path": "sources/dart-list-20240312000736.json"
+              },
+              "company": "삼성전자",
+              "currency": "KRW",
+              "period_end": "2023-12-31",
+              "company_code": "00126380",
+              "period_start": "2023-01-01",
+              "source_label": "영업수익 (주29)",
+              "verification": "exact API amount and receipt plus original statement company, row, currency/scale, basis and period",
+              "original_unit": "백만원",
+              "original_value": "258,935,494",
+              "digest_fact_ids": [
+                "4107e3eb-3509-4a2b-b060-e132d5aeb268"
+              ]
+            }
+          ],
+          "periods": [
+            "2023"
+          ],
+          "refused": false,
+          "fact_ids": [
+            "dart:20240312000736:2023:revenue"
+          ],
+          "searched": [
+            {
+              "period": "2023",
+              "company": "Samsung",
+              "section": "2-2. 연결 손익계산서",
+              "filing_title": "사업보고서 (2023.12)"
+            }
+          ],
+          "answer_en": "These are the verified figures for the requested company, metric and fiscal year.",
+          "answer_ko": "요청한 회사, 지표, 회계연도의 검증된 수치입니다.",
+          "companies": [
+            "Samsung"
+          ],
+          "operation": "report",
+          "calculated": [],
+          "reason_code": null,
+          "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb"
+        },
+        "intent": {
+          "basis": "consolidated",
+          "action": "report",
+          "metric": "revenue",
+          "periods": [
+            "2023"
+          ],
+          "companies": [
+            "Samsung"
+          ]
+        },
+        "status": "complete",
+        "context": null,
+        "language": "en",
+        "question": "삼성전자 2023년 매출액은?",
+        "retry_of": null,
+        "created_at": "2026-09-08T02:37:20.121530+00:00",
+        "request_id": "20cc2629-d671-48eb-b9d5-8338fd465019",
+        "diagnostics": false,
+        "completed_at": "2026-09-08T02:37:23.085926+00:00",
+        "model_record": {
+          "model": "gemma4:e4b",
+          "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+          "metrics": {
+            "eval_count": 35,
+            "eval_duration": 1292174000,
+            "load_duration": 2737000
+          },
+          "options": {
+            "seed": 42,
+            "num_ctx": 4096,
+            "num_predict": 256,
+            "temperature": 0
+          },
+          "runtime": "0.33.3",
+          "wall_seconds": 2.9278733750106767
+        },
+        "wall_seconds": 2.966906249988824
+      },
+      {
+        "id": "c927ee9d-c16a-4e07-9c4a-26c00dee8009",
+        "steps": [
+          {
+            "name": "interpret",
+            "reused": false,
+            "status": "complete",
+            "seconds": 2.986938208981883,
+            "started_at": "2026-09-08T02:37:25.998360+00:00"
+          },
+          {
+            "name": "evidence",
+            "reused": false,
+            "status": "complete",
+            "seconds": 0.009050709020812064,
+            "started_at": "2026-09-08T02:37:28.985548+00:00"
+          },
+          {
+            "name": "answer",
+            "reused": false,
+            "status": "complete",
+            "seconds": 0.006418709002900869,
+            "started_at": "2026-09-08T02:37:28.995402+00:00"
+          }
+        ],
+        "answer": {
+          "metric": "revenue",
+          "figures": [
+            {
+              "id": "dart:20240318000844:2023:revenue",
+              "basis": "consolidated",
+              "scale": 1,
+              "value": "9670643576585",
+              "metric": "revenue",
+              "origin": "agent_evidence_supplement_not_ingested_into_digest",
+              "period": "2023",
+              "source": {
+                "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240318000844",
+                "section": "2-2. 연결 포괄손익계산서",
+                "api_path": "sources/dart-financials-00266961-2023.json",
+                "filed_at": "2024-03-18",
+                "api_field": "thstrm_amount",
+                "regulator": "dart",
+                "row_index": 6,
+                "account_id": "ifrs-full_Revenue",
+                "account_nm": "영업수익",
+                "api_sha256": "346fcf1487e25c095dff58704707731f0dfe469e29daa77d077d81c7adf8154b",
+                "link_status": "not_rechecked_after_same_host_denials",
+                "filing_title": "사업보고서 (2023.12)",
+                "section_path": "excerpts/20240318000844.txt",
+                "document_path": "sources/dart-document-20240318000844.zip",
+                "excerpt_cells": [
+                  "영업수익 (주35)",
+                  "9,670,643,576,585",
+                  "8,220,078,708,810",
+                  "6,817,599,707,250"
+                ],
+                "period_column": 1,
+                "section_sha256": "da28375701e5b02551de21e6c59d9a49a1ece0be9c3b409d1b588dbdd06e4c5f",
+                "document_member": "20240318000844.xml",
+                "document_sha256": "eaacb5fd2a7207927f2736a7aff3ec0b2f78c9e7270557a9f65663f8e75a7b0a",
+                "filing_identity": "20240318000844",
+                "filing_metadata_path": "sources/dart-list-20240318000844.json"
+              },
+              "company": "NAVER",
+              "currency": "KRW",
+              "period_end": "2023-12-31",
+              "company_code": "00266961",
+              "period_start": "2023-01-01",
+              "source_label": "영업수익 (주35)",
+              "verification": "exact API amount and receipt plus original statement company, row, currency/scale, basis and period",
+              "original_unit": "원",
+              "original_value": "9,670,643,576,585",
+              "digest_fact_ids": []
+            }
+          ],
+          "periods": [
+            "2023"
+          ],
+          "refused": false,
+          "fact_ids": [
+            "dart:20240318000844:2023:revenue"
+          ],
+          "searched": [
+            {
+              "period": "2023",
+              "company": "NAVER",
+              "section": "2-2. 연결 포괄손익계산서",
+              "filing_title": "사업보고서 (2023.12)"
+            }
+          ],
+          "answer_en": "These are the verified figures for the requested company, metric and fiscal year.",
+          "answer_ko": "요청한 회사, 지표, 회계연도의 검증된 수치입니다.",
+          "companies": [
+            "NAVER"
+          ],
+          "operation": "report",
+          "calculated": [],
+          "reason_code": null,
+          "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb"
+        },
+        "intent": {
+          "basis": "consolidated",
+          "action": "report",
+          "metric": "revenue",
+          "periods": [
+            "2023"
+          ],
+          "companies": [
+            "NAVER"
+          ]
+        },
+        "status": "complete",
+        "context": {
+          "basis": "consolidated",
+          "action": "report",
+          "metric": "revenue",
+          "periods": [
+            "2023"
+          ],
+          "companies": [
+            "Samsung"
+          ]
+        },
+        "language": "en",
+        "question": "네이버는?",
+        "retry_of": null,
+        "created_at": "2026-09-08T02:37:25.988614+00:00",
+        "request_id": "a114310b-2e6f-4ca8-8fb9-a94ce7b88e45",
+        "diagnostics": false,
+        "completed_at": "2026-09-08T02:37:28.999312+00:00",
+        "model_record": {
+          "model": "gemma4:e4b",
+          "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+          "metrics": {
+            "eval_count": 36,
+            "eval_duration": 1338294000,
+            "load_duration": 981959
+          },
+          "options": {
+            "seed": 42,
+            "num_ctx": 4096,
+            "num_predict": 256,
+            "temperature": 0
+          },
+          "runtime": "0.33.3",
+          "wall_seconds": 2.9781638749991544
+        },
+        "wall_seconds": 3.014962250017561
+      }
+    ],
+    "lineage": null,
+    "pending": null,
+    "accepted": {
+      "basis": "consolidated",
+      "action": "report",
+      "metric": "revenue",
+      "periods": [
+        "2023"
+      ],
+      "companies": [
+        "NAVER"
+      ]
+    },
+    "created_at": "2026-09-08T02:37:20.099433+00:00",
+    "touched_at": "2026-09-08T02:37:29.333240+00:00",
+    "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb"
+  }
+}

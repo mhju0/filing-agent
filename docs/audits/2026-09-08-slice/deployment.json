@@ -1,0 +1,97 @@
+{
+  "url": "https://filing-agent.vercel.app",
+  "deployment_id": "dpl_B1qxxiQ3a6Zo369e2Yy1nHVR8sR2",
+  "target": "production",
+  "anonymous": true,
+  "files": [
+    {
+      "path": "FONT-LICENSE.txt",
+      "status": 200,
+      "hash_matches": true
+    },
+    {
+      "path": "LOCAL-SETUP.md",
+      "status": 200,
+      "hash_matches": true
+    },
+    {
+      "path": "actual-run.webm",
+      "status": 200,
+      "hash_matches": true
+    },
+    {
+      "path": "assets/PretendardVariable-CJuje-Rk.woff2",
+      "status": 200,
+      "hash_matches": true
+    },
+    {
+      "path": "assets/index-ChMXSYIa.js",
+      "status": 200,
+      "hash_matches": true
+    },
+    {
+      "path": "assets/index-DTPEd0dj.css",
+      "status": 200,
+      "hash_matches": true
+    },
+    {
+      "path": "engineering-en.html",
+      "status": 200,
+      "hash_matches": true
+    },
+    {
+      "path": "engineering-ko.html",
+      "status": 200,
+      "hash_matches": true
+    },
+    {
+      "path": "engineering.css",
+      "status": 200,
+      "hash_matches": true
+    },
+    {
+      "path": "evaluation-cases.json",
+      "status": 200,
+      "hash_matches": true
+    },
+    {
+      "path": "evaluation.json",
+      "status": 200,
+      "hash_matches": true
+    },
+    {
+      "path": "execution.json",
+      "status": 200,
+      "hash_matches": true
+    },
+    {
+      "path": "filing-agent-source.zip",
+      "status": 200,
+      "hash_matches": true
+    },
+    {
+      "path": "index.html",
+      "status": 200,
+      "hash_matches": true
+    },
+    {
+      "path": "recording.json",
+      "status": 200,
+      "hash_matches": true
+    },
+    {
+      "path": "theme.js",
+      "status": 200,
+      "hash_matches": true
+    }
+  ],
+  "status": "PASS",
+  "checks": [
+    "Anonymous files match reviewed artifact hashes",
+    "CSP response header present",
+    "No live API, planning instructions or env endpoint"
+  ],
+  "git_connection": "Disconnected mhju0/filing-agent using vercel git disconnect; private commits do not trigger hosting",
+  "immutable_url": "https://filing-agent-16q0wos6o-mhju0s-projects.vercel.app",
+  "git_connection_verified": null
+}

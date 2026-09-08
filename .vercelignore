@@ -1,0 +1,2 @@
+# Deploy only from an explicitly reviewed static release directory, never this root.
+**

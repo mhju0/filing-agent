@@ -1,0 +1,968 @@
+[
+  {
+    "fact_id": "111dda7d-c99a-4c74-9d0d-62fd29ea7011",
+    "metric": "operating_income",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260310002820.txt",
+        "row_index": 10,
+        "row_label": "영업이익 (주30)",
+        "row": [
+          "영업이익 (주30)",
+          "43,601,051",
+          "32,725,961",
+          "6,566,976"
+        ],
+        "period_column": 1,
+        "source_unit": "백만원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "1d061f27-0ed2-487f-b233-6293bd46d2ca",
+    "metric": "net_income",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20240312000736.txt",
+        "row_index": 19,
+        "row_label": "당기순이익(손실)",
+        "row": [
+          "당기순이익(손실)",
+          "15,487,100",
+          "55,654,077",
+          "39,907,450"
+        ],
+        "period_column": 1,
+        "source_unit": "백만원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "1fc0eb57-392c-4f42-a17c-1f07b22523e2",
+    "metric": "net_income_attributable",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260310002820.txt",
+        "row_index": 20,
+        "row_label": "지배기업 소유주지분",
+        "row": [
+          "지배기업 소유주지분",
+          "44,260,956",
+          "33,621,363",
+          "14,473,401"
+        ],
+        "period_column": 1,
+        "source_unit": "백만원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "22c8f6a1-e2ae-4a7d-8982-c1d1d666f7c5",
+    "metric": "revenue",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260318001394.txt",
+        "row_index": 6,
+        "row_label": "매출액",
+        "row": [
+          "매출액",
+          "186,254,472",
+          "175,231,153",
+          "162,663,579"
+        ],
+        "period_column": 1,
+        "source_unit": "백만원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "23852f41-537a-4e21-928c-4e22935e1da0",
+    "metric": "operating_income",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20240312000736.txt",
+        "row_index": 10,
+        "row_label": "영업이익 (주29)",
+        "row": [
+          "영업이익 (주29)",
+          "6,566,976",
+          "43,376,630",
+          "51,633,856"
+        ],
+        "period_column": 1,
+        "source_unit": "백만원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "3504a23e-ec71-46b2-8537-4589bb2177eb",
+    "metric": "eps",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260318001394.txt",
+        "row_index": 25,
+        "row_label": "보통주기본주당이익(손실) (단위 : 원)",
+        "row": [
+          "보통주기본주당이익(손실) (단위 : 원)",
+          "36,088",
+          "47,615",
+          "45,703"
+        ],
+        "period_column": 2,
+        "source_unit": "원/주",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "40634d5f-2e6f-483e-9561-39fa9adcb4c0",
+    "metric": "eps",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20240312000736.txt",
+        "row_index": 24,
+        "row_label": "기본주당이익(손실) (단위 : 원)",
+        "row": [
+          "기본주당이익(손실) (단위 : 원)",
+          "2,131.0",
+          "8,057.0",
+          "5,777.0"
+        ],
+        "period_column": 1,
+        "source_unit": "원/주",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "4107e3eb-3509-4a2b-b060-e132d5aeb268",
+    "metric": "revenue",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20240312000736.txt",
+        "row_index": 6,
+        "row_label": "영업수익 (주29)",
+        "row": [
+          "영업수익 (주29)",
+          "258,935,494",
+          "302,231,360",
+          "279,604,799"
+        ],
+        "period_column": 1,
+        "source_unit": "백만원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "4dbd7486-30cb-40d4-9075-dbe6ddc19963",
+    "metric": "net_income_attributable",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260318001394.txt",
+        "row_index": 22,
+        "row_label": "지배기업소유주지분",
+        "row": [
+          "지배기업소유주지분",
+          "9,445,987",
+          "12,526,691",
+          "11,961,717"
+        ],
+        "period_column": 1,
+        "source_unit": "백만원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "518ad5eb-ef8c-4be7-a953-5f52db555a97",
+    "metric": "eps_diluted",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260317000635.txt",
+        "row_index": 35,
+        "row_label": "희석주당순이익(손실) (단위 : 원)",
+        "row": [
+          "희석주당순이익(손실) (단위 : 원)",
+          "60,378",
+          "28,419",
+          "(13,244)"
+        ],
+        "period_column": 1,
+        "source_unit": "원/주",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "518fd970-b2fa-4e96-8f3c-648912f79e73",
+    "metric": "eps_diluted",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260313001021.txt",
+        "row_index": 38,
+        "row_label": "희석주당순이익 (단위 : 원) (주29)",
+        "row": [
+          "희석주당순이익 (단위 : 원) (주29)",
+          "12,907",
+          "12,553",
+          "6,576"
+        ],
+        "period_column": 2,
+        "source_unit": "원/주",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "5566daf7-3a54-49f9-859f-1a799f9e07af",
+    "metric": "net_income",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260310002820.txt",
+        "row_index": 18,
+        "row_label": "당기순이익",
+        "row": [
+          "당기순이익",
+          "45,206,805",
+          "34,451,351",
+          "15,487,100"
+        ],
+        "period_column": 1,
+        "source_unit": "백만원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "6225071d-1e97-4632-9781-47ad96354c2b",
+    "metric": "net_income",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260318001394.txt",
+        "row_index": 20,
+        "row_label": "연결당기순이익",
+        "row": [
+          "연결당기순이익",
+          "10,364,775",
+          "13,229,908",
+          "12,272,301"
+        ],
+        "period_column": 1,
+        "source_unit": "백만원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "6301d3dd-0756-4c82-8475-18388f41ef6f",
+    "metric": "eps",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260310002820.txt",
+        "row_index": 23,
+        "row_label": "기본주당이익 (단위 : 원)",
+        "row": [
+          "기본주당이익 (단위 : 원)",
+          "6,605",
+          "4,950",
+          "2,131"
+        ],
+        "period_column": 1,
+        "source_unit": "원/주",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "64954877-c0e7-402c-8324-04e40f9e3039",
+    "metric": "net_income_attributable",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260310002820.txt",
+        "row_index": 20,
+        "row_label": "지배기업 소유주지분",
+        "row": [
+          "지배기업 소유주지분",
+          "44,260,956",
+          "33,621,363",
+          "14,473,401"
+        ],
+        "period_column": 2,
+        "source_unit": "백만원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "6647bb1e-9db6-443e-bbb9-cd49fa4c9861",
+    "metric": "eps_diluted",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260318001394.txt",
+        "row_index": 31,
+        "row_label": "보통주 희석주당이익 (단위 : 원)",
+        "row": [
+          "보통주 희석주당이익 (단위 : 원)",
+          "36,088",
+          "47,615",
+          "45,703"
+        ],
+        "period_column": 1,
+        "source_unit": "원/주",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "6777622c-15a1-4056-9815-1c5858a2a547",
+    "metric": "net_income",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260310002820.txt",
+        "row_index": 18,
+        "row_label": "당기순이익",
+        "row": [
+          "당기순이익",
+          "45,206,805",
+          "34,451,351",
+          "15,487,100"
+        ],
+        "period_column": 2,
+        "source_unit": "백만원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "6e3c60ad-f424-4927-b3ea-c3b24735d959",
+    "metric": "eps_diluted",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260313001021.txt",
+        "row_index": 38,
+        "row_label": "희석주당순이익 (단위 : 원) (주29)",
+        "row": [
+          "희석주당순이익 (단위 : 원) (주29)",
+          "12,907",
+          "12,553",
+          "6,576"
+        ],
+        "period_column": 1,
+        "source_unit": "원/주",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "6f4454c8-853e-4b64-a759-e12034157c7c",
+    "metric": "operating_income",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260313001021.txt",
+        "row_index": 8,
+        "row_label": "영업이익",
+        "row": [
+          "영업이익",
+          "2,208,138,388,720",
+          "1,979,263,438,827",
+          "1,488,820,269,608"
+        ],
+        "period_column": 2,
+        "source_unit": "원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "72425d0c-bce7-4115-b95f-69084b392b69",
+    "metric": "eps_diluted",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260310002820.txt",
+        "row_index": 24,
+        "row_label": "희석주당이익 (단위 : 원)",
+        "row": [
+          "희석주당이익 (단위 : 원)",
+          "6,603",
+          "4,950",
+          "2,131"
+        ],
+        "period_column": 1,
+        "source_unit": "원/주",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "75405023-0655-4957-8708-be87acd0b05d",
+    "metric": "revenue",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260318001394.txt",
+        "row_index": 6,
+        "row_label": "매출액",
+        "row": [
+          "매출액",
+          "186,254,472",
+          "175,231,153",
+          "162,663,579"
+        ],
+        "period_column": 2,
+        "source_unit": "백만원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "7834452d-3885-4059-af41-9e8b0607bacb",
+    "metric": "operating_income",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260310002820.txt",
+        "row_index": 10,
+        "row_label": "영업이익 (주30)",
+        "row": [
+          "영업이익 (주30)",
+          "43,601,051",
+          "32,725,961",
+          "6,566,976"
+        ],
+        "period_column": 2,
+        "source_unit": "백만원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "7deed48b-afc4-49cb-a74d-688ed0a02462",
+    "metric": "revenue",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260313001021.txt",
+        "row_index": 6,
+        "row_label": "영업수익 (주35)",
+        "row": [
+          "영업수익 (주35)",
+          "12,035,007,218,975",
+          "10,737,719,264,647",
+          "9,670,643,576,585"
+        ],
+        "period_column": 2,
+        "source_unit": "원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "7e7a0f9b-5cf5-4c8b-bddd-85fa4d55268d",
+    "metric": "net_income_attributable",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260318001394.txt",
+        "row_index": 22,
+        "row_label": "지배기업소유주지분",
+        "row": [
+          "지배기업소유주지분",
+          "9,445,987",
+          "12,526,691",
+          "11,961,717"
+        ],
+        "period_column": 2,
+        "source_unit": "백만원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "81e61de3-1f0d-4d94-b168-1043d4f84733",
+    "metric": "revenue",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260310002820.txt",
+        "row_index": 6,
+        "row_label": "매출액 (주30)",
+        "row": [
+          "매출액 (주30)",
+          "333,605,938",
+          "300,870,903",
+          "258,935,494"
+        ],
+        "period_column": 1,
+        "source_unit": "백만원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "9154f6b3-349c-46bb-b925-d7520aeb48b4",
+    "metric": "revenue",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260310002820.txt",
+        "row_index": 6,
+        "row_label": "매출액 (주30)",
+        "row": [
+          "매출액 (주30)",
+          "333,605,938",
+          "300,870,903",
+          "258,935,494"
+        ],
+        "period_column": 2,
+        "source_unit": "백만원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "91d10641-1b63-43d8-86f9-c88e4ddb3360",
+    "metric": "eps",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260313001021.txt",
+        "row_index": 37,
+        "row_label": "기본주당순이익 (단위 : 원) (주29)",
+        "row": [
+          "기본주당순이익 (단위 : 원) (주29)",
+          "13,009",
+          "12,702",
+          "6,661"
+        ],
+        "period_column": 2,
+        "source_unit": "원/주",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "9315b664-a89e-4437-84c3-5ef3c66b2df9",
+    "metric": "eps",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260310002820.txt",
+        "row_index": 23,
+        "row_label": "기본주당이익 (단위 : 원)",
+        "row": [
+          "기본주당이익 (단위 : 원)",
+          "6,605",
+          "4,950",
+          "2,131"
+        ],
+        "period_column": 2,
+        "source_unit": "원/주",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "979872e1-48a4-45e5-b660-fcae1e5dcf9a",
+    "metric": "net_income_attributable",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20240312000736.txt",
+        "row_index": 21,
+        "row_label": "지배기업의 소유주에게 귀속되는 당기순이익(손실)",
+        "row": [
+          "지배기업의 소유주에게 귀속되는 당기순이익(손실)",
+          "14,473,401",
+          "54,730,018",
+          "39,243,791"
+        ],
+        "period_column": 1,
+        "source_unit": "백만원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "9924923f-095f-41fa-a0c3-a959992f3561",
+    "metric": "revenue",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260317000635.txt",
+        "row_index": 6,
+        "row_label": "매출액 (주4,24,31)",
+        "row": [
+          "매출액 (주4,24,31)",
+          "97,146,675",
+          "66,192,960",
+          "32,765,719"
+        ],
+        "period_column": 1,
+        "source_unit": "백만원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "9ba33551-2d90-423d-ad17-e84720da6ca5",
+    "metric": "revenue",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260313001021.txt",
+        "row_index": 6,
+        "row_label": "영업수익 (주35)",
+        "row": [
+          "영업수익 (주35)",
+          "12,035,007,218,975",
+          "10,737,719,264,647",
+          "9,670,643,576,585"
+        ],
+        "period_column": 1,
+        "source_unit": "원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "9cde3dea-103c-4090-8344-46d5abf1bafa",
+    "metric": "eps_diluted",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20240312000736.txt",
+        "row_index": 25,
+        "row_label": "희석주당이익(손실) (단위 : 원)",
+        "row": [
+          "희석주당이익(손실) (단위 : 원)",
+          "2,131.0",
+          "8,057.0",
+          "5,777.0"
+        ],
+        "period_column": 1,
+        "source_unit": "원/주",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "a26a69fd-1051-4d88-94bb-e8781983b771",
+    "metric": "net_income",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260318001394.txt",
+        "row_index": 20,
+        "row_label": "연결당기순이익",
+        "row": [
+          "연결당기순이익",
+          "10,364,775",
+          "13,229,908",
+          "12,272,301"
+        ],
+        "period_column": 2,
+        "source_unit": "백만원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "afba441d-82ed-4f8f-bca3-2c9e6cfe026a",
+    "metric": "eps_diluted",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260318001394.txt",
+        "row_index": 31,
+        "row_label": "보통주 희석주당이익 (단위 : 원)",
+        "row": [
+          "보통주 희석주당이익 (단위 : 원)",
+          "36,088",
+          "47,615",
+          "45,703"
+        ],
+        "period_column": 2,
+        "source_unit": "원/주",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "b2e6955e-0f83-4c33-a7a4-e7b187c595fe",
+    "metric": "eps",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260313001021.txt",
+        "row_index": 37,
+        "row_label": "기본주당순이익 (단위 : 원) (주29)",
+        "row": [
+          "기본주당순이익 (단위 : 원) (주29)",
+          "13,009",
+          "12,702",
+          "6,661"
+        ],
+        "period_column": 1,
+        "source_unit": "원/주",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "c22f2b5d-9323-456b-a8b4-751ce31dcdce",
+    "metric": "revenue",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260317000635.txt",
+        "row_index": 6,
+        "row_label": "매출액 (주4,24,31)",
+        "row": [
+          "매출액 (주4,24,31)",
+          "97,146,675",
+          "66,192,960",
+          "32,765,719"
+        ],
+        "period_column": 2,
+        "source_unit": "백만원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "ca8c94dd-c7b9-4850-a933-f726cb92274d",
+    "metric": "eps",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260318001394.txt",
+        "row_index": 25,
+        "row_label": "보통주기본주당이익(손실) (단위 : 원)",
+        "row": [
+          "보통주기본주당이익(손실) (단위 : 원)",
+          "36,088",
+          "47,615",
+          "45,703"
+        ],
+        "period_column": 1,
+        "source_unit": "원/주",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "cb0c8f99-1f71-4f03-98da-02dfb3662914",
+    "metric": "operating_income",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260313001021.txt",
+        "row_index": 8,
+        "row_label": "영업이익",
+        "row": [
+          "영업이익",
+          "2,208,138,388,720",
+          "1,979,263,438,827",
+          "1,488,820,269,608"
+        ],
+        "period_column": 1,
+        "source_unit": "원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "d41987aa-26d3-4c69-b6b2-84f60bb4451a",
+    "metric": "eps_diluted",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260310002820.txt",
+        "row_index": 24,
+        "row_label": "희석주당이익 (단위 : 원)",
+        "row": [
+          "희석주당이익 (단위 : 원)",
+          "6,603",
+          "4,950",
+          "2,131"
+        ],
+        "period_column": 2,
+        "source_unit": "원/주",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "d48d9a46-99f6-4695-b7e6-5acb45a0f1d4",
+    "metric": "operating_income",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260317000635.txt",
+        "row_index": 10,
+        "row_label": "영업이익(손실)",
+        "row": [
+          "영업이익(손실)",
+          "47,206,319",
+          "23,467,319",
+          "(7,730,313)"
+        ],
+        "period_column": 2,
+        "source_unit": "백만원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "db47692d-fd0c-4a36-8aeb-d503e0f6bdc0",
+    "metric": "operating_income",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260318001394.txt",
+        "row_index": 10,
+        "row_label": "영업이익",
+        "row": [
+          "영업이익",
+          "11,467,851",
+          "14,239,592",
+          "15,126,901"
+        ],
+        "period_column": 2,
+        "source_unit": "백만원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "e88a6cbd-9f10-449c-810e-8985a42d6b95",
+    "metric": "operating_income",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260317000635.txt",
+        "row_index": 10,
+        "row_label": "영업이익(손실)",
+        "row": [
+          "영업이익(손실)",
+          "47,206,319",
+          "23,467,319",
+          "(7,730,313)"
+        ],
+        "period_column": 1,
+        "source_unit": "백만원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "ea8eb1cd-ac02-4445-8b72-83825c226175",
+    "metric": "eps",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260317000635.txt",
+        "row_index": 34,
+        "row_label": "기본주당순이익(손실) (단위 : 원)",
+        "row": [
+          "기본주당순이익(손실) (단위 : 원)",
+          "62,044",
+          "28,732",
+          "(13,244)"
+        ],
+        "period_column": 1,
+        "source_unit": "원/주",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "ebe2d282-a152-40fe-bfc8-59e3a48bcbb8",
+    "metric": "eps_diluted",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260317000635.txt",
+        "row_index": 35,
+        "row_label": "희석주당순이익(손실) (단위 : 원)",
+        "row": [
+          "희석주당순이익(손실) (단위 : 원)",
+          "60,378",
+          "28,419",
+          "(13,244)"
+        ],
+        "period_column": 2,
+        "source_unit": "원/주",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "ef1f20d8-dbce-43a9-a0e8-a351092ca5f4",
+    "metric": "eps",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260317000635.txt",
+        "row_index": 34,
+        "row_label": "기본주당순이익(손실) (단위 : 원)",
+        "row": [
+          "기본주당순이익(손실) (단위 : 원)",
+          "62,044",
+          "28,732",
+          "(13,244)"
+        ],
+        "period_column": 2,
+        "source_unit": "원/주",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  },
+  {
+    "fact_id": "fb106e87-d557-4aa0-b71f-766db9e42775",
+    "metric": "operating_income",
+    "selected_rows": [
+      {
+        "section_path": "excerpts/20260318001394.txt",
+        "row_index": 10,
+        "row_label": "영업이익",
+        "row": [
+          "영업이익",
+          "11,467,851",
+          "14,239,592",
+          "15,126,901"
+        ],
+        "period_column": 1,
+        "source_unit": "백만원",
+        "status": "value_and_period_candidate_requires_label_review"
+      }
+    ],
+    "status": "label_rule_unique"
+  }
+]

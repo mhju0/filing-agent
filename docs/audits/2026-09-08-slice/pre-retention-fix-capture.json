@@ -1,0 +1,1560 @@
+{
+  "kind": "real local API capture",
+  "model": "gemma4:e4b",
+  "application_files": {
+    "slice/__init__.py": "a4eaf39e5532f6657614c560903e294f2af6ccf2d4227d69b5ff2ad2743fb5f1",
+    "slice/app.py": "14b026826ee8e599a98ff551c4fe4c2806a761d927692b3e24989dd4bdbfdd23",
+    "slice/backup.py": "35ead6ac39594b37f8a911d204157e8c75a7a834e88f0af0027101c790baedc3",
+    "slice/core.py": "afa801773f33ed625ff4ff12b7c1227d5e161dade81bb2d9f9c541d6e878a384",
+    "slice/export.py": "ddf048c2803e6cc35e840c1fd7185fb75850cb3a5a75284275238523db7e1b28",
+    "slice/runtime.py": "a4dff30cd81fd86c2730f2b020e7f56f919891f09ced7570dbe301308d4a132e",
+    "slice/store.py": "d0bd77fccc36aad063ac3772af8861f4e9c98430d3b82f7fa14ea2617f9390b2",
+    "slice/workflow.py": "5bd9269d3f95bb3414bac702bf80d5753b126c302891d9cb561e10aecacf0a58"
+  },
+  "investigations": [
+    {
+      "id": "cc92a0fd-4d99-4761-851b-ea73a888acde",
+      "saved": true,
+      "turns": [
+        {
+          "id": "eecd96ca-45a9-4590-85ca-09e82641e58c",
+          "steps": [
+            {
+              "name": "interpret",
+              "reused": false,
+              "status": "complete",
+              "seconds": 3.0146876249928027,
+              "started_at": "2026-09-08T02:37:52.452728+00:00"
+            },
+            {
+              "name": "evidence",
+              "reused": false,
+              "status": "complete",
+              "seconds": 0.009910291992127895,
+              "started_at": "2026-09-08T02:37:55.468790+00:00"
+            },
+            {
+              "name": "answer",
+              "reused": false,
+              "status": "complete",
+              "seconds": 0.005604083009529859,
+              "started_at": "2026-09-08T02:37:55.479833+00:00"
+            }
+          ],
+          "answer": {
+            "metric": "revenue",
+            "figures": [
+              {
+                "id": "dart:20240312000736:2022:revenue",
+                "basis": "consolidated",
+                "scale": 1,
+                "value": "302231360000000",
+                "metric": "revenue",
+                "origin": "agent_evidence_supplement_not_ingested_into_digest",
+                "period": "2022",
+                "source": {
+                  "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240312000736",
+                  "section": "2-2. 연결 손익계산서",
+                  "api_path": "sources/dart-financials-00126380-2023.json",
+                  "filed_at": "2024-03-12",
+                  "api_field": "frmtrm_amount",
+                  "regulator": "dart",
+                  "row_index": 6,
+                  "account_id": "ifrs-full_Revenue",
+                  "account_nm": "영업수익",
+                  "api_sha256": "b6fed7752ccfc2cfe67f0fda6e88664ec381a6c23c118aff417387ef8d9e5ee7",
+                  "link_status": "denial_page_http_200",
+                  "filing_title": "사업보고서 (2023.12)",
+                  "section_path": "excerpts/20240312000736.txt",
+                  "document_path": "sources/dart-document-20240312000736.zip",
+                  "excerpt_cells": [
+                    "영업수익 (주29)",
+                    "258,935,494",
+                    "302,231,360",
+                    "279,604,799"
+                  ],
+                  "period_column": 2,
+                  "section_sha256": "6e2626ac151167494e91ff7ea669baf476f96f8df2cbf7730442276fa888b433",
+                  "document_member": "20240312000736.xml",
+                  "document_sha256": "fab047663d94f99a24f0177c9695874cbbc9ea54172b2769f159b3728a6a3c29",
+                  "filing_identity": "20240312000736",
+                  "filing_metadata_path": "sources/dart-list-20240312000736.json"
+                },
+                "company": "삼성전자",
+                "currency": "KRW",
+                "period_end": "2022-12-31",
+                "company_code": "00126380",
+                "period_start": "2022-01-01",
+                "source_label": "영업수익 (주29)",
+                "verification": "exact API amount and receipt plus original statement company, row, currency/scale, basis and period",
+                "original_unit": "백만원",
+                "original_value": "302,231,360",
+                "digest_fact_ids": []
+              },
+              {
+                "id": "dart:20240312000736:2023:revenue",
+                "basis": "consolidated",
+                "scale": 1,
+                "value": "258935494000000",
+                "metric": "revenue",
+                "origin": "verified_digest_fact",
+                "period": "2023",
+                "source": {
+                  "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240312000736",
+                  "section": "2-2. 연결 손익계산서",
+                  "api_path": "sources/dart-financials-00126380-2023.json",
+                  "filed_at": "2024-03-12",
+                  "api_field": "thstrm_amount",
+                  "regulator": "dart",
+                  "row_index": 6,
+                  "account_id": "ifrs-full_Revenue",
+                  "account_nm": "영업수익",
+                  "api_sha256": "b6fed7752ccfc2cfe67f0fda6e88664ec381a6c23c118aff417387ef8d9e5ee7",
+                  "link_status": "denial_page_http_200",
+                  "filing_title": "사업보고서 (2023.12)",
+                  "section_path": "excerpts/20240312000736.txt",
+                  "document_path": "sources/dart-document-20240312000736.zip",
+                  "excerpt_cells": [
+                    "영업수익 (주29)",
+                    "258,935,494",
+                    "302,231,360",
+                    "279,604,799"
+                  ],
+                  "period_column": 1,
+                  "section_sha256": "6e2626ac151167494e91ff7ea669baf476f96f8df2cbf7730442276fa888b433",
+                  "document_member": "20240312000736.xml",
+                  "document_sha256": "fab047663d94f99a24f0177c9695874cbbc9ea54172b2769f159b3728a6a3c29",
+                  "filing_identity": "20240312000736",
+                  "filing_metadata_path": "sources/dart-list-20240312000736.json"
+                },
+                "company": "삼성전자",
+                "currency": "KRW",
+                "period_end": "2023-12-31",
+                "company_code": "00126380",
+                "period_start": "2023-01-01",
+                "source_label": "영업수익 (주29)",
+                "verification": "exact API amount and receipt plus original statement company, row, currency/scale, basis and period",
+                "original_unit": "백만원",
+                "original_value": "258,935,494",
+                "digest_fact_ids": [
+                  "4107e3eb-3509-4a2b-b060-e132d5aeb268"
+                ]
+              }
+            ],
+            "periods": [
+              "2023",
+              "2022"
+            ],
+            "refused": false,
+            "fact_ids": [
+              "dart:20240312000736:2022:revenue",
+              "dart:20240312000736:2023:revenue"
+            ],
+            "searched": [
+              {
+                "period": "2023",
+                "company": "Samsung",
+                "section": "2-2. 연결 손익계산서",
+                "filing_title": "사업보고서 (2023.12)"
+              }
+            ],
+            "answer_en": "Samsung's revenue decreased in FY2023 compared with FY2022.",
+            "answer_ko": "삼성전자의 2023년 매출액은 2022년보다 감소했습니다.",
+            "companies": [
+              "Samsung"
+            ],
+            "operation": "compare",
+            "calculated": [
+              {
+                "inputs": [
+                  "dart:20240312000736:2023:revenue",
+                  "dart:20240312000736:2022:revenue"
+                ],
+                "currency": "KRW",
+                "absolute_change": "-43295866000000",
+                "percentage_change": "-14.33"
+              }
+            ],
+            "reason_code": null,
+            "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb"
+          },
+          "intent": {
+            "basis": "consolidated",
+            "action": "compare",
+            "metric": "revenue",
+            "periods": [
+              "2023",
+              "2022"
+            ],
+            "companies": [
+              "Samsung"
+            ]
+          },
+          "status": "complete",
+          "context": null,
+          "language": "ko",
+          "question": "삼성전자 2023년과 2022년 매출액 증감률은?",
+          "retry_of": null,
+          "created_at": "2026-09-08T02:37:52.444770+00:00",
+          "request_id": "a1ee4b20-d034-4377-9119-9e1fca7af3cd",
+          "diagnostics": false,
+          "completed_at": "2026-09-08T02:37:55.482928+00:00",
+          "model_record": {
+            "model": "gemma4:e4b",
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "metrics": {
+              "eval_count": 41,
+              "eval_duration": 1520220000,
+              "load_duration": 975084
+            },
+            "options": {
+              "seed": 42,
+              "num_ctx": 4096,
+              "num_predict": 256,
+              "temperature": 0
+            },
+            "runtime": "0.33.3",
+            "wall_seconds": 3.0076560000306927
+          },
+          "wall_seconds": 3.0418447090196423
+        }
+      ],
+      "lineage": null,
+      "pending": null,
+      "accepted": {
+        "basis": "consolidated",
+        "action": "compare",
+        "metric": "revenue",
+        "periods": [
+          "2023",
+          "2022"
+        ],
+        "companies": [
+          "Samsung"
+        ]
+      },
+      "created_at": "2026-09-08T02:37:52.432348+00:00",
+      "touched_at": "2026-09-08T02:37:55.643092+00:00",
+      "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb"
+    },
+    {
+      "id": "ac803ae2-e07c-4220-82ce-d1a905af174b",
+      "saved": true,
+      "turns": [
+        {
+          "id": "c61639ba-6f2d-4386-8384-55c7d6fcf71c",
+          "steps": [
+            {
+              "name": "interpret",
+              "reused": false,
+              "status": "complete",
+              "seconds": 2.7667724170023575,
+              "started_at": "2026-09-08T02:37:55.663383+00:00"
+            },
+            {
+              "name": "evidence",
+              "reused": false,
+              "status": "complete",
+              "seconds": 0.00965308299055323,
+              "started_at": "2026-09-08T02:37:58.432224+00:00"
+            },
+            {
+              "name": "answer",
+              "reused": false,
+              "status": "complete",
+              "seconds": 0.0054102500434964895,
+              "started_at": "2026-09-08T02:37:58.442859+00:00"
+            }
+          ],
+          "answer": {
+            "metric": "revenue",
+            "figures": [
+              {
+                "id": "dart:20240312000736:2023:revenue",
+                "basis": "consolidated",
+                "scale": 1,
+                "value": "258935494000000",
+                "metric": "revenue",
+                "origin": "verified_digest_fact",
+                "period": "2023",
+                "source": {
+                  "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240312000736",
+                  "section": "2-2. 연결 손익계산서",
+                  "api_path": "sources/dart-financials-00126380-2023.json",
+                  "filed_at": "2024-03-12",
+                  "api_field": "thstrm_amount",
+                  "regulator": "dart",
+                  "row_index": 6,
+                  "account_id": "ifrs-full_Revenue",
+                  "account_nm": "영업수익",
+                  "api_sha256": "b6fed7752ccfc2cfe67f0fda6e88664ec381a6c23c118aff417387ef8d9e5ee7",
+                  "link_status": "denial_page_http_200",
+                  "filing_title": "사업보고서 (2023.12)",
+                  "section_path": "excerpts/20240312000736.txt",
+                  "document_path": "sources/dart-document-20240312000736.zip",
+                  "excerpt_cells": [
+                    "영업수익 (주29)",
+                    "258,935,494",
+                    "302,231,360",
+                    "279,604,799"
+                  ],
+                  "period_column": 1,
+                  "section_sha256": "6e2626ac151167494e91ff7ea669baf476f96f8df2cbf7730442276fa888b433",
+                  "document_member": "20240312000736.xml",
+                  "document_sha256": "fab047663d94f99a24f0177c9695874cbbc9ea54172b2769f159b3728a6a3c29",
+                  "filing_identity": "20240312000736",
+                  "filing_metadata_path": "sources/dart-list-20240312000736.json"
+                },
+                "company": "삼성전자",
+                "currency": "KRW",
+                "period_end": "2023-12-31",
+                "company_code": "00126380",
+                "period_start": "2023-01-01",
+                "source_label": "영업수익 (주29)",
+                "verification": "exact API amount and receipt plus original statement company, row, currency/scale, basis and period",
+                "original_unit": "백만원",
+                "original_value": "258,935,494",
+                "digest_fact_ids": [
+                  "4107e3eb-3509-4a2b-b060-e132d5aeb268"
+                ]
+              }
+            ],
+            "periods": [
+              "2023"
+            ],
+            "refused": false,
+            "fact_ids": [
+              "dart:20240312000736:2023:revenue"
+            ],
+            "searched": [
+              {
+                "period": "2023",
+                "company": "Samsung",
+                "section": "2-2. 연결 손익계산서",
+                "filing_title": "사업보고서 (2023.12)"
+              }
+            ],
+            "answer_en": "These are the verified figures for the requested company, metric and fiscal year.",
+            "answer_ko": "요청한 회사, 지표, 회계연도의 검증된 수치입니다.",
+            "companies": [
+              "Samsung"
+            ],
+            "operation": "report",
+            "calculated": [],
+            "reason_code": null,
+            "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb"
+          },
+          "intent": {
+            "basis": "consolidated",
+            "action": "report",
+            "metric": "revenue",
+            "periods": [
+              "2023"
+            ],
+            "companies": [
+              "Samsung"
+            ]
+          },
+          "status": "complete",
+          "context": null,
+          "language": "ko",
+          "question": "삼성전자 2023년 매출액은?",
+          "retry_of": null,
+          "created_at": "2026-09-08T02:37:55.658741+00:00",
+          "request_id": "3547f980-f3cb-4891-8525-b9851480e896",
+          "diagnostics": false,
+          "completed_at": "2026-09-08T02:37:58.445743+00:00",
+          "model_record": {
+            "model": "gemma4:e4b",
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "metrics": {
+              "eval_count": 35,
+              "eval_duration": 1285145000,
+              "load_duration": 843500
+            },
+            "options": {
+              "seed": 42,
+              "num_ctx": 4096,
+              "num_predict": 256,
+              "temperature": 0
+            },
+            "runtime": "0.33.3",
+            "wall_seconds": 2.760582874994725
+          },
+          "wall_seconds": 2.790497957961634
+        },
+        {
+          "id": "83d50e7c-6c9c-42b0-a250-e2144164f26b",
+          "steps": [
+            {
+              "name": "interpret",
+              "reused": false,
+              "status": "complete",
+              "seconds": 2.9147596249822527,
+              "started_at": "2026-09-08T02:37:58.548742+00:00"
+            },
+            {
+              "name": "evidence",
+              "reused": false,
+              "status": "complete",
+              "seconds": 0.009940499963704497,
+              "started_at": "2026-09-08T02:38:01.461378+00:00"
+            },
+            {
+              "name": "answer",
+              "reused": false,
+              "status": "complete",
+              "seconds": 0.005725292023271322,
+              "started_at": "2026-09-08T02:38:01.472222+00:00"
+            }
+          ],
+          "answer": {
+            "metric": "revenue",
+            "figures": [
+              {
+                "id": "dart:20240318000844:2023:revenue",
+                "basis": "consolidated",
+                "scale": 1,
+                "value": "9670643576585",
+                "metric": "revenue",
+                "origin": "agent_evidence_supplement_not_ingested_into_digest",
+                "period": "2023",
+                "source": {
+                  "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240318000844",
+                  "section": "2-2. 연결 포괄손익계산서",
+                  "api_path": "sources/dart-financials-00266961-2023.json",
+                  "filed_at": "2024-03-18",
+                  "api_field": "thstrm_amount",
+                  "regulator": "dart",
+                  "row_index": 6,
+                  "account_id": "ifrs-full_Revenue",
+                  "account_nm": "영업수익",
+                  "api_sha256": "346fcf1487e25c095dff58704707731f0dfe469e29daa77d077d81c7adf8154b",
+                  "link_status": "not_rechecked_after_same_host_denials",
+                  "filing_title": "사업보고서 (2023.12)",
+                  "section_path": "excerpts/20240318000844.txt",
+                  "document_path": "sources/dart-document-20240318000844.zip",
+                  "excerpt_cells": [
+                    "영업수익 (주35)",
+                    "9,670,643,576,585",
+                    "8,220,078,708,810",
+                    "6,817,599,707,250"
+                  ],
+                  "period_column": 1,
+                  "section_sha256": "da28375701e5b02551de21e6c59d9a49a1ece0be9c3b409d1b588dbdd06e4c5f",
+                  "document_member": "20240318000844.xml",
+                  "document_sha256": "eaacb5fd2a7207927f2736a7aff3ec0b2f78c9e7270557a9f65663f8e75a7b0a",
+                  "filing_identity": "20240318000844",
+                  "filing_metadata_path": "sources/dart-list-20240318000844.json"
+                },
+                "company": "NAVER",
+                "currency": "KRW",
+                "period_end": "2023-12-31",
+                "company_code": "00266961",
+                "period_start": "2023-01-01",
+                "source_label": "영업수익 (주35)",
+                "verification": "exact API amount and receipt plus original statement company, row, currency/scale, basis and period",
+                "original_unit": "원",
+                "original_value": "9,670,643,576,585",
+                "digest_fact_ids": []
+              }
+            ],
+            "periods": [
+              "2023"
+            ],
+            "refused": false,
+            "fact_ids": [
+              "dart:20240318000844:2023:revenue"
+            ],
+            "searched": [
+              {
+                "period": "2023",
+                "company": "NAVER",
+                "section": "2-2. 연결 포괄손익계산서",
+                "filing_title": "사업보고서 (2023.12)"
+              }
+            ],
+            "answer_en": "These are the verified figures for the requested company, metric and fiscal year.",
+            "answer_ko": "요청한 회사, 지표, 회계연도의 검증된 수치입니다.",
+            "companies": [
+              "NAVER"
+            ],
+            "operation": "report",
+            "calculated": [],
+            "reason_code": null,
+            "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb"
+          },
+          "intent": {
+            "basis": "consolidated",
+            "action": "report",
+            "metric": "revenue",
+            "periods": [
+              "2023"
+            ],
+            "companies": [
+              "NAVER"
+            ]
+          },
+          "status": "complete",
+          "context": {
+            "basis": "consolidated",
+            "action": "report",
+            "metric": "revenue",
+            "periods": [
+              "2023"
+            ],
+            "companies": [
+              "Samsung"
+            ]
+          },
+          "language": "ko",
+          "question": "네이버는?",
+          "retry_of": null,
+          "created_at": "2026-09-08T02:37:58.536961+00:00",
+          "request_id": "c78519d6-80b2-4801-aa64-af79e207b04a",
+          "diagnostics": false,
+          "completed_at": "2026-09-08T02:38:01.475431+00:00",
+          "model_record": {
+            "model": "gemma4:e4b",
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "metrics": {
+              "eval_count": 36,
+              "eval_duration": 1327625000,
+              "load_duration": 903083
+            },
+            "options": {
+              "seed": 42,
+              "num_ctx": 4096,
+              "num_predict": 256,
+              "temperature": 0
+            },
+            "runtime": "0.33.3",
+            "wall_seconds": 2.903465209004935
+          },
+          "wall_seconds": 2.9411057499819435
+        }
+      ],
+      "lineage": null,
+      "pending": null,
+      "accepted": {
+        "basis": "consolidated",
+        "action": "report",
+        "metric": "revenue",
+        "periods": [
+          "2023"
+        ],
+        "companies": [
+          "NAVER"
+        ]
+      },
+      "created_at": "2026-09-08T02:37:55.646433+00:00",
+      "touched_at": "2026-09-08T02:38:01.586296+00:00",
+      "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb"
+    },
+    {
+      "id": "61d3c990-e2a9-481b-9d02-4c398063a108",
+      "saved": true,
+      "turns": [
+        {
+          "id": "eeb36e3a-915e-4cde-843d-13e72287cdd6",
+          "steps": [
+            {
+              "name": "interpret",
+              "reused": false,
+              "status": "complete",
+              "seconds": 2.9438022500253282,
+              "started_at": "2026-09-08T02:38:01.609658+00:00"
+            },
+            {
+              "name": "evidence",
+              "reused": false,
+              "status": "complete",
+              "seconds": 0.009420458984095603,
+              "started_at": "2026-09-08T02:38:04.555147+00:00"
+            },
+            {
+              "name": "answer",
+              "reused": false,
+              "status": "complete",
+              "seconds": 0.005320542026311159,
+              "started_at": "2026-09-08T02:38:04.565189+00:00"
+            }
+          ],
+          "answer": {
+            "metric": "research_and_development",
+            "figures": [],
+            "periods": [
+              "2023"
+            ],
+            "refused": true,
+            "fact_ids": [],
+            "searched": [
+              {
+                "period": "2023",
+                "company": "Samsung",
+                "section": "2-2. 연결 손익계산서",
+                "filing_title": "사업보고서 (2023.12)"
+              }
+            ],
+            "answer_en": "The requested metric is outside the verified evidence scope; this does not mean it is absent from the entire filing.",
+            "answer_ko": "현재 검증된 근거 범위에는 요청한 지표가 없습니다. 공시 전체에 없다는 뜻은 아닙니다.",
+            "companies": [
+              "Samsung"
+            ],
+            "operation": "refuse",
+            "calculated": [],
+            "reason_code": "outside_verified_metric_scope",
+            "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb"
+          },
+          "intent": {
+            "basis": "consolidated",
+            "action": "report",
+            "metric": "research_and_development",
+            "periods": [
+              "2023"
+            ],
+            "companies": [
+              "Samsung"
+            ]
+          },
+          "status": "complete",
+          "context": null,
+          "language": "ko",
+          "question": "삼성전자 2023년 연구개발비는?",
+          "retry_of": null,
+          "created_at": "2026-09-08T02:38:01.604635+00:00",
+          "request_id": "0d196643-6313-4dc3-8d4a-5dc7349f5f02",
+          "diagnostics": false,
+          "completed_at": "2026-09-08T02:38:04.567994+00:00",
+          "model_record": {
+            "model": "gemma4:e4b",
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "metrics": {
+              "eval_count": 39,
+              "eval_duration": 1457037000,
+              "load_duration": 818500
+            },
+            "options": {
+              "seed": 42,
+              "num_ctx": 4096,
+              "num_predict": 256,
+              "temperature": 0
+            },
+            "runtime": "0.33.3",
+            "wall_seconds": 2.937219500017818
+          },
+          "wall_seconds": 2.9668485000147484
+        }
+      ],
+      "lineage": null,
+      "pending": null,
+      "accepted": null,
+      "created_at": "2026-09-08T02:38:01.591219+00:00",
+      "touched_at": "2026-09-08T02:38:04.634947+00:00",
+      "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb"
+    }
+  ],
+  "checks": [
+    "Actual compare, switch, refusal output matched required values and policy",
+    "Continue carried NAVER context and original snapshot; missing FY2022 refused; refresh fork empty; saved original byte-equivalent JSON",
+    "Actual model clarification followed by company choice resumed the persisted metric/year",
+    "Actual inference cancellation confirmed unload; no cancelled intent entered accepted context"
+  ],
+  "clarification": {
+    "id": "f18553e3-44ba-4625-8d2f-97bf7eb8ef44",
+    "saved": false,
+    "turns": [
+      {
+        "id": "21b0f315-2386-40d9-9259-88cd1c0da04b",
+        "steps": [
+          {
+            "name": "interpret",
+            "reused": false,
+            "status": "complete",
+            "seconds": 2.748329417023342,
+            "started_at": "2026-09-08T02:38:07.730345+00:00"
+          },
+          {
+            "name": "evidence",
+            "reused": false,
+            "status": "complete",
+            "seconds": 0.008797416987363249,
+            "started_at": "2026-09-08T02:38:10.480455+00:00"
+          },
+          {
+            "name": "answer",
+            "reused": false,
+            "status": "complete",
+            "seconds": 0.005289542023092508,
+            "started_at": "2026-09-08T02:38:10.489799+00:00"
+          }
+        ],
+        "answer": {
+          "metric": "revenue",
+          "figures": [],
+          "periods": [
+            "2023"
+          ],
+          "refused": false,
+          "fact_ids": [],
+          "searched": [],
+          "answer_en": "Please specify the company, metric, or fiscal year.",
+          "answer_ko": "회사, 지표 또는 회계연도를 지정해 주세요.",
+          "companies": [],
+          "operation": "clarify",
+          "calculated": [],
+          "reason_code": "ambiguous_context",
+          "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb"
+        },
+        "intent": {
+          "basis": "consolidated",
+          "action": "report",
+          "metric": "revenue",
+          "periods": [
+            "2023"
+          ],
+          "companies": []
+        },
+        "status": "complete",
+        "context": null,
+        "language": "ko",
+        "question": "2023년 매출액은?",
+        "retry_of": null,
+        "created_at": "2026-09-08T02:38:07.725204+00:00",
+        "request_id": "59fb97c5-11a8-446b-bfe6-d4ddb39ef8d5",
+        "diagnostics": false,
+        "completed_at": "2026-09-08T02:38:10.492704+00:00",
+        "model_record": {
+          "model": "gemma4:e4b",
+          "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+          "metrics": {
+            "eval_count": 35,
+            "eval_duration": 1326345000,
+            "load_duration": 794292
+          },
+          "options": {
+            "seed": 42,
+            "num_ctx": 4096,
+            "num_predict": 256,
+            "temperature": 0
+          },
+          "runtime": "0.33.3",
+          "wall_seconds": 2.7421650419710204
+        },
+        "wall_seconds": 2.7705331670003943
+      },
+      {
+        "id": "b02a2426-1c3a-48be-9219-4039ec4fb013",
+        "steps": [
+          {
+            "name": "interpret",
+            "reused": false,
+            "status": "complete",
+            "seconds": 2.79789124999661,
+            "started_at": "2026-09-08T02:38:10.635815+00:00"
+          },
+          {
+            "name": "evidence",
+            "reused": false,
+            "status": "complete",
+            "seconds": 0.009053916961420327,
+            "started_at": "2026-09-08T02:38:13.434948+00:00"
+          },
+          {
+            "name": "answer",
+            "reused": false,
+            "status": "complete",
+            "seconds": 0.005839083984028548,
+            "started_at": "2026-09-08T02:38:13.445370+00:00"
+          }
+        ],
+        "answer": {
+          "metric": "revenue",
+          "figures": [
+            {
+              "id": "dart:20240312000736:2023:revenue",
+              "basis": "consolidated",
+              "scale": 1,
+              "value": "258935494000000",
+              "metric": "revenue",
+              "origin": "verified_digest_fact",
+              "period": "2023",
+              "source": {
+                "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240312000736",
+                "section": "2-2. 연결 손익계산서",
+                "api_path": "sources/dart-financials-00126380-2023.json",
+                "filed_at": "2024-03-12",
+                "api_field": "thstrm_amount",
+                "regulator": "dart",
+                "row_index": 6,
+                "account_id": "ifrs-full_Revenue",
+                "account_nm": "영업수익",
+                "api_sha256": "b6fed7752ccfc2cfe67f0fda6e88664ec381a6c23c118aff417387ef8d9e5ee7",
+                "link_status": "denial_page_http_200",
+                "filing_title": "사업보고서 (2023.12)",
+                "section_path": "excerpts/20240312000736.txt",
+                "document_path": "sources/dart-document-20240312000736.zip",
+                "excerpt_cells": [
+                  "영업수익 (주29)",
+                  "258,935,494",
+                  "302,231,360",
+                  "279,604,799"
+                ],
+                "period_column": 1,
+                "section_sha256": "6e2626ac151167494e91ff7ea669baf476f96f8df2cbf7730442276fa888b433",
+                "document_member": "20240312000736.xml",
+                "document_sha256": "fab047663d94f99a24f0177c9695874cbbc9ea54172b2769f159b3728a6a3c29",
+                "filing_identity": "20240312000736",
+                "filing_metadata_path": "sources/dart-list-20240312000736.json"
+              },
+              "company": "삼성전자",
+              "currency": "KRW",
+              "period_end": "2023-12-31",
+              "company_code": "00126380",
+              "period_start": "2023-01-01",
+              "source_label": "영업수익 (주29)",
+              "verification": "exact API amount and receipt plus original statement company, row, currency/scale, basis and period",
+              "original_unit": "백만원",
+              "original_value": "258,935,494",
+              "digest_fact_ids": [
+                "4107e3eb-3509-4a2b-b060-e132d5aeb268"
+              ]
+            }
+          ],
+          "periods": [
+            "2023"
+          ],
+          "refused": false,
+          "fact_ids": [
+            "dart:20240312000736:2023:revenue"
+          ],
+          "searched": [
+            {
+              "period": "2023",
+              "company": "Samsung",
+              "section": "2-2. 연결 손익계산서",
+              "filing_title": "사업보고서 (2023.12)"
+            }
+          ],
+          "answer_en": "These are the verified figures for the requested company, metric and fiscal year.",
+          "answer_ko": "요청한 회사, 지표, 회계연도의 검증된 수치입니다.",
+          "companies": [
+            "Samsung"
+          ],
+          "operation": "report",
+          "calculated": [],
+          "reason_code": null,
+          "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb"
+        },
+        "intent": {
+          "basis": "consolidated",
+          "action": "report",
+          "metric": "revenue",
+          "periods": [
+            "2023"
+          ],
+          "companies": [
+            "Samsung"
+          ]
+        },
+        "status": "complete",
+        "context": {
+          "basis": "consolidated",
+          "action": "report",
+          "metric": "revenue",
+          "periods": [
+            "2023"
+          ],
+          "companies": []
+        },
+        "language": "ko",
+        "question": "삼성전자",
+        "retry_of": null,
+        "created_at": "2026-09-08T02:38:10.630212+00:00",
+        "request_id": "db7e91b8-e4a6-4884-8630-4373e273f04f",
+        "diagnostics": false,
+        "completed_at": "2026-09-08T02:38:13.448551+00:00",
+        "model_record": {
+          "model": "gemma4:e4b",
+          "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+          "metrics": {
+            "eval_count": 35,
+            "eval_duration": 1295207000,
+            "load_duration": 791084
+          },
+          "options": {
+            "seed": 42,
+            "num_ctx": 4096,
+            "num_predict": 256,
+            "temperature": 0
+          },
+          "runtime": "0.33.3",
+          "wall_seconds": 2.7908507080283016
+        },
+        "wall_seconds": 2.8217124579823576
+      }
+    ],
+    "lineage": null,
+    "pending": null,
+    "accepted": {
+      "basis": "consolidated",
+      "action": "report",
+      "metric": "revenue",
+      "periods": [
+        "2023"
+      ],
+      "companies": [
+        "Samsung"
+      ]
+    },
+    "created_at": "2026-09-08T02:38:07.713539+00:00",
+    "touched_at": "2026-09-08T02:38:13.452652+00:00",
+    "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb"
+  },
+  "cancellation": {
+    "id": "a8fc5744-aa25-4163-a6bd-cc8f0b19dc6c",
+    "saved": false,
+    "turns": [
+      {
+        "id": "08558f11-44de-4fbe-a458-864f8256d754",
+        "error": "Local inference stopped.",
+        "steps": [
+          {
+            "name": "interpret",
+            "status": "cancelled",
+            "started_at": "2026-09-08T02:38:13.532792+00:00"
+          },
+          {
+            "name": "evidence",
+            "status": "pending"
+          },
+          {
+            "name": "answer",
+            "status": "pending"
+          }
+        ],
+        "status": "cancelled",
+        "context": null,
+        "language": "en",
+        "question": "Compare Microsoft revenue in FY2024 and FY2023.",
+        "retry_of": null,
+        "created_at": "2026-09-08T02:38:13.527997+00:00",
+        "request_id": "d22713ad-0f50-43a2-b941-c169a41acf90",
+        "diagnostics": false,
+        "wall_seconds": 0.696898374997545
+      }
+    ],
+    "lineage": null,
+    "pending": null,
+    "accepted": null,
+    "created_at": "2026-09-08T02:38:13.514904+00:00",
+    "touched_at": "2026-09-08T02:38:14.225491+00:00",
+    "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb"
+  },
+  "memory": {
+    "samples": [
+      {
+        "monotonic_seconds": 297554.426170083,
+        "swap": "total = 5120.00M  used = 3770.25M  free = 1349.75M  (encrypted)",
+        "swap_used_mib": 3770.25,
+        "pressure_level": "1",
+        "ollama_rss_kib": 4111536,
+        "loaded_models": [
+          {
+            "name": "gemma4:e4b",
+            "model": "gemma4:e4b",
+            "size": 3202770533,
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "gemma4",
+              "families": [
+                "gemma4"
+              ],
+              "parameter_size": "8.0B",
+              "quantization_level": "Q4_K_M"
+            },
+            "expires_at": "2026-09-08T11:42:28.974651+09:00",
+            "size_vram": 3202770533,
+            "context_length": 4096
+          }
+        ]
+      },
+      {
+        "monotonic_seconds": 297555.46538775,
+        "swap": "total = 5120.00M  used = 3770.25M  free = 1349.75M  (encrypted)",
+        "swap_used_mib": 3770.25,
+        "pressure_level": "1",
+        "ollama_rss_kib": 4112336,
+        "loaded_models": [
+          {
+            "name": "gemma4:e4b",
+            "model": "gemma4:e4b",
+            "size": 3202770533,
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "gemma4",
+              "families": [
+                "gemma4"
+              ],
+              "parameter_size": "8.0B",
+              "quantization_level": "Q4_K_M"
+            },
+            "expires_at": "2026-09-08T11:42:28.974651+09:00",
+            "size_vram": 3202770533,
+            "context_length": 4096
+          }
+        ]
+      },
+      {
+        "monotonic_seconds": 297556.516290791,
+        "swap": "total = 5120.00M  used = 3770.25M  free = 1349.75M  (encrypted)",
+        "swap_used_mib": 3770.25,
+        "pressure_level": "1",
+        "ollama_rss_kib": 4112368,
+        "loaded_models": [
+          {
+            "name": "gemma4:e4b",
+            "model": "gemma4:e4b",
+            "size": 3202770533,
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "gemma4",
+              "families": [
+                "gemma4"
+              ],
+              "parameter_size": "8.0B",
+              "quantization_level": "Q4_K_M"
+            },
+            "expires_at": "2026-09-08T11:42:28.974651+09:00",
+            "size_vram": 3202770533,
+            "context_length": 4096
+          }
+        ]
+      },
+      {
+        "monotonic_seconds": 297557.560309666,
+        "swap": "total = 5120.00M  used = 3770.25M  free = 1349.75M  (encrypted)",
+        "swap_used_mib": 3770.25,
+        "pressure_level": "1",
+        "ollama_rss_kib": 4112448,
+        "loaded_models": [
+          {
+            "name": "gemma4:e4b",
+            "model": "gemma4:e4b",
+            "size": 3202770533,
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "gemma4",
+              "families": [
+                "gemma4"
+              ],
+              "parameter_size": "8.0B",
+              "quantization_level": "Q4_K_M"
+            },
+            "expires_at": "2026-09-08T11:42:55.458419+09:00",
+            "size_vram": 3202770533,
+            "context_length": 4096
+          }
+        ]
+      },
+      {
+        "monotonic_seconds": 297558.600404833,
+        "swap": "total = 5120.00M  used = 3770.25M  free = 1349.75M  (encrypted)",
+        "swap_used_mib": 3770.25,
+        "pressure_level": "1",
+        "ollama_rss_kib": 4112896,
+        "loaded_models": [
+          {
+            "name": "gemma4:e4b",
+            "model": "gemma4:e4b",
+            "size": 3202770533,
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "gemma4",
+              "families": [
+                "gemma4"
+              ],
+              "parameter_size": "8.0B",
+              "quantization_level": "Q4_K_M"
+            },
+            "expires_at": "2026-09-08T11:42:55.458419+09:00",
+            "size_vram": 3202770533,
+            "context_length": 4096
+          }
+        ]
+      },
+      {
+        "monotonic_seconds": 297559.648715416,
+        "swap": "total = 5120.00M  used = 3770.25M  free = 1349.75M  (encrypted)",
+        "swap_used_mib": 3770.25,
+        "pressure_level": "1",
+        "ollama_rss_kib": 4112944,
+        "loaded_models": [
+          {
+            "name": "gemma4:e4b",
+            "model": "gemma4:e4b",
+            "size": 3202770533,
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "gemma4",
+              "families": [
+                "gemma4"
+              ],
+              "parameter_size": "8.0B",
+              "quantization_level": "Q4_K_M"
+            },
+            "expires_at": "2026-09-08T11:42:55.458419+09:00",
+            "size_vram": 3202770533,
+            "context_length": 4096
+          }
+        ]
+      },
+      {
+        "monotonic_seconds": 297560.694595,
+        "swap": "total = 5120.00M  used = 3770.25M  free = 1349.75M  (encrypted)",
+        "swap_used_mib": 3770.25,
+        "pressure_level": "1",
+        "ollama_rss_kib": 4113952,
+        "loaded_models": [
+          {
+            "name": "gemma4:e4b",
+            "model": "gemma4:e4b",
+            "size": 3202770533,
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "gemma4",
+              "families": [
+                "gemma4"
+              ],
+              "parameter_size": "8.0B",
+              "quantization_level": "Q4_K_M"
+            },
+            "expires_at": "2026-09-08T11:42:58.421832+09:00",
+            "size_vram": 3202770533,
+            "context_length": 4096
+          }
+        ]
+      },
+      {
+        "monotonic_seconds": 297561.737698375,
+        "swap": "total = 5120.00M  used = 3770.25M  free = 1349.75M  (encrypted)",
+        "swap_used_mib": 3770.25,
+        "pressure_level": "1",
+        "ollama_rss_kib": 4113952,
+        "loaded_models": [
+          {
+            "name": "gemma4:e4b",
+            "model": "gemma4:e4b",
+            "size": 3202770533,
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "gemma4",
+              "families": [
+                "gemma4"
+              ],
+              "parameter_size": "8.0B",
+              "quantization_level": "Q4_K_M"
+            },
+            "expires_at": "2026-09-08T11:42:58.421832+09:00",
+            "size_vram": 3202770533,
+            "context_length": 4096
+          }
+        ]
+      },
+      {
+        "monotonic_seconds": 297562.77869725,
+        "swap": "total = 5120.00M  used = 3770.25M  free = 1349.75M  (encrypted)",
+        "swap_used_mib": 3770.25,
+        "pressure_level": "1",
+        "ollama_rss_kib": 4113968,
+        "loaded_models": [
+          {
+            "name": "gemma4:e4b",
+            "model": "gemma4:e4b",
+            "size": 3202770533,
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "gemma4",
+              "families": [
+                "gemma4"
+              ],
+              "parameter_size": "8.0B",
+              "quantization_level": "Q4_K_M"
+            },
+            "expires_at": "2026-09-08T11:42:58.421832+09:00",
+            "size_vram": 3202770533,
+            "context_length": 4096
+          }
+        ]
+      },
+      {
+        "monotonic_seconds": 297563.817232125,
+        "swap": "total = 5120.00M  used = 3770.25M  free = 1349.75M  (encrypted)",
+        "swap_used_mib": 3770.25,
+        "pressure_level": "1",
+        "ollama_rss_kib": 4114336,
+        "loaded_models": [
+          {
+            "name": "gemma4:e4b",
+            "model": "gemma4:e4b",
+            "size": 3202770533,
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "gemma4",
+              "families": [
+                "gemma4"
+              ],
+              "parameter_size": "8.0B",
+              "quantization_level": "Q4_K_M"
+            },
+            "expires_at": "2026-09-08T11:43:01.449799+09:00",
+            "size_vram": 3202770533,
+            "context_length": 4096
+          }
+        ]
+      },
+      {
+        "monotonic_seconds": 297564.861197666,
+        "swap": "total = 5120.00M  used = 3770.25M  free = 1349.75M  (encrypted)",
+        "swap_used_mib": 3770.25,
+        "pressure_level": "1",
+        "ollama_rss_kib": 4114336,
+        "loaded_models": [
+          {
+            "name": "gemma4:e4b",
+            "model": "gemma4:e4b",
+            "size": 3202770533,
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "gemma4",
+              "families": [
+                "gemma4"
+              ],
+              "parameter_size": "8.0B",
+              "quantization_level": "Q4_K_M"
+            },
+            "expires_at": "2026-09-08T11:43:01.449799+09:00",
+            "size_vram": 3202770533,
+            "context_length": 4096
+          }
+        ]
+      },
+      {
+        "monotonic_seconds": 297565.901304458,
+        "swap": "total = 5120.00M  used = 3770.25M  free = 1349.75M  (encrypted)",
+        "swap_used_mib": 3770.25,
+        "pressure_level": "1",
+        "ollama_rss_kib": 4114336,
+        "loaded_models": [
+          {
+            "name": "gemma4:e4b",
+            "model": "gemma4:e4b",
+            "size": 3202770533,
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "gemma4",
+              "families": [
+                "gemma4"
+              ],
+              "parameter_size": "8.0B",
+              "quantization_level": "Q4_K_M"
+            },
+            "expires_at": "2026-09-08T11:43:01.449799+09:00",
+            "size_vram": 3202770533,
+            "context_length": 4096
+          }
+        ]
+      },
+      {
+        "monotonic_seconds": 297566.943126291,
+        "swap": "total = 5120.00M  used = 3770.25M  free = 1349.75M  (encrypted)",
+        "swap_used_mib": 3770.25,
+        "pressure_level": "1",
+        "ollama_rss_kib": 4114736,
+        "loaded_models": [
+          {
+            "name": "gemma4:e4b",
+            "model": "gemma4:e4b",
+            "size": 3202770533,
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "gemma4",
+              "families": [
+                "gemma4"
+              ],
+              "parameter_size": "8.0B",
+              "quantization_level": "Q4_K_M"
+            },
+            "expires_at": "2026-09-08T11:43:04.544662+09:00",
+            "size_vram": 3202770533,
+            "context_length": 4096
+          }
+        ]
+      },
+      {
+        "monotonic_seconds": 297567.986215166,
+        "swap": "total = 5120.00M  used = 3770.25M  free = 1349.75M  (encrypted)",
+        "swap_used_mib": 3770.25,
+        "pressure_level": "1",
+        "ollama_rss_kib": 4114736,
+        "loaded_models": [
+          {
+            "name": "gemma4:e4b",
+            "model": "gemma4:e4b",
+            "size": 3202770533,
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "gemma4",
+              "families": [
+                "gemma4"
+              ],
+              "parameter_size": "8.0B",
+              "quantization_level": "Q4_K_M"
+            },
+            "expires_at": "2026-09-08T11:43:04.544662+09:00",
+            "size_vram": 3202770533,
+            "context_length": 4096
+          }
+        ]
+      },
+      {
+        "monotonic_seconds": 297569.031425458,
+        "swap": "total = 5120.00M  used = 3770.25M  free = 1349.75M  (encrypted)",
+        "swap_used_mib": 3770.25,
+        "pressure_level": "1",
+        "ollama_rss_kib": 4114736,
+        "loaded_models": [
+          {
+            "name": "gemma4:e4b",
+            "model": "gemma4:e4b",
+            "size": 3202770533,
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "gemma4",
+              "families": [
+                "gemma4"
+              ],
+              "parameter_size": "8.0B",
+              "quantization_level": "Q4_K_M"
+            },
+            "expires_at": "2026-09-08T11:43:04.544662+09:00",
+            "size_vram": 3202770533,
+            "context_length": 4096
+          }
+        ]
+      },
+      {
+        "monotonic_seconds": 297570.071864791,
+        "swap": "total = 5120.00M  used = 3770.25M  free = 1349.75M  (encrypted)",
+        "swap_used_mib": 3770.25,
+        "pressure_level": "1",
+        "ollama_rss_kib": 4115104,
+        "loaded_models": [
+          {
+            "name": "gemma4:e4b",
+            "model": "gemma4:e4b",
+            "size": 3202770533,
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "gemma4",
+              "families": [
+                "gemma4"
+              ],
+              "parameter_size": "8.0B",
+              "quantization_level": "Q4_K_M"
+            },
+            "expires_at": "2026-09-08T11:43:07.581511+09:00",
+            "size_vram": 3202770533,
+            "context_length": 4096
+          }
+        ]
+      },
+      {
+        "monotonic_seconds": 297571.117410291,
+        "swap": "total = 5120.00M  used = 3770.25M  free = 1349.75M  (encrypted)",
+        "swap_used_mib": 3770.25,
+        "pressure_level": "1",
+        "ollama_rss_kib": 4115104,
+        "loaded_models": [
+          {
+            "name": "gemma4:e4b",
+            "model": "gemma4:e4b",
+            "size": 3202770533,
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "gemma4",
+              "families": [
+                "gemma4"
+              ],
+              "parameter_size": "8.0B",
+              "quantization_level": "Q4_K_M"
+            },
+            "expires_at": "2026-09-08T11:43:07.581511+09:00",
+            "size_vram": 3202770533,
+            "context_length": 4096
+          }
+        ]
+      },
+      {
+        "monotonic_seconds": 297572.159635208,
+        "swap": "total = 5120.00M  used = 3770.25M  free = 1349.75M  (encrypted)",
+        "swap_used_mib": 3770.25,
+        "pressure_level": "1",
+        "ollama_rss_kib": 4163600,
+        "loaded_models": [
+          {
+            "name": "gemma4:e4b",
+            "model": "gemma4:e4b",
+            "size": 3202770533,
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "gemma4",
+              "families": [
+                "gemma4"
+              ],
+              "parameter_size": "8.0B",
+              "quantization_level": "Q4_K_M"
+            },
+            "expires_at": "2026-09-08T11:43:07.581511+09:00",
+            "size_vram": 3202770533,
+            "context_length": 4096
+          }
+        ]
+      },
+      {
+        "monotonic_seconds": 297573.214272583,
+        "swap": "total = 5120.00M  used = 3770.25M  free = 1349.75M  (encrypted)",
+        "swap_used_mib": 3770.25,
+        "pressure_level": "1",
+        "ollama_rss_kib": 4163648,
+        "loaded_models": [
+          {
+            "name": "gemma4:e4b",
+            "model": "gemma4:e4b",
+            "size": 3202770533,
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "gemma4",
+              "families": [
+                "gemma4"
+              ],
+              "parameter_size": "8.0B",
+              "quantization_level": "Q4_K_M"
+            },
+            "expires_at": "2026-09-08T11:43:10.470295+09:00",
+            "size_vram": 3202770533,
+            "context_length": 4096
+          }
+        ]
+      },
+      {
+        "monotonic_seconds": 297574.254859875,
+        "swap": "total = 5120.00M  used = 3770.25M  free = 1349.75M  (encrypted)",
+        "swap_used_mib": 3770.25,
+        "pressure_level": "1",
+        "ollama_rss_kib": 4163648,
+        "loaded_models": [
+          {
+            "name": "gemma4:e4b",
+            "model": "gemma4:e4b",
+            "size": 3202770533,
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "gemma4",
+              "families": [
+                "gemma4"
+              ],
+              "parameter_size": "8.0B",
+              "quantization_level": "Q4_K_M"
+            },
+            "expires_at": "2026-09-08T11:43:10.470295+09:00",
+            "size_vram": 3202770533,
+            "context_length": 4096
+          }
+        ]
+      },
+      {
+        "monotonic_seconds": 297575.297518958,
+        "swap": "total = 5120.00M  used = 3770.25M  free = 1349.75M  (encrypted)",
+        "swap_used_mib": 3770.25,
+        "pressure_level": "1",
+        "ollama_rss_kib": 4163648,
+        "loaded_models": [
+          {
+            "name": "gemma4:e4b",
+            "model": "gemma4:e4b",
+            "size": 3202770533,
+            "digest": "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb",
+            "details": {
+              "parent_model": "",
+              "format": "gguf",
+              "family": "gemma4",
+              "families": [
+                "gemma4"
+              ],
+              "parameter_size": "8.0B",
+              "quantization_level": "Q4_K_M"
+            },
+            "expires_at": "2026-09-08T11:43:10.470295+09:00",
+            "size_vram": 3202770533,
+            "context_length": 4096
+          }
+        ]
+      },
+      {
+        "monotonic_seconds": 297576.33112425,
+        "swap": "total = 5120.00M  used = 3770.25M  free = 1349.75M  (encrypted)",
+        "swap_used_mib": 3770.25,
+        "pressure_level": "1",
+        "ollama_rss_kib": 27488,
+        "loaded_models": []
+      }
+    ],
+    "peak_ollama_rss_kib": 4163648,
+    "peak_swap_used_mib": 3770.25,
+    "pressure_levels": [
+      "1"
+    ],
+    "caveat": "One-second samples; process RSS can double-count shared pages and excludes some GPU allocations. Swap is system-wide, including existing apps."
+  }
+}

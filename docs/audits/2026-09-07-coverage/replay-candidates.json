@@ -1,0 +1,51 @@
+{
+  "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb",
+  "status": "verified inputs only; no model runs or replay recording yet",
+  "compare": {
+    "question_ko": "삼성전자 2023년 매출액을 2022년과 비교해 줘.",
+    "fact_ids": [
+      "dart:20240312000736:2023:revenue",
+      "dart:20240312000736:2022:revenue"
+    ],
+    "absolute_change_krw": "-43295866000000",
+    "percentage_change": "-14.33"
+  },
+  "switch": {
+    "questions_ko": [
+      "삼성전자 2023년 매출액은?",
+      "네이버는?"
+    ],
+    "fact_ids": [
+      "dart:20240312000736:2023:revenue",
+      "dart:20240318000844:2023:revenue"
+    ],
+    "expected_context": {
+      "company": "NAVER",
+      "metric": "revenue",
+      "period": "2023"
+    }
+  },
+  "missing": {
+    "question_ko": "삼성전자 2023년 연구개발비는?",
+    "expected_refused": true,
+    "figures": [],
+    "reason_code": "outside_verified_metric_scope",
+    "reason_ko": "현재 검증된 연결 손익계산서 범위에는 연구개발비가 없습니다. 공시 전체에 없는 정보라는 뜻은 아닙니다.",
+    "trail_scope": "Only the selected verified statement and pilot fact index were checked for answer eligibility.",
+    "full_document_contains_rd_discussion": true
+  },
+  "us_followup": {
+    "company": "Microsoft",
+    "periods": [
+      "2023",
+      "2024"
+    ],
+    "currency": "USD",
+    "note": "FY ends June 30; display actual dates. Annual calendar periods include leap-day differences."
+  },
+  "negative_controls": [
+    "Apple FY2023 (371 days) versus FY2024 (364 days): withhold automatic percentage pending 52/53-week policy.",
+    "Samsung KRW versus Microsoft USD: no cross-currency arithmetic.",
+    "A number elsewhere in a source is insufficient without the metric/period binding."
+  ]
+}

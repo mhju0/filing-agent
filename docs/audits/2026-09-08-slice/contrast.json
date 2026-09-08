@@ -1,0 +1,10 @@
+{
+  "light text": "ratio: 13.58:1\nnormal text (4.5:1): PASS\nlarge text  (3.0:1): PASS\n",
+  "light secondary": "ratio: 5.26:1\nnormal text (4.5:1): PASS\nlarge text  (3.0:1): PASS\n",
+  "light accent": "ratio: 6.38:1\nnormal text (4.5:1): PASS\nlarge text  (3.0:1): PASS\n",
+  "light controls": "ratio: 3.71:1\nnormal text (4.5:1): FAIL\nlarge text  (3.0:1): PASS\n",
+  "dark text": "ratio: 13.46:1\nnormal text (4.5:1): PASS\nlarge text  (3.0:1): PASS\n",
+  "dark secondary": "ratio: 6.71:1\nnormal text (4.5:1): PASS\nlarge text  (3.0:1): PASS\n",
+  "dark accent": "ratio: 7.96:1\nnormal text (4.5:1): PASS\nlarge text  (3.0:1): PASS\n",
+  "dark controls": "ratio: 4.11:1\nnormal text (4.5:1): FAIL\nlarge text  (3.0:1): PASS\n"
+}

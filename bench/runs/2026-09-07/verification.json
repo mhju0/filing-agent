@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "case_runs_verified": 117,
+  "actual_chat_responses_verified": 141,
+  "source_snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb",
+  "suites": {
+    "original": {
+      "case_runs": 18,
+      "mechanical_passes": 6,
+      "note": "Pilot mechanical checks exclude prose semantics; see semantic-review.json."
+    },
+    "pilot": {
+      "case_runs": 66,
+      "mechanical_passes": 45,
+      "note": "Pilot mechanical checks exclude prose semantics; see semantic-review.json."
+    },
+    "intent": {
+      "case_runs": 33,
+      "mechanical_passes": 33,
+      "note": "Pilot mechanical checks exclude prose semantics; see semantic-review.json."
+    }
+  },
+  "scope": "Offline artifact integrity, scores and source bindings; not a new inference run or complete application certification."
+}
