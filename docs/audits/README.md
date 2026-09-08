@@ -4,6 +4,7 @@ These are dated observations. Results apply to the revisions, snapshots and envi
 
 | Record | Evidence |
 |---|---|
+| [2026-09-08 · Public repository](2026-09-08-publication.md) | Publication boundary, history cleanup, credential scans and GitHub settings |
 | [2026-09-08 · Architecture refactor](2026-09-08-architecture/README.md) | Durable completion, storage recovery, shared financial policy, live/replay state and fresh release checks |
 | [2026-09-07 · Filing coverage](2026-09-07-coverage/README.md) | Filing Digest boundary, regulator sources and the verified pilot snapshot |
 | [2026-09-08 · Application and public replay](2026-09-08-slice/README.md) | Local workflows, evaluation, browser checks and release artifacts |
