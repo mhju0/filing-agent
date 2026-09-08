@@ -36,7 +36,7 @@ COPY = {
     'unsupported_basis': ('현재 검증된 근거는 연결 기준입니다. 별도 기준 수치는 제공할 수 없습니다.', 'The verified evidence is consolidated; separate-statement figures are unavailable.'),
     'incompatible_currency': ('통화가 달라 증감률을 계산할 수 없습니다.', 'A percentage change cannot be calculated across different currencies.'),
     'incompatible_comparison': ('현재 근거로는 요청한 증감률을 계산할 수 없습니다.', 'The requested percentage change is not supported by comparable evidence.'),
-    'ambiguous_context': ('회사, 지표 또는 회계연도를 지정해 주세요.', 'Please specify the company, metric, or fiscal year.'),
+    'ambiguous_context': ('지원 회사는 삼성전자, 네이버, 마이크로소프트입니다. 조사할 회사, 지표와 회계연도를 지정해 주세요.', 'Supported companies are Samsung, NAVER and Microsoft. Specify a supported company, metric and fiscal year.'),
 }
 
 

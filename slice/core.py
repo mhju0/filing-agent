@@ -33,6 +33,24 @@ METRICS = {
 
 
 
+def _is_context_followup(question):
+    """Carry company context only for a bounded company-free follow-up vocabulary."""
+    remaining = question.lower()
+    for pattern in METRICS.values():
+        remaining = re.sub(pattern, " ", remaining, flags=re.IGNORECASE)
+    remaining = re.sub(r"(?<!\d)(?:19|20)\d{2}(?!\d)", " ", remaining)
+    remaining = re.sub(
+        r"\b(?:what|how|about|and|the|its|it|that|same|company|was|is|were|in|for|of|"
+        r"compare|versus|vs|change|growth|percent|percentage|please|show|me|then|fy)\b",
+        " ", remaining,
+    )
+    remaining = re.sub(
+        r"알려줘|보여줘|얼마인가요|얼마야|어때|같은\s*회사|그\s*회사|그럼|비교|대비|증감률|증가율|"
+        r"변화율|변화|은|는|이|가|의|을|를|과|와|년|도|엔|에", " ", remaining,
+    )
+    return not re.search(r"[\w]", remaining)
+
+
 def guard_intent(question, intent, context):
     intent = copy.deepcopy(intent)
     explicit = {
@@ -40,14 +58,29 @@ def guard_intent(question, intent, context):
         for c, pattern in ALIASES.items()
         if re.search(pattern, question, re.IGNORECASE)
     }
+    # Only a direct correction between two known names can narrow this set.
+    if len(explicit) == 2:
+        for excluded in explicit:
+            selected = next(company for company in explicit if company != excluded)
+            correction = (
+                rf"^(?:{ALIASES[excluded]})(?:가|이)?\s*아니라\s*(?:{ALIASES[selected]})"
+                rf"|^not\s+(?:{ALIASES[excluded]})\s*[,;]?\s*(?:but\s+)?(?:{ALIASES[selected]})"
+            )
+            match = re.search(correction, question.strip(), re.IGNORECASE)
+            if match:
+                if _is_context_followup(question.strip()[match.end():]):
+                    explicit = {selected}
+                else:
+                    intent["companies"] = []
+                break
     actual = set(intent["companies"])
     if len(explicit) == 1:
         intent["companies"] = sorted(explicit)
     elif explicit and actual != explicit:
-        raise ValueError(
-            "Company interpretation conflicts with the question; rephrase with one company"
-        )
+        intent["companies"] = []
     if not explicit and not (context or {}).get("companies"):
+        intent["companies"] = []
+    elif not explicit and context and not _is_context_followup(question):
         intent["companies"] = []
     elif not explicit and context and actual != set(context["companies"]):
         raise ValueError("An implicit follow-up cannot silently switch company")
