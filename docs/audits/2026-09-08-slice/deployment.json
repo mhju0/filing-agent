@@ -1,6 +1,6 @@
 {
   "url": "https://filing-agent.vercel.app",
-  "deployment_id": "dpl_B1qxxiQ3a6Zo369e2Yy1nHVR8sR2",
+  "deployment_id": "dpl_2BStzwwSuhkzYz2YA8wTe4dLnnPb",
   "target": "production",
   "anonymous": true,
   "files": [
@@ -92,6 +92,8 @@
     "No live API, planning instructions or env endpoint"
   ],
   "git_connection": "Disconnected mhju0/filing-agent using vercel git disconnect; private commits do not trigger hosting",
-  "immutable_url": "https://filing-agent-16q0wos6o-mhju0s-projects.vercel.app",
-  "git_connection_verified": null
+  "immutable_url": "https://filing-agent-599325vcu-mhju0s-projects.vercel.app",
+  "git_connection_verified": null,
+  "presentation_revision": "50e66ae",
+  "presentation_update": "English sister-project README, operating guide, GitHub metadata, public notes and source archive"
 }
