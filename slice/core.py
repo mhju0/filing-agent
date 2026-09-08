@@ -67,8 +67,11 @@ def guard_intent(question, intent, context):
                 rf"|^not\s+(?:{ALIASES[excluded]})\s*[,;]?\s*(?:but\s+)?(?:{ALIASES[selected]})"
             )
             match = re.search(correction, question.strip(), re.IGNORECASE)
-            if match and _is_context_followup(question.strip()[match.end():]):
-                explicit = {selected}
+            if match:
+                if _is_context_followup(question.strip()[match.end():]):
+                    explicit = {selected}
+                else:
+                    intent["companies"] = []
                 break
     actual = set(intent["companies"])
     if len(explicit) == 1:

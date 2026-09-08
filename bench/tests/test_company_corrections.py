@@ -30,3 +30,8 @@ class CompanyCorrectionTests(unittest.TestCase):
     def test_correction_with_unknown_alternative_or_negation_clarifies(self):
         for question in ["Not Samsung, but NAVER or Tesla revenue in 2023?", "삼성이 아니라 네이버도 아닌 테슬라의 2023년 매출액을 알려줘."]:
             self.assertEqual(guard_intent(question, BASE, BASE)["companies"], [])
+
+    def test_ambiguous_correction_clarifies_even_when_model_selects_both(self):
+        model = {**BASE, "companies": ["Samsung", "NAVER"]}
+        for question in ["Not Samsung, but NAVER or Tesla revenue in 2023?", "삼성이 아니라 네이버도 아닌 테슬라의 2023년 매출액을 알려줘."]:
+            self.assertEqual(guard_intent(question, model, None)["companies"], [])

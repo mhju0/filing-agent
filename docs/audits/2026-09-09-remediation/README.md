@@ -40,7 +40,7 @@ instead of silently substituting a supported company. Company continuity is
 accepted only for bounded company-free follow-ups; unfamiliar phrasing may
 require the user to name a supported company again.
 
-The 38 benchmark/policy tests and 17 application tests pass. Six targeted live
+The 39 benchmark/policy tests and 17 application tests pass. Six targeted live
 local-model cases and the live browser workflow were rechecked. Review then
 added contextual unknown-company and ambiguous-correction regressions. The
 separately qualified snapshot and recorded investigations are unchanged.
