@@ -31,3 +31,5 @@ The [replay browser checks](browser-replay/replay-browser.json) and [public-mate
 ## GitHub delivery
 
 GitHub reported `mhju0/filing-agent` as public during delivery, differing from the earlier private-repository assumption. Delivery was paused until the owner authorized public repository cleanup, history removal of private material and publication of the verified implementation. Static deployment used only the reviewed allowlisted artifact.
+
+The verified implementation was subsequently pushed to public main after the authorized cleanup. See the [publication review](../2026-09-08-publication.md) for scope and verification.
