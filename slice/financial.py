@@ -89,7 +89,20 @@ def resolve(intent, catalog):
         result['answer_ko'], result['answer_en'] = COPY[reason]
         return result
     if not intent['companies'] or not intent['periods'] or intent['metric'] is None:
-        return blocked('ambiguous_context')
+        blocked('ambiguous_context')
+        missing = []
+        if not intent['companies']:
+            missing.append(('회사', 'company'))
+        if intent['metric'] is None:
+            missing.append(('지표', 'metric'))
+        if not intent['periods']:
+            missing.append(('회계연도', 'fiscal year'))
+        result['answer_ko'] = '확인할 ' + ', '.join(x[0] for x in missing) + '를 알려주세요.'
+        result['answer_en'] = 'Please specify the ' + ', '.join(x[1] for x in missing) + '.'
+        if not intent['companies']:
+            result['answer_ko'] += ' 지원 회사는 삼성전자, 네이버, 마이크로소프트입니다.'
+            result['answer_en'] += ' Supported companies are Samsung, NAVER and Microsoft.'
+        return result
     if intent['basis'] != 'consolidated':
         return blocked('unsupported_basis')
     if intent['metric'] not in {f['metric'] for f in catalog}:
@@ -112,8 +125,8 @@ def resolve(intent, catalog):
         company_ko = {'Samsung': '삼성전자', 'NAVER': '네이버', 'Microsoft': '마이크로소프트'}[company]
         metric_ko, metric_en = {'revenue': ('매출액', 'revenue'), 'operating_income': ('영업이익', 'operating income'), 'net_income': ('당기순이익', 'net income')}[intent['metric']]
         prior, current = sorted(intent['periods'])
-        result['answer_ko'] = f'{company_ko}의 {current}년 {metric_ko}은 {prior}년보다 {ko}.' if sign else f'{company_ko}의 {current}년 {metric_ko}은 {prior}년과 {ko}.'
-        result['answer_en'] = f"{company}'s {metric_en} {en} in FY{current} compared with FY{prior}."
+        result['answer_ko'] = f'{company_ko}의 {current}년 {metric_ko}은 {prior}년보다 {abs(Decimal(result["calculated"][0]["percentage_change"]))}% {ko}.' if sign else f'{company_ko}의 {current}년 {metric_ko}은 {prior}년과 {ko}.'
+        result['answer_en'] = f"{company}'s {metric_en} {en} by {abs(Decimal(result['calculated'][0]['percentage_change']))}% in FY{current} compared with FY{prior}."
     else:
         result['answer_ko'] = '요청한 회사, 지표, 회계연도의 검증된 수치입니다.'
         result['answer_en'] = 'These are the verified figures for the requested company, metric and fiscal year.'
@@ -174,6 +187,12 @@ def financial_answer(intent, snapshot, question=""):
             answer["answer_en"] = (
                 "Only supported figures are shown. " + answer["answer_en"]
             )
+    if answer["reason_code"] == "missing_period":
+        years = sorted({f["period"] for f in catalog(snapshot)
+                        if f["company"] in intent["companies"] and f["metric"] == intent["metric"]})
+        if years:
+            answer["answer_ko"] += " 현재 이 회사·지표에서 확인할 수 있는 회계연도는 " + ", ".join(years) + "년입니다."
+            answer["answer_en"] += " Verified fiscal years for this company and metric: " + ", ".join(years) + "."
     by_id = {f["id"]: f for f in snapshot["facts"]}
     answer["figures"] = [copy.deepcopy(by_id[i]) for i in answer["fact_ids"]]
     answer["snapshot_id"] = snapshot["snapshot_id"]
