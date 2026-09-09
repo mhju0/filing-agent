@@ -26,7 +26,17 @@ The approach follows [OWASP origin and Fetch Metadata guidance](https://cheatshe
 
 ## Verification
 
-The final real-model run is being finalized. Completed checks:
+The [model evidence](model-evaluation.json) records 120/120 live scenario runs
+(138 turns), with 20/20 in each language in each of three trials, on `e844bcc`.
+The last exclusion-only extension in `ec342a1` was then applied to all 138 captured
+raw model responses and contexts: every final intent and answer is identical.
+This deterministic replay is separate from new model inference. Targeted real API
+checks pass for all seven exclusion phrases on the final runtime, each completing
+with clarification and no figures. The actual live browser flow also passes
+clarification, save/reopen, continuation, refresh, source inspection and deletion.
+[Evidence hashes](evidence.json) identify the retained local outputs.
+
+Completed checks:
 
 - Agent: 42 benchmark/policy tests and 19 PostgreSQL-backed application tests.
 - The original wrong-company/old-queued reproductions now clarify without figures
@@ -39,12 +49,16 @@ The final real-model run is being finalized. Completed checks:
 - The rebuilt source archive validates all 63 manifest entries; all 42 policy tests
   pass from its extracted contents. Only the source ZIP changes in the static
   artifact. The [artifact manifest](artifact.json) is selected by the release script.
+- Agent backup/restore was rerun against a disposable database: 91 investigations
+  restore with new IDs, overwrite and tamper attempts are rejected, and all 91
+  original local investigations remain unchanged (excluding intentionally omitted
+  raw model diagnostics).
 - Full locally reachable Git histories pass redacted Gitleaks scans. Dependencies
   are unchanged from the comprehensive audit.
 - Independent Spec and Standards reviews have no unresolved confirmed findings.
   Review caught extra exclusion wording and explicit-port-zero normalization;
   preliminary model testing caught basis-correction overblocking. All three were
-  fixed and given regression coverage before the final evaluation.
+  fixed and given regression coverage before final qualification.
 
 The original audit remains a historical record of the pre-fix versions; it is not
 rewritten as a passing audit. The prior native iOS, live Digest golden evaluation,
@@ -60,9 +74,12 @@ VoiceOver is not certified, arbitrary financial questions are not guaranteed, an
 owner-only cached-history support follow-up is not verified by repository tests.
 
 
-## After verification
+## Delivery and maintenance decision
 
-Merge the Agent and Digest fixes through their required checks. Publish the
+**Ready for maintenance after merge and source-artifact publication.** No known
+blocking finding remains in the declared scope.
+
+Merge the Agent and [Digest PR #22](https://github.com/mhju0/filing-digest/pull/22) fixes through their required checks. Publish the
 reviewed Agent static artifact separately so the public source download contains
 the fixes; a GitHub merge does not deploy that artifact. No Digest static-site
 publication is required because its walkthrough files are unchanged.

@@ -1,0 +1,65 @@
+{
+  "status": "complete",
+  "gate_pass": true,
+  "live_model_code_revision": "e844bcc",
+  "scenarios": 120,
+  "turns": 138,
+  "correct": 120,
+  "scores": [
+    {
+      "language": "ko",
+      "trial": 1,
+      "correct": 20,
+      "total": 20
+    },
+    {
+      "language": "en",
+      "trial": 1,
+      "correct": 20,
+      "total": 20
+    },
+    {
+      "language": "ko",
+      "trial": 2,
+      "correct": 20,
+      "total": 20
+    },
+    {
+      "language": "en",
+      "trial": 2,
+      "correct": 20,
+      "total": 20
+    },
+    {
+      "language": "ko",
+      "trial": 3,
+      "correct": 20,
+      "total": 20
+    },
+    {
+      "language": "en",
+      "trial": 3,
+      "correct": 20,
+      "total": 20
+    }
+  ],
+  "failed_cases": [],
+  "final_policy_revision": "ec342a1",
+  "final_policy_replay": {
+    "status": "PASS",
+    "recorded_turns_reexecuted": 138,
+    "source_sha256": {
+      "slice/store.py": "aaa6cf6ecc03bf5707cecc66112fb7035afb69d6b2db32feb435d7a1fd396f1d",
+      "slice/backup.py": "1aab084f2173d03f92bd6be56125053899e5c875c2c85bf0ed68fe4adcaa40de",
+      "slice/__init__.py": "e00e18d2967b2dfb34529338bd4680d3dcabdc60500291e9fc7ffa00221a087e",
+      "slice/core.py": "7f9977be204651a8189107c2a37aa2dd8fd30cae585dee4a9f81830b585e6a5c",
+      "slice/financial.py": "02af689efe9639c708a1d725a5f18983b99d33edbbc49bb398c170519a5c5f6f",
+      "slice/export.py": "00b586d9ffb0ed7950b7dee8d505833b97d514892e856a17dc36dda3f86bfa44",
+      "slice/runtime.py": "93fb81b4eab1951632a99c0f478087a59cd74363218902dfa3626418419f41b4",
+      "slice/lifecycle.py": "7e47c30977cad4f977d80fb46d377764d8a96f218753c0f461242f78ad15e93b",
+      "slice/app.py": "a5a5d21cbe94abeeabd245c2898973b06cd272c036a2b15c8f66fa55fec7085a",
+      "slice/workflow.py": "f9fc5dc8ea05908c42fd72cc2047f1db34250151873f68afbd428e983e6383bb"
+    },
+    "scope": "Final deterministic policy applied to every raw model response and captured context; no new model inference"
+  }
+}
