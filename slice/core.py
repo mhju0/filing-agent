@@ -59,7 +59,8 @@ def guard_intent(question, intent, context):
         if re.search(pattern, question, re.IGNORECASE)
     }
     correction_requested = bool(re.search(
-        r"\bnot\b|\binstead\b|아니라|아닌|말고|제외", question, re.IGNORECASE
+        r"\b(?:not|instead|except|excluding|without|unlike|ignore)\b|"
+        r"\b(?:rather|other)\s+than\b|아니|아닌|말고|제외|대신|빼고", question, re.IGNORECASE
     ))
     corrected_company = None
     # Only a direct correction between two known names can narrow this set.
