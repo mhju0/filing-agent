@@ -35,12 +35,13 @@ def _is_context_followup(question):
     """Carry company context only for a bounded company-free follow-up vocabulary."""
     remaining = re.sub(RELATIVE_YEAR, " ", question.lower())
     remaining = re.sub(r"(?:증가|감소)(?:하거나|했어|했나요|했는지|한|했|해)?|(?:늘|줄)(?:었어|었나요|었는지|었|어)|비교(?:하면|해줘|해주세요|해)?|얼마나", " ", remaining)
+    remaining = re.sub(COMPARISON, " ", remaining, flags=re.IGNORECASE)
     for pattern in METRICS.values():
         remaining = re.sub(pattern, " ", remaining, flags=re.IGNORECASE)
     remaining = re.sub(r"(?<!\d)(?:19|20)\d{2}(?!\d)", " ", remaining)
     remaining = re.sub(
         r"\b(?:what|how|about|and|the|its|it|that|same|company|was|is|were|in|for|of|"
-        r"compare|versus|vs|change|growth|percent|percentage|please|show|me|then|fy|keep|metric|but|much|did|does|has|have|to|by|over|previous|prior|year|fiscal|compared|increase|increased|decrease|decreased|grow|grew|decline|declined)\b",
+        r"versus|vs|percent|percentage|please|show|me|then|fy|keep|metric|but|much|did|does|has|have|to|by|over|previous|prior|year|fiscal)\b",
         " ", remaining,
     )
     remaining = re.sub(
@@ -107,7 +108,10 @@ def guard_intent(question, intent, context):
     explicit_years = set(re.findall(r"(?<!\d)(?:19|20)\d{2}(?!\d)", question))
     anchor_years = (context or {}).get("periods", [])
     relative = bool(re.search(RELATIVE_YEAR, question, re.IGNORECASE))
-    if followup and len(anchor_years) == 1:
+    if followup and comparison and len(explicit_years) >= 2:
+        intent["periods"] = sorted(explicit_years)
+        intent["action"] = "compare"
+    elif followup and len(anchor_years) == 1:
         anchor = anchor_years[0]
         if comparison and (explicit_years or not re.search(r"(?<!\d)\d{4}(?!\d)", question)):
             prior = explicit_years or {str(int(anchor) - 1)}

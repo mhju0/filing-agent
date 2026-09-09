@@ -10,7 +10,7 @@ class NaturalFollowupTests(unittest.TestCase):
     def test_natural_comparison_keeps_company_metric_and_anchor_year(self):
         for question in ['2022년과 비교하면 얼마나 증가하거나 감소했어?', '얼마나 줄었어?', '그럼 2022년과 비교해줘',
                          '전년 대비 얼마나 늘었나요?', 'How much did it decrease compared to 2022?',
-                         'How much did it grow year over year?']:
+                         'How much did it grow year over year?', 'How much has it changed?']:
             with self.subTest(question=question):
                 intent = guard_intent(question, {**BASE, 'periods': ['2022']}, BASE)
                 self.assertEqual(intent['companies'], ['Samsung'])
@@ -19,6 +19,10 @@ class NaturalFollowupTests(unittest.TestCase):
                 answer = financial_answer(intent, json.loads(SNAPSHOT.read_text()), question)
                 self.assertEqual(answer['operation'], 'compare')
                 self.assertLess(float(answer['calculated'][0]['percentage_change']), 0)
+
+    def test_explicit_year_pair_replaces_previous_year(self):
+        intent = guard_intent('Compare 2021 and 2022 revenue', {**BASE, 'periods': ['2021', '2022'], 'action': 'compare'}, BASE)
+        self.assertEqual(intent['periods'], ['2021', '2022'])
 
     def test_bounded_followup_fills_omitted_model_context(self):
         intent = guard_intent('얼마나 줄었어?', {**BASE, 'companies': [], 'metric': None, 'periods': []}, BASE)
