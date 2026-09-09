@@ -7,10 +7,31 @@ The selected page is `digest.html?v=1&lang=ko`; the English counterpart is
 the English maximum display scale, and both lines of every scope-band cell
 are centered. Other directions remain comparison evidence.
 
-Local, unpublished comparison of a Korean Filing Digest walkthrough, an English
-reference, representative Filing Agent screens, and shared F marks. The owner
-approved five studies before choosing a final direction. No production files
-in either app are changed; Digest was inspected read-only.
+The original five studies remain local comparison evidence. The selected Digest
+direction was subsequently published in Filing Digest PR #21. Agent screens and
+icon studies remain proposals; Agent production files have not been changed.
+
+## Consolidated Agent proposal
+
+The owner approved this rendered direction on September 9. These files preserve
+the approved prototype; integration into the application is a separate change.
+
+Open http://localhost:4178/agent-final.html?lang=ko&v=1 for the proposed entry
+screen and three authentic replay scenarios. The header links to the paired F
+icon proposal at `icons-final.html`. Both pages offer Korean/English and light/dark.
+
+Shared paper, Pretendard, and ExtraBold Nanum Myeongjo connect the services.
+Agent uses serif type only for its entry invitation, with sans-serif investigation
+headings, ruled reported figures, a smaller calculated change, and blue evidence
+selection. Desktop selection updates the adjacent source; mobile opens a full-height
+dialog with close/Escape and focus return. The F proposal adds one small open
+corner while preserving the original Digest icon. It remains a CSS composition
+for owner review, not an installed icon asset.
+
+The entry preview uses recorded examples and explicitly does not submit or save
+questions. First-use guidance is available beside the verified coverage table.
+Only the static preview server on 4178 is needed; the obsolete Digest preview,
+Agent runtime, and Agent-specific PostgreSQL instance were stopped on September 9.
 
 ## Open
 
