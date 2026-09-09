@@ -27,26 +27,26 @@ METRICS = {
 }
 
 
-
-
-
-
+RELATIVE_YEAR = r"전년도?|이전\s*(?:해|연도)|previous\s+(?:fiscal\s+)?year|prior\s+year|year\s+over\s+year"
+COMPARISON = r"비교|대비|증감|증가|감소|늘었|줄었|변화|\b(?:compare|compared|change|changed|increase|increased|decrease|decreased|grow|grew|growth|decline|declined)\b|year\s+over\s+year"
 
 
 def _is_context_followup(question):
     """Carry company context only for a bounded company-free follow-up vocabulary."""
-    remaining = question.lower()
+    remaining = re.sub(RELATIVE_YEAR, " ", question.lower())
+    remaining = re.sub(r"(?:증가|감소)(?:하거나|했어|했나요|했는지|한|했|해)?|(?:늘|줄)(?:었어|었나요|었는지|었|어)|비교(?:하면|해줘|해주세요|해)?|얼마나", " ", remaining)
+    remaining = re.sub(COMPARISON, " ", remaining, flags=re.IGNORECASE)
     for pattern in METRICS.values():
         remaining = re.sub(pattern, " ", remaining, flags=re.IGNORECASE)
     remaining = re.sub(r"(?<!\d)(?:19|20)\d{2}(?!\d)", " ", remaining)
     remaining = re.sub(
         r"\b(?:what|how|about|and|the|its|it|that|same|company|was|is|were|in|for|of|"
-        r"compare|versus|vs|change|growth|percent|percentage|please|show|me|then|fy|keep|metric|but)\b",
+        r"versus|vs|percent|percentage|please|show|me|then|fy|keep|metric|but|much|did|does|has|have|to|by|over|previous|prior|year|fiscal)\b",
         " ", remaining,
     )
     remaining = re.sub(
         r"알려줘|보여줘|얼마인가요|얼마야|어때|같은\s*회사|그\s*회사|그럼|비교|대비|증감률|증가율|"
-        r"수치|변화율|변화|은|는|이|가|의|을|를|과|와|년|도|엔|에", " ", remaining,
+        r"수치|변화율|변화|에는|년도|그|나요|은|는|이|가|의|을|를|과|와|년|도|엔|에", " ", remaining,
     )
     return not re.search(r"[\w]", remaining)
 
@@ -93,8 +93,38 @@ def guard_intent(question, intent, context):
         intent["companies"] = []
     elif not correction_requested and not explicit and context and not _is_context_followup(question):
         intent["companies"] = []
-    elif not correction_requested and not explicit and context and actual != set(context["companies"]):
-        raise ValueError("An implicit follow-up cannot silently switch company")
+    elif not correction_requested and not explicit and context:
+        if actual and actual != set(context["companies"]):
+            raise ValueError("An implicit follow-up cannot silently switch company")
+        intent["companies"] = list(context["companies"])
+    followup = bool(context) and not correction_requested and (
+        _is_context_followup(question) or bool(explicit)
+    )
+    if followup and _is_context_followup(question):
+        if not any(re.search(pattern, question, re.IGNORECASE) for pattern in METRICS.values()):
+            intent["metric"] = context.get("metric")
+        intent["basis"] = context.get("basis", "consolidated")
+    comparison = bool(re.search(COMPARISON, question, re.IGNORECASE))
+    explicit_years = set(re.findall(r"(?<!\d)(?:19|20)\d{2}(?!\d)", question))
+    anchor_years = (context or {}).get("periods", [])
+    relative = bool(re.search(RELATIVE_YEAR, question, re.IGNORECASE))
+    if followup and comparison and len(explicit_years) >= 2:
+        intent["periods"] = sorted(explicit_years)
+        intent["action"] = "compare"
+    elif followup and len(anchor_years) == 1:
+        anchor = anchor_years[0]
+        if comparison and (explicit_years or not re.search(r"(?<!\d)\d{4}(?!\d)", question)):
+            prior = explicit_years or {str(int(anchor) - 1)}
+            intent["periods"] = sorted(prior | {anchor})
+            intent["action"] = "compare"
+        elif relative and not explicit_years:
+            intent["periods"] = [str(int(anchor) - 1)]
+            intent["action"] = "report"
+    elif relative and not explicit_years:
+        intent["periods"] = []
+    if followup and not comparison and not relative:
+        intent["periods"] = sorted(explicit_years) if explicit_years else list(anchor_years)
+        intent["action"] = "report"
     years = set(re.findall(r"(?<!\d)(?:19|20)\d{2}(?!\d)", question))
     if years and not years.issubset(set(intent["periods"])):
         raise ValueError("Fiscal year interpretation conflicts with the question")

@@ -438,7 +438,7 @@ function Workspace({ session }: { session: Session }) {
                   "Read filings through questions",
                 )}
               </p>
-              <h1>{t("수치에서 근거까지.", "From figures to evidence.")}</h1>
+              <h1>{t("수치에서 근거까지", "From figures to evidence")}</h1>
               <p>
                 {t(
                   "회사와 회계연도를 정하고, 다음 질문을 이어가세요.",
@@ -869,6 +869,9 @@ function Workspace({ session }: { session: Session }) {
                     ))}
                 </div>
               )}
+              {!replayMode && current?.saved && (
+                <p className="muted">{t("저장한 조사는 원본으로 보존됩니다. 질문을 이어가려면 ‘원본 근거로 계속’을 누르세요. ‘최신 검증 자료로 새 조사’는 현재 앱에 검증된 자료를 사용하며, 새 공시를 다운로드하지 않습니다.", "Saved investigations preserve the original. Choose ‘Continue with original evidence’ to ask more questions. A refreshed investigation uses the app’s verified data; it does not download new filings.")}</p>
+              )}
               {context && (
                 <div className="context">
                   {current?.pending
@@ -908,6 +911,7 @@ function Workspace({ session }: { session: Session }) {
                   <label htmlFor="prompt">
                     {t("공시에 대해 질문하기", "Ask about a filing")}
                   </label>
+                  {context?.companies.length === 1 && <p className="muted">{context.periods.length === 1 ? t("회사와 지표는 이어집니다. ‘영업이익은?’ 또는 ‘전년에는?’처럼 질문해 보세요.", "Company and metric carry forward. Try ‘What about operating income?’ or ‘What about the previous year?’.") : t("여러 연도를 보고 있습니다. ‘영업이익은?’처럼 지표를 바꾸거나 비교할 연도를 직접 지정하세요.", "You are viewing multiple years. Ask ‘What about operating income?’ or specify the years to compare.")}</p>}
                   <div className="prompt-row">
                     <textarea
                       id="prompt"

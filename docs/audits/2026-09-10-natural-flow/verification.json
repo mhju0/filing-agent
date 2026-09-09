@@ -1,0 +1,89 @@
+{
+  "status": "PASS",
+  "live_revision": "fb70bd5",
+  "scenario_runs": 40,
+  "correct": 40,
+  "scores": [
+    {
+      "language": "ko",
+      "trial": 1,
+      "correct": 20,
+      "total": 20
+    },
+    {
+      "language": "en",
+      "trial": 1,
+      "correct": 20,
+      "total": 20
+    }
+  ],
+  "final_policy_replay": {
+    "status": "PASS",
+    "recorded_turns_reexecuted": 46,
+    "source_sha256": {
+      "slice/store.py": "aaa6cf6ecc03bf5707cecc66112fb7035afb69d6b2db32feb435d7a1fd396f1d",
+      "slice/backup.py": "1aab084f2173d03f92bd6be56125053899e5c875c2c85bf0ed68fe4adcaa40de",
+      "slice/__init__.py": "e00e18d2967b2dfb34529338bd4680d3dcabdc60500291e9fc7ffa00221a087e",
+      "slice/core.py": "4e47dbd81703f466ed2a12f417061a90affa4fb3accd194b2ee6c9526483c6e4",
+      "slice/financial.py": "2393db6b91c9c4c8a2abc3af1fd31684ec32578a6bb64ea9851255a5db03a230",
+      "slice/export.py": "00b586d9ffb0ed7950b7dee8d505833b97d514892e856a17dc36dda3f86bfa44",
+      "slice/runtime.py": "93fb81b4eab1951632a99c0f478087a59cd74363218902dfa3626418419f41b4",
+      "slice/lifecycle.py": "7e47c30977cad4f977d80fb46d377764d8a96f218753c0f461242f78ad15e93b",
+      "slice/app.py": "a5a5d21cbe94abeeabd245c2898973b06cd272c036a2b15c8f66fa55fec7085a",
+      "slice/workflow.py": "f9fc5dc8ea05908c42fd72cc2047f1db34250151873f68afbd428e983e6383bb"
+    },
+    "scope": "Final deterministic policy applied to every raw model response and captured context; no new model inference"
+  },
+  "first_use_browser": {
+    "status": "PASS",
+    "answer": "삼성전자의 2023년 매출액은 2022년보다 14.33% 감소했습니다.",
+    "checks": [
+      "exact owner question",
+      "correct decline",
+      "source inspection",
+      "desktop/mobile reflow and axe",
+      "save/reopen/continue"
+    ]
+  },
+  "targeted_live_flows": [
+    {
+      "question": "2022년과 비교하면 얼마나 증가하거나 감소했어?",
+      "pass": true
+    },
+    {
+      "question": "얼마나 줄었어?",
+      "pass": true
+    },
+    {
+      "question": "그럼 2022년과 비교해줘",
+      "pass": true
+    },
+    {
+      "question": "전년에는?",
+      "pass": true
+    },
+    {
+      "question": "How much did it decrease compared to 2022?",
+      "pass": true
+    },
+    {
+      "question": "영업이익은?",
+      "pass": true
+    },
+    {
+      "question": "테슬라는 얼마나 줄었어?",
+      "pass": true
+    }
+  ],
+  "local_evidence_hashes": {
+    "before.log": "2f8699b24ae73e8ff151baccc156fe6477fb379527271912cef6209ee852b042",
+    "tests-final.log": "dff5a6e7854aec470cb2a53d11a9a9fe5aec0037ffe272e6625b0ff3d08a6861",
+    "store-tests.log": "b63aba199197de50a80d803860d99c7435104cfe5c97731330388084d8c48ee4",
+    "build-final.log": "87ac5de2a688d5a4214fd42db0feb7b73f4b3018bda5b4538a52fd3477e5f1fb",
+    "live.json": "3aa966f0941850fbec4a26f5401fde7a51529d1d103737f7ec7a5aef78ecd609",
+    "regression.json": "0695c60beaa00380f85f2722ed2033ac5d81aef8f214e798c68d974da73a771f",
+    "architecture.log": "b7e769c92cac4454136a57cde3d52cb639e03be84f77c513e33d533e30070ab8",
+    "browser-flow.json": "d9f7694bf2065f89b142444f985f55917510f9d56b1aca08762223fb40dd3177",
+    "source-tests.log": "1640a197a46852309a2862959dfad3276646dee059bff9087dcfd215b53ff1e6"
+  }
+}
