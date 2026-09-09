@@ -41,12 +41,12 @@ def _is_context_followup(question):
     remaining = re.sub(r"(?<!\d)(?:19|20)\d{2}(?!\d)", " ", remaining)
     remaining = re.sub(
         r"\b(?:what|how|about|and|the|its|it|that|same|company|was|is|were|in|for|of|"
-        r"compare|versus|vs|change|growth|percent|percentage|please|show|me|then|fy)\b",
+        r"compare|versus|vs|change|growth|percent|percentage|please|show|me|then|fy|keep|metric|but)\b",
         " ", remaining,
     )
     remaining = re.sub(
         r"알려줘|보여줘|얼마인가요|얼마야|어때|같은\s*회사|그\s*회사|그럼|비교|대비|증감률|증가율|"
-        r"변화율|변화|은|는|이|가|의|을|를|과|와|년|도|엔|에", " ", remaining,
+        r"수치|변화율|변화|은|는|이|가|의|을|를|과|와|년|도|엔|에", " ", remaining,
     )
     return not re.search(r"[\w]", remaining)
 
@@ -58,6 +58,17 @@ def guard_intent(question, intent, context):
         for c, pattern in ALIASES.items()
         if re.search(pattern, question, re.IGNORECASE)
     }
+    company_question = re.sub(
+        r"연결\s*(?:이\s*아닌|이\s*아니라|말고|대신)\s*별도|"
+        r"\bnot\s+consolidated\s*[,;]?\s*(?:but\s+)?separate\b|"
+        r"\bseparate\s+rather\s+than\s+consolidated\b",
+        " ", question, flags=re.IGNORECASE,
+    )
+    correction_requested = bool(re.search(
+        r"\b(?:no|not|instead|except|excluding|without|unlike|ignore)\b|\b\w+n['’]t\b|"
+        r"\b(?:rather|other)\s+than\b|아니|아닌|말고|제외|대신|빼고", company_question, re.IGNORECASE
+    ))
+    corrected_company = None
     # Only a direct correction between two known names can narrow this set.
     if len(explicit) == 2:
         for excluded in explicit:
@@ -69,20 +80,20 @@ def guard_intent(question, intent, context):
             match = re.search(correction, question.strip(), re.IGNORECASE)
             if match:
                 if _is_context_followup(question.strip()[match.end():]):
-                    explicit = {selected}
-                else:
-                    intent["companies"] = []
+                    corrected_company = selected
                 break
     actual = set(intent["companies"])
-    if len(explicit) == 1:
+    if correction_requested:
+        intent["companies"] = [corrected_company] if corrected_company else []
+    elif len(explicit) == 1:
         intent["companies"] = sorted(explicit)
     elif explicit and actual != explicit:
         intent["companies"] = []
-    if not explicit and not (context or {}).get("companies"):
+    if not correction_requested and not explicit and not (context or {}).get("companies"):
         intent["companies"] = []
-    elif not explicit and context and not _is_context_followup(question):
+    elif not correction_requested and not explicit and context and not _is_context_followup(question):
         intent["companies"] = []
-    elif not explicit and context and actual != set(context["companies"]):
+    elif not correction_requested and not explicit and context and actual != set(context["companies"]):
         raise ValueError("An implicit follow-up cannot silently switch company")
     years = set(re.findall(r"(?<!\d)(?:19|20)\d{2}(?!\d)", question))
     if years and not years.issubset(set(intent["periods"])):

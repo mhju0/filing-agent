@@ -24,6 +24,15 @@ def uid():
     return str(uuid.uuid4())
 
 
+def expired(body):
+    return (
+        not body["saved"]
+        and not any(t["status"] in BLOCKING for t in body["turns"])
+        and datetime.fromisoformat(body["touched_at"])
+        < datetime.now(timezone.utc) - timedelta(days=30)
+    )
+
+
 class Store:
     def __init__(self, dsn=DSN):
         self.dsn = dsn
@@ -101,11 +110,10 @@ class Store:
         if not row:
             raise ValueError("Investigation unavailable")
         body = row[0]
-        if not body["saved"] and datetime.fromisoformat(
-            body["touched_at"]
-        ) < datetime.now(timezone.utc) - timedelta(days=30):
-            self.delete(identity)
-            raise ValueError("Investigation expired after 30 idle days")
+        if expired(body):
+            if self.delete(identity, expired_only=True):
+                raise ValueError("Investigation expired after 30 idle days")
+            return self.get(identity)
         return body
 
     def change(self, identity, fn):
@@ -130,7 +138,7 @@ class Store:
                 "SELECT id FROM investigations WHERE body->>'saved'='false' AND (body->>'touched_at')::timestamptz < now()-interval '30 days'"
             ).fetchall()
         for (identity,) in expired:
-            self.delete(str(identity))
+            self.delete(str(identity), expired_only=True)
         with self.connect() as db:
             rows = db.execute(
                 "SELECT body FROM investigations ORDER BY body->>'touched_at' DESC"
@@ -147,29 +155,38 @@ class Store:
 
     def recover(self):
         recovered = False
-        for data in self.history():
-            if any(t["status"] in BLOCKING for t in data["turns"]):
-
-                def mark(body):
-                    for t in body["turns"]:
-                        if t["status"] in BLOCKING:
-                            t.update(
-                                status="interrupted",
-                                error="Application stopped; retry the interrupted step explicitly.",
-                            )
-                            for s in t["steps"]:
-                                if s["status"] == "running":
-                                    s["status"] = "interrupted"
-
-                self.change(data["id"], mark)
-                recovered = True
+        with self.connect() as db:
+            rows = db.execute(
+                "SELECT id, body FROM investigations FOR UPDATE"
+            ).fetchall()
+            for identity, body in rows:
+                changed = False
+                for turn in body["turns"]:
+                    if turn["status"] in BLOCKING:
+                        turn.update(
+                            status="interrupted",
+                            error="Application stopped; retry the interrupted step explicitly.",
+                        )
+                        for step in turn["steps"]:
+                            if step["status"] == "running":
+                                step["status"] = "interrupted"
+                        changed = True
+                if changed:
+                    db.execute(
+                        "UPDATE investigations SET body=%s WHERE id=%s",
+                        (Jsonb(body), identity),
+                    )
+                    recovered = True
+        self.history()
         return recovered
 
-    def delete(self, identity):
+    def delete(self, identity, *, expired_only=False):
         with self.connect() as db:
             row = db.execute(
                 "SELECT body FROM investigations WHERE id=%s FOR UPDATE", (identity,)
             ).fetchone()
+            if expired_only and (not row or not expired(row[0])):
+                return False
             if row and any(
                 t["status"] in BLOCKING for t in row[0]["turns"]
             ):
@@ -187,6 +204,8 @@ class Store:
                         ),
                         (identity,),
                     )
+
+        return True
 
     def expire_diagnostics(self, immediate=False):
         threshold = datetime.now(timezone.utc) - timedelta(hours=24)

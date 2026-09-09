@@ -5,6 +5,44 @@ BASE = {"companies": ["Samsung"], "metric": "revenue", "periods": ["2023"], "bas
 
 
 class CompanyCorrectionTests(unittest.TestCase):
+    def test_basis_correction_does_not_exclude_company(self):
+        for question in [
+            "삼성전자 2023년 매출액을 연결 말고 별도 기준으로 보여줘.",
+            "Samsung revenue in 2023, not consolidated but separate",
+            "Samsung revenue in 2023, separate rather than consolidated",
+        ]:
+            guarded = guard_intent(question, {**BASE, "basis": "separate"}, None)
+            self.assertEqual(guarded["companies"], ["Samsung"])
+            self.assertEqual(guarded["basis"], "separate")
+
+    def test_rejected_company_cannot_supply_unknown_target(self):
+        for question in [
+            "Not Samsung, but Tesla revenue in 2023?",
+            "삼성이 아니라 테슬라 2023년 매출액은?",
+            "Samsung 말고 Tesla revenue in 2023?",
+            "Tesla revenue in 2023, not Samsung",
+            "삼성이 아니고 테슬라의 2023년 매출액은?",
+            "Tesla rather than Samsung revenue in 2023?",
+            "삼성 대신 테슬라 2023년 매출액은?",
+            "Tesla revenue in 2023, excluding Samsung",
+            "Tesla revenue in 2023, unlike Samsung",
+            "삼성 빼고 테슬라의 2023년 매출액은?",
+            "삼성이 아니라 테슬라 2023년 매출액을 연결 말고 별도 기준으로 보여줘.",
+            "No Samsung, Tesla revenue in 2023?",
+            "Samsung isn't the company; Tesla revenue in 2023",
+            "Samsung isn’t the company; Tesla revenue in 2023",
+        ]:
+            for companies in [[], ["Samsung"], ["NAVER"]]:
+                with self.subTest(question=question, companies=companies):
+                    guarded = guard_intent(question, {**BASE, "companies": companies}, BASE)
+                    self.assertEqual(guarded["companies"], [])
+
+    def test_explicit_same_company_followup_retains_context(self):
+        for question in ["같은 회사의 2022년 수치를 보여줘.",
+                         "Keep the same company and metric, but show FY2022."]:
+            guarded = guard_intent(question, {**BASE, "periods": ["2022"]}, BASE)
+            self.assertEqual(guarded["companies"], ["Samsung"])
+
     def test_direct_correction_uses_named_target(self):
         for question in ["삼성전자가 아니라 네이버의 2023년 매출액을 알려줘.", "Not Samsung, but NAVER revenue in 2023?"]:
             self.assertEqual(guard_intent(question, BASE, None)["companies"], ["NAVER"])

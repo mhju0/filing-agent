@@ -1,0 +1,104 @@
+{
+  "status": "PASS",
+  "agent_runtime_revision": "ec342a1",
+  "digest_revision": "5798807",
+  "local_evidence": {
+    "agent-guard-before.log": {
+      "sha256": "538ab85d5f9dab09c31b6c237ae1bee70d078f5bbf6b0acda5df42b24b0725f6",
+      "bytes": 10160
+    },
+    "agent-store-before.log": {
+      "sha256": "a5dfbcdac3e1462968d2072afc24c863b171a6af7cd723c94614ecb6127e6d47",
+      "bytes": 2355
+    },
+    "agent-guard-final.log": {
+      "sha256": "bea370eefa445d09be662f97ae958625786794ce3129b9bdb47f31ed3b60cc00",
+      "bytes": 141
+    },
+    "agent-store-final.log": {
+      "sha256": "5e75162468755aff141a5138ae4b412a19a31863fb90e1e11eba384ea057a548",
+      "bytes": 432
+    },
+    "heldout.json": {
+      "sha256": "7b49732871394e590fd98423e5d929e6001899dfccf66756848ab6f5b81b0c9b",
+      "bytes": 820579
+    },
+    "heldout-final.json": {
+      "sha256": "43fbd9bc304a7ec21cdd21e3bc6d4e6ec3ff27905fc5ef875d7f071efb8a70fe",
+      "bytes": 821425
+    },
+    "final-policy-replay.json": {
+      "sha256": "732d80f6962bdb312bd34a0d39839626836751a9952421a02d0b9097d1ef539a",
+      "bytes": 1121
+    },
+    "live-correction.json": {
+      "sha256": "ded1630d3382a836896a497cd4ff87773f40fcd0646d55b8378ac5304110a7b1",
+      "bytes": 7134
+    },
+    "spec-repro.json": {
+      "sha256": "9ce368144388ad40d0a21adaa73b95514c98172dcaa7f5ff2e92b78ca44f52bd",
+      "bytes": 1211
+    },
+    "digest-check.log": {
+      "sha256": "33f0c968bfecda62345166e4e7420ffc7df140e95690c66d158656d6eb7ad3ec",
+      "bytes": 943
+    },
+    "digest-db.log": {
+      "sha256": "e4c47b7dbcb485bda5676478ec77534d538f094481ce3ac07e2e88e9ce86a7b1",
+      "bytes": 486
+    },
+    "digest-live-boundary.json": {
+      "sha256": "ebba476820661d3adacb03f1e49b2c336b89f6b83a3eaffdd4bbda40f3af6259",
+      "bytes": 445
+    },
+    "frontend-build.log": {
+      "sha256": "a157065502189c1469f2944aedfe041fbc788d5e3c0277ab93c61a88d6754ab1",
+      "bytes": 614
+    },
+    "architecture.log": {
+      "sha256": "b7e769c92cac4454136a57cde3d52cb639e03be84f77c513e33d533e30070ab8",
+      "bytes": 533
+    },
+    "replay.log": {
+      "sha256": "30736db82302933cdccfeda595d0decf3546c495287d7d98ab86a15f2d4988f8",
+      "bytes": 20
+    },
+    "release.log": {
+      "sha256": "39d29b6ad6e40f361e8bbea36b3eaf2a84d5f2f4edf711eff7110fe9892265a4",
+      "bytes": 23
+    },
+    "live-browser.log": {
+      "sha256": "8cdfd88b76a29620c452367e11b28fb99da322c3aaaa6bfa89d286ed6b2c9378",
+      "bytes": 18
+    },
+    "source-verified-tests.log": {
+      "sha256": "0720a8971d383e35cdf65f7e868fbbf64f6f27125c953b5f7ac6349739921787",
+      "bytes": 141
+    },
+    "source-manifest-verified.json": {
+      "sha256": "95849fc44088a8451a9a9be696090565df38e7c7969d57d4cc64ea92d61e6d1f",
+      "bytes": 6098
+    },
+    "agent-backup.log": {
+      "sha256": "ffe1c6916db8db90ae7507d720738231782c60c443da1eecd88b7fb038cf402a",
+      "bytes": 147
+    },
+    "test-cleanup.json": {
+      "sha256": "11d25e973eaf179feb4340dd12e8c41a316f60e4d5c7e24c8a29e7d714dc8844",
+      "bytes": 90
+    },
+    "agent-gitleaks.log": {
+      "sha256": "a83868725547170ff79fc305e059897c6547d70cffaca93bed48720a895cf022",
+      "bytes": 180
+    },
+    "digest-gitleaks.log": {
+      "sha256": "9f85b50361dde8af8ce8b26895fa25ee67017e7350276021280af9cf597fbf0b",
+      "bytes": 179
+    }
+  },
+  "notes": [
+    "Before logs intentionally record reproduced failures",
+    "heldout.json is preliminary and superseded by heldout-final plus final-policy replay",
+    "Raw model content and private backups remain ignored local evidence"
+  ]
+}
