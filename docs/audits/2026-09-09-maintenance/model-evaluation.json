@@ -1,0 +1,203 @@
+{
+  "status": "complete",
+  "gate_pass": true,
+  "scenarios": 120,
+  "turns": 138,
+  "correct": 114,
+  "scores": [
+    {
+      "language": "ko",
+      "trial": 1,
+      "correct": 19,
+      "total": 20
+    },
+    {
+      "language": "en",
+      "trial": 1,
+      "correct": 19,
+      "total": 20
+    },
+    {
+      "language": "ko",
+      "trial": 2,
+      "correct": 19,
+      "total": 20
+    },
+    {
+      "language": "en",
+      "trial": 2,
+      "correct": 19,
+      "total": 20
+    },
+    {
+      "language": "ko",
+      "trial": 3,
+      "correct": 19,
+      "total": 20
+    },
+    {
+      "language": "en",
+      "trial": 3,
+      "correct": 19,
+      "total": 20
+    }
+  ],
+  "failed_cases": [
+    {
+      "case": "missing_followup-ko-2",
+      "trial": 1,
+      "expected": {
+        "companies": [
+          "NAVER"
+        ],
+        "metric": "revenue",
+        "periods": [
+          "2022"
+        ],
+        "operation": "refuse",
+        "reason_code": "missing_period",
+        "figures": {}
+      },
+      "actual": {
+        "companies": [],
+        "metric": "revenue",
+        "periods": [
+          "2022"
+        ],
+        "operation": "clarify",
+        "reason_code": "ambiguous_context",
+        "figures": {}
+      }
+    },
+    {
+      "case": "missing_followup-en-2",
+      "trial": 1,
+      "expected": {
+        "companies": [
+          "NAVER"
+        ],
+        "metric": "revenue",
+        "periods": [
+          "2022"
+        ],
+        "operation": "refuse",
+        "reason_code": "missing_period",
+        "figures": {}
+      },
+      "actual": {
+        "companies": [],
+        "metric": "revenue",
+        "periods": [
+          "2022"
+        ],
+        "operation": "clarify",
+        "reason_code": "ambiguous_context",
+        "figures": {}
+      }
+    },
+    {
+      "case": "missing_followup-ko-2",
+      "trial": 2,
+      "expected": {
+        "companies": [
+          "NAVER"
+        ],
+        "metric": "revenue",
+        "periods": [
+          "2022"
+        ],
+        "operation": "refuse",
+        "reason_code": "missing_period",
+        "figures": {}
+      },
+      "actual": {
+        "companies": [],
+        "metric": "revenue",
+        "periods": [
+          "2022"
+        ],
+        "operation": "clarify",
+        "reason_code": "ambiguous_context",
+        "figures": {}
+      }
+    },
+    {
+      "case": "missing_followup-en-2",
+      "trial": 2,
+      "expected": {
+        "companies": [
+          "NAVER"
+        ],
+        "metric": "revenue",
+        "periods": [
+          "2022"
+        ],
+        "operation": "refuse",
+        "reason_code": "missing_period",
+        "figures": {}
+      },
+      "actual": {
+        "companies": [],
+        "metric": "revenue",
+        "periods": [
+          "2022"
+        ],
+        "operation": "clarify",
+        "reason_code": "ambiguous_context",
+        "figures": {}
+      }
+    },
+    {
+      "case": "missing_followup-ko-2",
+      "trial": 3,
+      "expected": {
+        "companies": [
+          "NAVER"
+        ],
+        "metric": "revenue",
+        "periods": [
+          "2022"
+        ],
+        "operation": "refuse",
+        "reason_code": "missing_period",
+        "figures": {}
+      },
+      "actual": {
+        "companies": [],
+        "metric": "revenue",
+        "periods": [
+          "2022"
+        ],
+        "operation": "clarify",
+        "reason_code": "ambiguous_context",
+        "figures": {}
+      }
+    },
+    {
+      "case": "missing_followup-en-2",
+      "trial": 3,
+      "expected": {
+        "companies": [
+          "NAVER"
+        ],
+        "metric": "revenue",
+        "periods": [
+          "2022"
+        ],
+        "operation": "refuse",
+        "reason_code": "missing_period",
+        "figures": {}
+      },
+      "actual": {
+        "companies": [],
+        "metric": "revenue",
+        "periods": [
+          "2022"
+        ],
+        "operation": "clarify",
+        "reason_code": "ambiguous_context",
+        "figures": {}
+      }
+    }
+  ]
+}
