@@ -2,7 +2,7 @@
 set -eu
 TASK_ROOT=$(CDPATH= cd -- "$(dirname "$0")/.." && pwd)
 TASK_RELEASE="$TASK_ROOT/slice/replay-release"
-python3 - "$TASK_ROOT" "$TASK_RELEASE" "${RELEASE_AUDIT:-docs/audits/2026-09-09-maintenance-fixes/artifact.json}" <<'PY'
+python3 - "$TASK_ROOT" "$TASK_RELEASE" "${RELEASE_AUDIT:-docs/audits/2026-09-10-natural-flow/artifact.json}" <<'PY'
 import hashlib,json,sys
 from pathlib import Path
 root=Path(sys.argv[1]);out=Path(sys.argv[2])
