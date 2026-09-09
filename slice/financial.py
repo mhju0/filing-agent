@@ -126,7 +126,7 @@ def resolve(intent, catalog):
         metric_ko, metric_en = {'revenue': ('매출액', 'revenue'), 'operating_income': ('영업이익', 'operating income'), 'net_income': ('당기순이익', 'net income')}[intent['metric']]
         prior, current = sorted(intent['periods'])
         result['answer_ko'] = f'{company_ko}의 {current}년 {metric_ko}은 {prior}년보다 {abs(Decimal(result["calculated"][0]["percentage_change"]))}% {ko}.' if sign else f'{company_ko}의 {current}년 {metric_ko}은 {prior}년과 {ko}.'
-        result['answer_en'] = f"{company}'s {metric_en} {en} by {abs(Decimal(result['calculated'][0]['percentage_change']))}% in FY{current} compared with FY{prior}."
+        result['answer_en'] = f"{company}'s {metric_en} {en} by {abs(Decimal(result['calculated'][0]['percentage_change']))}% in FY{current} compared with FY{prior}." if sign else f"{company}'s {metric_en} was unchanged in FY{current} compared with FY{prior}."
     else:
         result['answer_ko'] = '요청한 회사, 지표, 회계연도의 검증된 수치입니다.'
         result['answer_en'] = 'These are the verified figures for the requested company, metric and fiscal year.'

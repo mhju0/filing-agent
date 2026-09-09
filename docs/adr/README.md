@@ -14,6 +14,8 @@ Read these records in sequence when tracing a decision. Later records refine the
 | [0008](0008-concentrate-financial-figure-policy.md) | Give Financial figure policy one shared owner without expanding coverage | [Implemented and verified](../audits/2026-09-08-architecture/README.md) |
 | [0009](0009-separate-live-and-replay-state-ownership.md) | Separate live/replay state and keep background results attached to their investigation | [Implemented and verified](../audits/2026-09-08-architecture/README.md) |
 
+| [0010](0010-natural-followups-and-specific-clarification.md) | Interpret natural follow-ups and ask only for missing information | First-use flow verification |
+
 ADR 0002's discussion of possible cloud benchmarks or fallbacks is historical. The implemented boundary is local inference only, as detailed in 0005–0006. The [release audit](../audits/2026-09-08-slice/README.md) records verification rather than changing the decisions.
 
 [Documentation index](../README.md)
