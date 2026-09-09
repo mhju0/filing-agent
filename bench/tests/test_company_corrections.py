@@ -5,6 +5,16 @@ BASE = {"companies": ["Samsung"], "metric": "revenue", "periods": ["2023"], "bas
 
 
 class CompanyCorrectionTests(unittest.TestCase):
+    def test_basis_correction_does_not_exclude_company(self):
+        for question in [
+            "삼성전자 2023년 매출액을 연결 말고 별도 기준으로 보여줘.",
+            "Samsung revenue in 2023, not consolidated but separate",
+            "Samsung revenue in 2023, separate rather than consolidated",
+        ]:
+            guarded = guard_intent(question, {**BASE, "basis": "separate"}, None)
+            self.assertEqual(guarded["companies"], ["Samsung"])
+            self.assertEqual(guarded["basis"], "separate")
+
     def test_rejected_company_cannot_supply_unknown_target(self):
         for question in [
             "Not Samsung, but Tesla revenue in 2023?",
@@ -17,6 +27,7 @@ class CompanyCorrectionTests(unittest.TestCase):
             "Tesla revenue in 2023, excluding Samsung",
             "Tesla revenue in 2023, unlike Samsung",
             "삼성 빼고 테슬라의 2023년 매출액은?",
+            "삼성이 아니라 테슬라 2023년 매출액을 연결 말고 별도 기준으로 보여줘.",
         ]:
             for companies in [[], ["Samsung"], ["NAVER"]]:
                 with self.subTest(question=question, companies=companies):
