@@ -65,7 +65,7 @@ def guard_intent(question, intent, context):
         " ", question, flags=re.IGNORECASE,
     )
     correction_requested = bool(re.search(
-        r"\b(?:not|instead|except|excluding|without|unlike|ignore)\b|"
+        r"\b(?:no|not|instead|except|excluding|without|unlike|ignore)\b|\b\w+n['’]t\b|"
         r"\b(?:rather|other)\s+than\b|아니|아닌|말고|제외|대신|빼고", company_question, re.IGNORECASE
     ))
     corrected_company = None

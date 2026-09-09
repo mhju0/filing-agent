@@ -4,6 +4,8 @@ These are dated observations. Results apply to the revisions, snapshots and envi
 
 | Record | Evidence |
 |---|---|
+| [2026-09-09 · Maintenance fixes](2026-09-09-maintenance-fixes/README.md) | Company exclusions, long-idle recovery and Digest browser boundary regressions |
+| [2026-09-09 · Comprehensive maintenance audit](2026-09-09-maintenance/README.md) | Pre-fix findings, backend/native/browser checks, corpus integrity and backup restoration |
 | [2026-09-09 · Sister-project release readiness](2026-09-09-release-readiness/README.md) | Consolidated findings, isolated company pilot, adversarial checks and proposed maintenance gates |
 | [2026-09-08 · Public repository](2026-09-08-publication.md) | Publication boundary, history cleanup, credential scans and GitHub settings |
 | [2026-09-08 · Architecture refactor](2026-09-08-architecture/README.md) | Durable completion, storage recovery, shared financial policy, live/replay state and fresh release checks |

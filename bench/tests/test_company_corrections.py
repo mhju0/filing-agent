@@ -28,6 +28,9 @@ class CompanyCorrectionTests(unittest.TestCase):
             "Tesla revenue in 2023, unlike Samsung",
             "삼성 빼고 테슬라의 2023년 매출액은?",
             "삼성이 아니라 테슬라 2023년 매출액을 연결 말고 별도 기준으로 보여줘.",
+            "No Samsung, Tesla revenue in 2023?",
+            "Samsung isn't the company; Tesla revenue in 2023",
+            "Samsung isn’t the company; Tesla revenue in 2023",
         ]:
             for companies in [[], ["Samsung"], ["NAVER"]]:
                 with self.subTest(question=question, companies=companies):
