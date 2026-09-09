@@ -5,6 +5,24 @@ BASE = {"companies": ["Samsung"], "metric": "revenue", "periods": ["2023"], "bas
 
 
 class CompanyCorrectionTests(unittest.TestCase):
+    def test_rejected_company_cannot_supply_unknown_target(self):
+        for question in [
+            "Not Samsung, but Tesla revenue in 2023?",
+            "삼성이 아니라 테슬라 2023년 매출액은?",
+            "Samsung 말고 Tesla revenue in 2023?",
+            "Tesla revenue in 2023, not Samsung",
+        ]:
+            for companies in [[], ["Samsung"], ["NAVER"]]:
+                with self.subTest(question=question, companies=companies):
+                    guarded = guard_intent(question, {**BASE, "companies": companies}, BASE)
+                    self.assertEqual(guarded["companies"], [])
+
+    def test_explicit_same_company_followup_retains_context(self):
+        for question in ["같은 회사의 2022년 수치를 보여줘.",
+                         "Keep the same company and metric, but show FY2022."]:
+            guarded = guard_intent(question, {**BASE, "periods": ["2022"]}, BASE)
+            self.assertEqual(guarded["companies"], ["Samsung"])
+
     def test_direct_correction_uses_named_target(self):
         for question in ["삼성전자가 아니라 네이버의 2023년 매출액을 알려줘.", "Not Samsung, but NAVER revenue in 2023?"]:
             self.assertEqual(guard_intent(question, BASE, None)["companies"], ["NAVER"])

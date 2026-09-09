@@ -185,6 +185,39 @@ class SliceTests(unittest.TestCase):
         self.assertNotIn(ordinary["id"], ids)
         self.assertIn(saved["id"], ids)
 
+    def test_long_idle_startup_recovers_before_expiry(self):
+        saved = self.new()
+        expired = []
+        for status in ("queued", "running", "saving", "storage_failed"):
+            inv = self.new()
+            inv.update(touched_at="2000-01-01T00:00:00+00:00",
+                       turns=[{"status": status, "steps": [{"status": "running"}]}])
+            expired.append(inv["id"])
+            with self.store.connect() as db:
+                db.execute("UPDATE investigations SET body=%s WHERE id=%s", (Jsonb(inv), inv["id"]))
+        saved.update(saved=True, touched_at="2000-01-01T00:00:00+00:00")
+        with self.store.connect() as db:
+            db.execute("UPDATE investigations SET body=%s WHERE id=%s", (Jsonb(saved), saved["id"]))
+        self.assertTrue(self.store.recover())
+        remaining = {i["id"] for i in self.store.history()}
+        self.assertTrue(remaining.isdisjoint(expired))
+        self.assertEqual(self.store.get(saved["id"]), saved)
+        self.assertFalse(self.store.recover())
+
+    def test_retention_preserves_active_and_refreshed_records(self):
+        inv = self.new()
+        inv.update(touched_at="2000-01-01T00:00:00+00:00",
+                   turns=[{"status": "running", "steps": []}])
+        with self.store.connect() as db:
+            db.execute("UPDATE investigations SET body=%s WHERE id=%s", (Jsonb(inv), inv["id"]))
+        self.assertIn(inv["id"], {i["id"] for i in self.store.history()})
+        self.assertEqual(self.store.get(inv["id"])["turns"][0]["status"], "running")
+        with self.assertRaisesRegex(ValueError, "Cancel"):
+            self.store.delete(inv["id"])
+        self.store.change(inv["id"], lambda body: body.update(turns=[]))
+        self.assertFalse(self.store.delete(inv["id"], expired_only=True))
+        self.assertEqual(self.store.get(inv["id"])["turns"], [])
+
     def test_export_refuses_uncaptured_or_unsaved_results(self):
         with self.assertRaises(ValueError):
             recording([self.new()])
