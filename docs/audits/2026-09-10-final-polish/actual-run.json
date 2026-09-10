@@ -1,0 +1,55 @@
+{
+  "kind": "Unedited browser capture with real local inference",
+  "captured_at": "2026-09-10T15:16:09.394Z",
+  "investigation": {
+    "id": "12f8deb7-f143-4f05-b4ae-233815dbc113",
+    "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb",
+    "turn_ids": [
+      "48d08846-3e11-4340-a328-65ea47c6f9b3",
+      "3811bcfe-5b59-4e82-a9c8-abce0fcfc8db"
+    ]
+  },
+  "checks": [
+    "exact -14.33% comparison",
+    "saved reload unchanged",
+    "continued with original snapshot"
+  ],
+  "continued_id": "c53aed01-3c43-4fc2-a9ba-ff60220edbc0",
+  "moments": [
+    {
+      "seconds": 0.4,
+      "ko": "삼성전자의 2023년 매출액을 묻습니다",
+      "en": "Ask for Samsung revenue in FY2023"
+    },
+    {
+      "seconds": 4.295,
+      "ko": "수치와 연결된 원문 발췌를 확인합니다",
+      "en": "Inspect the original excerpt linked to the reported figure"
+    },
+    {
+      "seconds": 6.155,
+      "ko": "회사를 반복하지 않고 전년과 비교합니다",
+      "en": "Compare with the previous year without repeating the company"
+    },
+    {
+      "seconds": 10.646,
+      "ko": "수치와 연결된 원문 발췌를 확인합니다",
+      "en": "Inspect the original excerpt linked to the reported figure"
+    },
+    {
+      "seconds": 12.499,
+      "ko": "증감률은 검증된 두 수치로 계산합니다",
+      "en": "The change is calculated from the two verified figures"
+    },
+    {
+      "seconds": 15.316,
+      "ko": "저장한 결과를 다시 열어도 원래 답변과 근거가 유지됩니다",
+      "en": "Reopening preserves the saved answers and evidence"
+    },
+    {
+      "seconds": 16.903,
+      "ko": "원본을 보존한 채 새 조사에서 질문을 이어갑니다",
+      "en": "Continue in a new investigation while preserving the original"
+    }
+  ]
+}

@@ -15,6 +15,7 @@ Read these records in sequence when tracing a decision. Later records refine the
 | [0009](0009-separate-live-and-replay-state-ownership.md) | Separate live/replay state and keep background results attached to their investigation | [Implemented and verified](../audits/2026-09-08-architecture/README.md) |
 
 | [0010](0010-natural-followups-and-specific-clarification.md) | Interpret natural follow-ups and ask only for missing information | First-use flow verification |
+| [0011](0011-clarify-unhandled-company-pairs.md) | Clarify named company pairs outside verified coverage | Policy regression tests |
 
 ADR 0002's discussion of possible cloud benchmarks or fallbacks is historical. The implemented boundary is local inference only, as detailed in 0005–0006. The [release audit](../audits/2026-09-08-slice/README.md) records verification rather than changing the decisions.
 

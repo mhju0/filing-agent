@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "path": "slice/replay-release",
+  "files": {
+    "FONT-LICENSE.txt": "b04538c9abec39a3db75108cf0af0fd9c77032fe8aa2cf38345b4d250e98e38e",
+    "LOCAL-SETUP.md": "3d5d2a9f404317c09658337cb6266df34e52af9c2c330bad02fb4aaebf48c305",
+    "VERIFICATION.md": "b59b98e9275ed8b8a3e5ac172f97c0a3c8e4c1151610cf7ea4059fbc0f62645c",
+    "actual-run-en.vtt": "d3ff8bf92d4fac346ec9fe164ec10eda2173da878685a62922a6579c48fb5dee",
+    "actual-run-ko.vtt": "09285ac15ffc66567048a436df12d2f74ee7ca1f444f993feebd43380da8f014",
+    "actual-run.png": "68125693342f09ff85c72a5ae4447588a54672be77592b2369197452249043ec",
+    "actual-run.webm": "a4dcf4ca24decb07ef8b0cff39ee42874e29045044721e530e33e1ad16f130e7",
+    "assets/PretendardVariable-CJuje-Rk.woff2": "9599f12fd42fc0bce1cd50b47a0c022e108d7aa64dd0d1bb0ed44f3282d900b4",
+    "assets/index-CLy2GU2L.css": "4978f75e9118593046eb449faf11c1efc6df8a474af29eb7a59d740069c382f1",
+    "assets/index-DBx0phhq.js": "6f9674212d9bf1947ae17e435eda1337599b011ff4274794176fa34faa44125e",
+    "engineering-en.html": "30d4ce29a8961443663b7a0f9902927c169dbec557ad76ba7e415e74325ce422",
+    "engineering-ko.html": "c29467a4cb5555e2fe3502adb996f27063a156172bd7b763b7fff638796350e1",
+    "engineering.css": "af253475df6c45ed57dfcd0e0ecc1e231b4e31941f57650c697eb9a1a90c63d3",
+    "evaluation-cases.json": "34f530bd8949333358f22de41703ef32a1a0d68394c140c3c0f67da338f80e07",
+    "evaluation.json": "6bc1c03ba318ee20dbedd8dc7456024ff3dc94beeeeceae0ba719a99292f0945",
+    "family-mark-dark.png": "15e8a50367a0610ec6ac63708cf56b9ba54b689042972bb15513166e4c1b1df3",
+    "family-mark-light.png": "1828cf2a3149331b52fa7c12a482e90e40a65f3e44cb6d7d6ce99d9eb0a1ad8e",
+    "favicon.png": "e6e693199cc02cb88a2909e10cdc8850494875ddee1ca843565912a8599f76e2",
+    "filing-agent-source.zip": "9003d5b9e4fc332b65b8bf7489f96eac748c3fab1106386fb5c2fee72dde824c",
+    "index.html": "60cc9a3754a27a36e130f288e37ab420c61cc4d31e4f4cdcfd00a823d2a349ce",
+    "recording.json": "8bf71eae94cd9c72f04f779b90534dddf3d81baadebf3f5665b40d70a5123b0f",
+    "theme.js": "dfe09c3b167d75d65ed524287643880222734669e5919c7ff01d26d651c79ce4",
+    "vercel.json": "0e16df38586217e8b24c3123a207918a8354a607612b3ac371305e4c6de23a57",
+    "verification.json": "d6c3f49fd559fb82ca5f139e62409f071bd9c678f1598a37665699088ed498c7"
+  }
+}

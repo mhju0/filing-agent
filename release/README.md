@@ -8,6 +8,6 @@ Production: https://filing-agent.vercel.app. Deploy only with `./release/deploy.
 
 `github.json` records the English GitHub description, homepage and topics. Keep the sister-project link consistent with the root README, operating guide and public project notes.
 
-The current artifact manifest is `docs/audits/2026-09-10-natural-flow/artifact.json`. `RELEASE_AUDIT` can select a different reviewed manifest; the deployment script still requires the exact static release directory and file hashes.
+The current artifact manifest is `docs/audits/2026-09-10-final-polish/artifact.json`. `RELEASE_AUDIT` can select a different reviewed manifest; the deployment script still requires the exact static release directory and file hashes.
 
 Before publishing repository changes, run `python3 release/check_publication.py`. It checks tracked files against the ignore rules and rejects Markdown links to local-only material. GitHub also runs this check on pull requests and main. Run `gitleaks git . --config .gitleaks.toml --redact` for a local history scan when Gitleaks is installed; the configuration only exempts public filing-response SHA-256 fields.

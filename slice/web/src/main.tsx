@@ -196,6 +196,22 @@ function Workspace({ session }: { session: Session }) {
     : [];
   const selected = "id" in (evidence || {}) ? (evidence as Figure).id : null;
   const context = current?.pending || current?.accepted;
+  const followUps = (() => {
+    if (!context || context.companies.length !== 1 || !context.metric) return [];
+    const company = context.companies[0];
+    const period = context.periods.length === 1 ? context.periods[0] : null;
+    const nextMetric = context.metric === "revenue"
+      ? t("영업이익은?", "What about operating income?")
+      : t("매출액은?", "What about revenue?");
+    const alternatePeriod = company === "Samsung"
+      ? (period === "2022" ? "2023" : period === "2023" ? "2022" : null)
+      : company === "Microsoft"
+        ? (period === "2023" ? "2024" : period === "2024" ? "2023" : null)
+        : null;
+    return alternatePeriod
+      ? [nextMetric, t(`${alternatePeriod}년은?`, `What about FY${alternatePeriod}?`)]
+      : [nextMetric];
+  })();
   const sourceView =
     evidence &&
     ("id" in evidence ? (
@@ -293,7 +309,11 @@ function Workspace({ session }: { session: Session }) {
       </div>
       <header>
         <a className="wordmark" href={replayMode ? "./index.html" : "/"}>
-          Filing Agent
+          <span className="family-mark" aria-hidden="true">
+            <img className="mark-light" src="/family-mark-light.png" alt="" />
+            <img className="mark-dark" src="/family-mark-dark.png" alt="" />
+          </span>
+          <span>Filing Agent</span>
         </a>
         <nav aria-label={t("조사 탐색", "Investigation navigation")}>
           {!replayMode && (
@@ -475,13 +495,48 @@ function Workspace({ session }: { session: Session }) {
                   ))}
                 </tbody>
               </table>
-              <div className="examples">
-                {[
-                  "삼성전자 2023년과 2022년 매출액 증감률은?",
-                  "네이버 2023년 영업이익은?",
-                  "Compare Microsoft revenue in FY2024 and FY2023.",
-                  "삼성전자 2023년 연구개발비는?",
-                ].map((q) => (
+              <section className="starter-questions" aria-labelledby="supported-examples">
+                <h2 id="supported-examples">
+                  {t("지원하는 질문으로 시작", "Start with a supported question")}
+                </h2>
+                <div className="examples">
+                  {(lang === "ko"
+                    ? [
+                        "삼성전자 2023년과 2022년 매출액을 비교해 줘",
+                        "네이버 2023년 영업이익은?",
+                        "Microsoft 2024년과 2023년 당기순이익을 비교해 줘",
+                      ]
+                    : [
+                        "Compare Samsung revenue in FY2023 and FY2022.",
+                        "What was NAVER's operating income in FY2023?",
+                        "Compare Microsoft net income in FY2024 and FY2023.",
+                      ]
+                  ).map((q) => (
+                    <button
+                      key={q}
+                      onClick={() => {
+                        setDraft(q);
+                        prompt.current?.focus();
+                      }}
+                    >
+                      {q}
+                    </button>
+                  ))}
+                </div>
+              </section>
+              <section className="limit-example" aria-labelledby="limit-example-title">
+                <div>
+                  <h2 id="limit-example-title">
+                    {t("범위 밖 질문 예시", "Limit example")}
+                  </h2>
+                  <p>
+                    {t(
+                      "연구개발비는 현재 검증 모음에 없습니다. 이 질문은 수치를 만들지 않고 확인한 범위를 보여 줍니다.",
+                      "R&D expense is not in the verified collection. This question shows the checked scope without inventing a figure.",
+                    )}
+                  </p>
+                </div>
+                {[t("삼성전자 2023년 연구개발비는?", "What was Samsung's R&D expense in FY2023?")].map((q) => (
                   <button
                     key={q}
                     onClick={() => {
@@ -492,7 +547,7 @@ function Workspace({ session }: { session: Session }) {
                     {q}
                   </button>
                 ))}
-              </div>
+              </section>
             </div>
           ) : (
             <>
@@ -849,6 +904,7 @@ function Workspace({ session }: { session: Session }) {
                   {current.saved &&
                     ["continue", "refresh"].map((mode) => (
                       <button
+                        className={mode === "continue" ? "primary-action" : undefined}
                         key={mode}
                         onClick={() =>
                           action(async () => {
@@ -862,15 +918,15 @@ function Workspace({ session }: { session: Session }) {
                               "Continue with original evidence",
                             )
                           : t(
-                              "최신 검증 자료로 새 조사",
-                              "Refresh into new investigation",
+                              "현재 검증 자료로 새 조사",
+                              "New investigation with current data",
                             )}
                       </button>
                     ))}
                 </div>
               )}
               {!replayMode && current?.saved && (
-                <p className="muted">{t("저장한 조사는 원본으로 보존됩니다. 질문을 이어가려면 ‘원본 근거로 계속’을 누르세요. ‘최신 검증 자료로 새 조사’는 현재 앱에 검증된 자료를 사용하며, 새 공시를 다운로드하지 않습니다.", "Saved investigations preserve the original. Choose ‘Continue with original evidence’ to ask more questions. A refreshed investigation uses the app’s verified data; it does not download new filings.")}</p>
+                <p className="muted">{t("저장본은 그대로 보존됩니다. 현재 검증 자료로 시작해도 새 공시를 내려받지는 않습니다.", "The saved result stays unchanged. Starting with current verified data does not download new filings.")}</p>
               )}
               {context && (
                 <div className="context">
@@ -911,7 +967,16 @@ function Workspace({ session }: { session: Session }) {
                   <label htmlFor="prompt">
                     {t("공시에 대해 질문하기", "Ask about a filing")}
                   </label>
-                  {context?.companies.length === 1 && <p className="muted">{context.periods.length === 1 ? t("회사와 지표는 이어집니다. ‘영업이익은?’ 또는 ‘전년에는?’처럼 질문해 보세요.", "Company and metric carry forward. Try ‘What about operating income?’ or ‘What about the previous year?’.") : t("여러 연도를 보고 있습니다. ‘영업이익은?’처럼 지표를 바꾸거나 비교할 연도를 직접 지정하세요.", "You are viewing multiple years. Ask ‘What about operating income?’ or specify the years to compare.")}</p>}
+                  {followUps.length > 0 && (
+                    <div className="follow-ups" aria-label={t("다음 질문 예시", "Suggested follow-up questions")}>
+                      <span>{t("이어서 묻기", "Ask next")}</span>
+                      {followUps.map((question) => (
+                        <button key={question} type="button" onClick={() => { setDraft(question); prompt.current?.focus(); }}>
+                          {question}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                   <div className="prompt-row">
                     <textarea
                       id="prompt"

@@ -1,0 +1,515 @@
+{
+  "schema": "filing-agent-recording-v1",
+  "recorded_at": "2026-09-10T15:19:32.549287+00:00",
+  "investigations": [
+    {
+      "id": "12f8deb7-f143-4f05-b4ae-233815dbc113",
+      "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb",
+      "saved": true,
+      "created_at": "2026-09-10T15:15:51.132854+00:00",
+      "accepted": null,
+      "pending": null,
+      "lineage": null,
+      "turns": [
+        {
+          "id": "48d08846-3e11-4340-a328-65ea47c6f9b3",
+          "question": "삼성전자 2023년 매출액은?",
+          "language": "ko",
+          "status": "complete",
+          "created_at": "2026-09-10T15:15:51.173009+00:00",
+          "wall_seconds": 3.240331624998362,
+          "answer": {
+            "metric": "revenue",
+            "figures": [
+              {
+                "id": "dart:20240312000736:2023:revenue",
+                "basis": "consolidated",
+                "scale": 1,
+                "value": "258935494000000",
+                "metric": "revenue",
+                "origin": "verified_digest_fact",
+                "period": "2023",
+                "source": {
+                  "regulator": "dart",
+                  "filing_title": "사업보고서 (2023.12)",
+                  "filing_identity": "20240312000736",
+                  "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240312000736",
+                  "section": "2-2. 연결 손익계산서",
+                  "link_status": "denial_page_http_200",
+                  "excerpt_cells": [
+                    "영업수익 (주29)",
+                    "258,935,494",
+                    "302,231,360",
+                    "279,604,799"
+                  ]
+                },
+                "company": "삼성전자",
+                "currency": "KRW",
+                "period_end": "2023-12-31",
+                "company_code": "00126380",
+                "period_start": "2023-01-01",
+                "source_label": "영업수익 (주29)",
+                "verification": "exact API amount and receipt plus original statement company, row, currency/scale, basis and period",
+                "original_unit": "백만원",
+                "original_value": "258,935,494"
+              }
+            ],
+            "periods": [
+              "2023"
+            ],
+            "refused": false,
+            "fact_ids": [
+              "dart:20240312000736:2023:revenue"
+            ],
+            "searched": [
+              {
+                "period": "2023",
+                "company": "Samsung",
+                "section": "2-2. 연결 손익계산서",
+                "filing_title": "사업보고서 (2023.12)"
+              }
+            ],
+            "answer_en": "These are the verified figures for the requested company, metric and fiscal year.",
+            "answer_ko": "요청한 회사, 지표, 회계연도의 검증된 수치입니다.",
+            "companies": [
+              "Samsung"
+            ],
+            "operation": "report",
+            "calculated": [],
+            "reason_code": null,
+            "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb"
+          },
+          "steps": [
+            {
+              "name": "interpret",
+              "reused": false,
+              "status": "complete",
+              "seconds": 3.171183458995074,
+              "started_at": "2026-09-10T15:15:51.188285+00:00"
+            },
+            {
+              "name": "evidence",
+              "reused": false,
+              "status": "complete",
+              "seconds": 0.01079537499754224,
+              "started_at": "2026-09-10T15:15:54.380532+00:00"
+            },
+            {
+              "name": "answer",
+              "reused": false,
+              "status": "complete",
+              "seconds": 0.008724333994905464,
+              "started_at": "2026-09-10T15:15:54.399206+00:00"
+            }
+          ],
+          "question_en": "What was Samsung revenue in FY2023?"
+        },
+        {
+          "id": "3811bcfe-5b59-4e82-a9c8-abce0fcfc8db",
+          "question": "2022년과 비교하면 얼마나 감소했어?",
+          "language": "ko",
+          "status": "complete",
+          "created_at": "2026-09-10T15:15:56.874781+00:00",
+          "wall_seconds": 3.7999647079996066,
+          "answer": {
+            "metric": "revenue",
+            "figures": [
+              {
+                "id": "dart:20240312000736:2022:revenue",
+                "basis": "consolidated",
+                "scale": 1,
+                "value": "302231360000000",
+                "metric": "revenue",
+                "origin": "agent_evidence_supplement_not_ingested_into_digest",
+                "period": "2022",
+                "source": {
+                  "regulator": "dart",
+                  "filing_title": "사업보고서 (2023.12)",
+                  "filing_identity": "20240312000736",
+                  "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240312000736",
+                  "section": "2-2. 연결 손익계산서",
+                  "link_status": "denial_page_http_200",
+                  "excerpt_cells": [
+                    "영업수익 (주29)",
+                    "258,935,494",
+                    "302,231,360",
+                    "279,604,799"
+                  ]
+                },
+                "company": "삼성전자",
+                "currency": "KRW",
+                "period_end": "2022-12-31",
+                "company_code": "00126380",
+                "period_start": "2022-01-01",
+                "source_label": "영업수익 (주29)",
+                "verification": "exact API amount and receipt plus original statement company, row, currency/scale, basis and period",
+                "original_unit": "백만원",
+                "original_value": "302,231,360"
+              },
+              {
+                "id": "dart:20240312000736:2023:revenue",
+                "basis": "consolidated",
+                "scale": 1,
+                "value": "258935494000000",
+                "metric": "revenue",
+                "origin": "verified_digest_fact",
+                "period": "2023",
+                "source": {
+                  "regulator": "dart",
+                  "filing_title": "사업보고서 (2023.12)",
+                  "filing_identity": "20240312000736",
+                  "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240312000736",
+                  "section": "2-2. 연결 손익계산서",
+                  "link_status": "denial_page_http_200",
+                  "excerpt_cells": [
+                    "영업수익 (주29)",
+                    "258,935,494",
+                    "302,231,360",
+                    "279,604,799"
+                  ]
+                },
+                "company": "삼성전자",
+                "currency": "KRW",
+                "period_end": "2023-12-31",
+                "company_code": "00126380",
+                "period_start": "2023-01-01",
+                "source_label": "영업수익 (주29)",
+                "verification": "exact API amount and receipt plus original statement company, row, currency/scale, basis and period",
+                "original_unit": "백만원",
+                "original_value": "258,935,494"
+              }
+            ],
+            "periods": [
+              "2022",
+              "2023"
+            ],
+            "refused": false,
+            "fact_ids": [
+              "dart:20240312000736:2022:revenue",
+              "dart:20240312000736:2023:revenue"
+            ],
+            "searched": [
+              {
+                "period": "2023",
+                "company": "Samsung",
+                "section": "2-2. 연결 손익계산서",
+                "filing_title": "사업보고서 (2023.12)"
+              }
+            ],
+            "answer_en": "Samsung's revenue decreased by 14.33% in FY2023 compared with FY2022.",
+            "answer_ko": "삼성전자의 2023년 매출액은 2022년보다 14.33% 감소했습니다.",
+            "companies": [
+              "Samsung"
+            ],
+            "operation": "compare",
+            "calculated": [
+              {
+                "inputs": [
+                  "dart:20240312000736:2023:revenue",
+                  "dart:20240312000736:2022:revenue"
+                ],
+                "currency": "KRW",
+                "absolute_change": "-43295866000000",
+                "percentage_change": "-14.33"
+              }
+            ],
+            "reason_code": null,
+            "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb"
+          },
+          "steps": [
+            {
+              "name": "interpret",
+              "reused": false,
+              "status": "complete",
+              "seconds": 3.740014208990033,
+              "started_at": "2026-09-10T15:15:56.886670+00:00"
+            },
+            {
+              "name": "evidence",
+              "reused": false,
+              "status": "complete",
+              "seconds": 0.014268333005020395,
+              "started_at": "2026-09-10T15:16:00.637330+00:00"
+            },
+            {
+              "name": "answer",
+              "reused": false,
+              "status": "complete",
+              "seconds": 0.006337832994177006,
+              "started_at": "2026-09-10T15:16:00.659599+00:00"
+            }
+          ],
+          "question_en": "How much did it decrease compared with FY2022?"
+        }
+      ]
+    },
+    {
+      "id": "43708b7a-5cc0-47be-852a-3615e6bf87bb",
+      "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb",
+      "saved": true,
+      "created_at": "2026-09-10T15:19:23.044298+00:00",
+      "accepted": null,
+      "pending": null,
+      "lineage": null,
+      "turns": [
+        {
+          "id": "fdb511cd-0703-4539-bd03-64ccb529cff5",
+          "question": "삼성전자 2023년 매출액은?",
+          "language": "ko",
+          "status": "complete",
+          "created_at": "2026-09-10T15:19:23.066613+00:00",
+          "wall_seconds": 3.0982967500021914,
+          "answer": {
+            "metric": "revenue",
+            "figures": [
+              {
+                "id": "dart:20240312000736:2023:revenue",
+                "basis": "consolidated",
+                "scale": 1,
+                "value": "258935494000000",
+                "metric": "revenue",
+                "origin": "verified_digest_fact",
+                "period": "2023",
+                "source": {
+                  "regulator": "dart",
+                  "filing_title": "사업보고서 (2023.12)",
+                  "filing_identity": "20240312000736",
+                  "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240312000736",
+                  "section": "2-2. 연결 손익계산서",
+                  "link_status": "denial_page_http_200",
+                  "excerpt_cells": [
+                    "영업수익 (주29)",
+                    "258,935,494",
+                    "302,231,360",
+                    "279,604,799"
+                  ]
+                },
+                "company": "삼성전자",
+                "currency": "KRW",
+                "period_end": "2023-12-31",
+                "company_code": "00126380",
+                "period_start": "2023-01-01",
+                "source_label": "영업수익 (주29)",
+                "verification": "exact API amount and receipt plus original statement company, row, currency/scale, basis and period",
+                "original_unit": "백만원",
+                "original_value": "258,935,494"
+              }
+            ],
+            "periods": [
+              "2023"
+            ],
+            "refused": false,
+            "fact_ids": [
+              "dart:20240312000736:2023:revenue"
+            ],
+            "searched": [
+              {
+                "period": "2023",
+                "company": "Samsung",
+                "section": "2-2. 연결 손익계산서",
+                "filing_title": "사업보고서 (2023.12)"
+              }
+            ],
+            "answer_en": "These are the verified figures for the requested company, metric and fiscal year.",
+            "answer_ko": "요청한 회사, 지표, 회계연도의 검증된 수치입니다.",
+            "companies": [
+              "Samsung"
+            ],
+            "operation": "report",
+            "calculated": [],
+            "reason_code": null,
+            "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb"
+          },
+          "steps": [
+            {
+              "name": "interpret",
+              "reused": false,
+              "status": "complete",
+              "seconds": 3.044191624998348,
+              "started_at": "2026-09-10T15:19:23.081406+00:00"
+            },
+            {
+              "name": "evidence",
+              "reused": false,
+              "status": "complete",
+              "seconds": 0.0101252499880502,
+              "started_at": "2026-09-10T15:19:26.134223+00:00"
+            },
+            {
+              "name": "answer",
+              "reused": false,
+              "status": "complete",
+              "seconds": 0.006849166995380074,
+              "started_at": "2026-09-10T15:19:26.151846+00:00"
+            }
+          ],
+          "question_en": "What was Samsung revenue in FY2023?"
+        },
+        {
+          "id": "9f19153b-0851-4d7d-8152-84f3f0990dcb",
+          "question": "네이버는?",
+          "language": "ko",
+          "status": "complete",
+          "created_at": "2026-09-10T15:19:26.188531+00:00",
+          "wall_seconds": 2.9938937080005417,
+          "answer": {
+            "metric": "revenue",
+            "figures": [
+              {
+                "id": "dart:20240318000844:2023:revenue",
+                "basis": "consolidated",
+                "scale": 1,
+                "value": "9670643576585",
+                "metric": "revenue",
+                "origin": "agent_evidence_supplement_not_ingested_into_digest",
+                "period": "2023",
+                "source": {
+                  "regulator": "dart",
+                  "filing_title": "사업보고서 (2023.12)",
+                  "filing_identity": "20240318000844",
+                  "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240318000844",
+                  "section": "2-2. 연결 포괄손익계산서",
+                  "link_status": "not_rechecked_after_same_host_denials",
+                  "excerpt_cells": [
+                    "영업수익 (주35)",
+                    "9,670,643,576,585",
+                    "8,220,078,708,810",
+                    "6,817,599,707,250"
+                  ]
+                },
+                "company": "NAVER",
+                "currency": "KRW",
+                "period_end": "2023-12-31",
+                "company_code": "00266961",
+                "period_start": "2023-01-01",
+                "source_label": "영업수익 (주35)",
+                "verification": "exact API amount and receipt plus original statement company, row, currency/scale, basis and period",
+                "original_unit": "원",
+                "original_value": "9,670,643,576,585"
+              }
+            ],
+            "periods": [
+              "2023"
+            ],
+            "refused": false,
+            "fact_ids": [
+              "dart:20240318000844:2023:revenue"
+            ],
+            "searched": [
+              {
+                "period": "2023",
+                "company": "NAVER",
+                "section": "2-2. 연결 포괄손익계산서",
+                "filing_title": "사업보고서 (2023.12)"
+              }
+            ],
+            "answer_en": "These are the verified figures for the requested company, metric and fiscal year.",
+            "answer_ko": "요청한 회사, 지표, 회계연도의 검증된 수치입니다.",
+            "companies": [
+              "NAVER"
+            ],
+            "operation": "report",
+            "calculated": [],
+            "reason_code": null,
+            "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb"
+          },
+          "steps": [
+            {
+              "name": "interpret",
+              "reused": false,
+              "status": "complete",
+              "seconds": 2.9507191669981694,
+              "started_at": "2026-09-10T15:19:26.191760+00:00"
+            },
+            {
+              "name": "evidence",
+              "reused": false,
+              "status": "complete",
+              "seconds": 0.010542916992562823,
+              "started_at": "2026-09-10T15:19:29.151086+00:00"
+            },
+            {
+              "name": "answer",
+              "reused": false,
+              "status": "complete",
+              "seconds": 0.006782875003409572,
+              "started_at": "2026-09-10T15:19:29.169082+00:00"
+            }
+          ],
+          "question_en": "What about NAVER?"
+        }
+      ]
+    },
+    {
+      "id": "04fc860b-44ad-4de6-81b4-f1d08e0eb67c",
+      "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb",
+      "saved": true,
+      "created_at": "2026-09-10T15:19:29.348414+00:00",
+      "accepted": null,
+      "pending": null,
+      "lineage": null,
+      "turns": [
+        {
+          "id": "6a79e7cb-3665-4c97-b810-5c9e98edc9e4",
+          "question": "삼성전자 2023년 연구개발비는?",
+          "language": "ko",
+          "status": "complete",
+          "created_at": "2026-09-10T15:19:29.367285+00:00",
+          "wall_seconds": 3.013611000002129,
+          "answer": {
+            "metric": "research_and_development",
+            "figures": [],
+            "periods": [
+              "2023"
+            ],
+            "refused": true,
+            "fact_ids": [],
+            "searched": [
+              {
+                "period": "2023",
+                "company": "Samsung",
+                "section": "2-2. 연결 손익계산서",
+                "filing_title": "사업보고서 (2023.12)"
+              }
+            ],
+            "answer_en": "The requested metric is outside the verified evidence scope; this does not mean it is absent from the entire filing.",
+            "answer_ko": "현재 검증된 근거 범위에는 요청한 지표가 없습니다. 공시 전체에 없다는 뜻은 아닙니다.",
+            "companies": [
+              "Samsung"
+            ],
+            "operation": "refuse",
+            "calculated": [],
+            "reason_code": "outside_verified_metric_scope",
+            "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb"
+          },
+          "steps": [
+            {
+              "name": "interpret",
+              "reused": false,
+              "status": "complete",
+              "seconds": 2.970006582996575,
+              "started_at": "2026-09-10T15:19:29.369778+00:00"
+            },
+            {
+              "name": "evidence",
+              "reused": false,
+              "status": "complete",
+              "seconds": 0.00948820800113026,
+              "started_at": "2026-09-10T15:19:32.348148+00:00"
+            },
+            {
+              "name": "answer",
+              "reused": false,
+              "status": "complete",
+              "seconds": 0.00914095800544601,
+              "started_at": "2026-09-10T15:19:32.364402+00:00"
+            }
+          ],
+          "question_en": "What were Samsung R&D expenses in FY2023?"
+        }
+      ]
+    }
+  ],
+  "notice": "Authentic local execution; bilingual financial wording is supplied by code. Recorded against a fixed historical evidence collection; scope and evaluation limitations are documented in the accompanying project notes.",
+  "sha256": "27229007759406cf2eceee7ee44b611af19b8bd72c23ec89e6d8e13e4e4279ac"
+}
