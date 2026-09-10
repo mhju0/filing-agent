@@ -1,0 +1,141 @@
+{
+  "status": "PASS",
+  "verified_on": "2026-09-11",
+  "bench_tests": 57,
+  "application_tests": 19,
+  "source_archive_tests": 57,
+  "heldout": {
+    "split": "heldout",
+    "trials": 1,
+    "case_sha256": "34f530bd8949333358f22de41703ef32a1a0d68394c140c3c0f67da338f80e07",
+    "scores": [
+      {
+        "language": "ko",
+        "trial": 1,
+        "correct": 20,
+        "total": 20
+      },
+      {
+        "language": "en",
+        "trial": 1,
+        "correct": 20,
+        "total": 20
+      }
+    ],
+    "source_sha256": {
+      "slice/store.py": "aaa6cf6ecc03bf5707cecc66112fb7035afb69d6b2db32feb435d7a1fd396f1d",
+      "slice/backup.py": "1aab084f2173d03f92bd6be56125053899e5c875c2c85bf0ed68fe4adcaa40de",
+      "slice/__init__.py": "e00e18d2967b2dfb34529338bd4680d3dcabdc60500291e9fc7ffa00221a087e",
+      "slice/core.py": "04bc48e8e8adb81043070f1a6c10b1d372a92207a946ef519a3f2f99ac7f93df",
+      "slice/financial.py": "2393db6b91c9c4c8a2abc3af1fd31684ec32578a6bb64ea9851255a5db03a230",
+      "slice/export.py": "0616d2af13866fdbf849044039566e97e8f67e8a841461fbbe7e5a05eae6cd0d",
+      "slice/runtime.py": "93fb81b4eab1951632a99c0f478087a59cd74363218902dfa3626418419f41b4",
+      "slice/lifecycle.py": "7e47c30977cad4f977d80fb46d377764d8a96f218753c0f461242f78ad15e93b",
+      "slice/app.py": "a5a5d21cbe94abeeabd245c2898973b06cd272c036a2b15c8f66fa55fec7085a",
+      "slice/workflow.py": "f9fc5dc8ea05908c42fd72cc2047f1db34250151873f68afbd428e983e6383bb"
+    }
+  },
+  "targeted_live_cases": [
+    {
+      "question": "Compare Samsung and Tesla revenue in 2023",
+      "language": "en",
+      "pass": true
+    },
+    {
+      "question": "Compare Rivian revenue with Samsung in 2023",
+      "language": "en",
+      "pass": true
+    },
+    {
+      "question": "삼성전자 매출을 테슬라와 2023년 기준으로 비교해줘",
+      "language": "ko",
+      "pass": true
+    },
+    {
+      "question": "삼성전자와 현대자동차의 2023년 매출을 비교해줘",
+      "language": "ko",
+      "pass": true
+    },
+    {
+      "question": "Samsung revenue in 2023. Compare it with Tesla.",
+      "language": "en",
+      "pass": true
+    },
+    {
+      "question": "What was Samsung Electronics revenue in 2023?",
+      "language": "en",
+      "pass": true
+    },
+    {
+      "question": "삼성전자 2023년과 2022년 매출액을 비교해 줘",
+      "language": "ko",
+      "pass": true
+    },
+    {
+      "question": "Microsoft 2024년과 2023년 당기순이익을 비교해 줘",
+      "language": "ko",
+      "pass": true
+    }
+  ],
+  "live_browser": {
+    "status": "PASS",
+    "browser": "152.0.7977.83",
+    "checks": [
+      "start-en-light no overflow; axe WCAG A/AA checks passed",
+      "start-en-dark no overflow; axe WCAG A/AA checks passed",
+      "answer-ko-light no overflow; axe WCAG A/AA checks passed",
+      "answer-en-dark no overflow; axe WCAG A/AA checks passed",
+      "Examples fill without sending; live compare; formula inputs; saved continuation; refresh; history; language preserves past answer; persisted clarification resumes; edit starts new",
+      "mobile-en-dark-evidence no overflow; axe WCAG A/AA checks passed",
+      "mobile-en-dark-conversation no overflow; axe WCAG A/AA checks passed",
+      "mobile-ko-light-320 no overflow; axe WCAG A/AA checks passed",
+      "390px and 320px reflow; modal focus trap; Escape and close restore figure focus; original filing URL retained; reduced-motion mode",
+      "Draft survives refresh; history search empty state; deletion confirms and removes current draft"
+    ],
+    "errors": []
+  },
+  "replay_browser": {
+    "status": "PASS",
+    "browser": "152.0.7977.83",
+    "checks": [
+      "compare-ko-light no overflow; axe WCAG A/AA checks passed",
+      "compare-en-dark no overflow; axe WCAG A/AA checks passed",
+      "refusal-en-dark no overflow; axe WCAG A/AA checks passed",
+      "Three captured scenarios; stable turns; formula/source selection; no live prompt; recorded actual timings; bilingual answer text",
+      "mobile-en-dark-evidence no overflow; axe WCAG A/AA checks passed",
+      "mobile-en-dark-conversation no overflow; axe WCAG A/AA checks passed",
+      "mobile-ko-light-320 no overflow; axe WCAG A/AA checks passed",
+      "390px and 320px reflow; modal focus trap; Escape and close restore figure focus; original filing URL retained; reduced-motion mode"
+    ],
+    "errors": []
+  },
+  "release_browser": {
+    "status": "PASS",
+    "checks": [
+      "ko 1440 project notes: links, reflow, axe passed",
+      "ko 390 project notes: links, reflow, axe passed",
+      "ko 320 project notes: links, reflow, axe passed",
+      "en 1440 project notes: links, reflow, axe passed",
+      "en 390 project notes: links, reflow, axe passed",
+      "en 320 project notes: links, reflow, axe passed",
+      "Recording asset failure is visible and reload works"
+    ]
+  },
+  "failure_recovery": {
+    "status": "PASS",
+    "checks": [
+      "Late A response preserves B conversation, draft and evidence; navigation does not cancel A; global execution blocks new inference",
+      "Storage failure retains figures; repeated explicit retry restores one turn; KO/EN light/dark recovery passes axe and reflow at 1440/390/320",
+      "Discard requires confirmation and removes only the unstored result",
+      "Composer waits for new investigation creation; its draft is present immediately on reload",
+      "Replay restores URL selection, resets turn on scenario switch, has no composer and makes no live requests"
+    ],
+    "errors": []
+  },
+  "preservation": {
+    "status": "PASS",
+    "original_records": 92,
+    "unchanged": 92,
+    "deleted_own_capture_records": 4
+  }
+}

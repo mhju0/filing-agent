@@ -15,7 +15,7 @@ SNAPSHOT = ROOT / "docs/audits/2026-09-07-coverage/pilot-snapshot.json"
 MODEL = "gemma4:e4b"
 DIGEST = "c6eb396dbd5992bbe3f5cdb947e8bbc0ee413d7c17e2beaae69f5d569cf982eb"
 ALIASES = {
-    "Samsung": r"삼성(?:전자)?|\bsamsung\b",
+    "Samsung": r"삼성(?:전자)?|\bsamsung(?:\s+electronics)?\b",
     "NAVER": r"네이버|\bnaver\b",
     "Microsoft": r"마이크로소프트|\bmicrosoft\b",
 }
@@ -31,10 +31,31 @@ RELATIVE_YEAR = r"전년도?|이전\s*(?:해|연도)|previous\s+(?:fiscal\s+)?ye
 COMPARISON = r"비교|대비|증감|증가|감소|늘었|줄었|변화|\b(?:compare|compared|change|changed|increase|increased|decrease|decreased|grow|grew|growth|decline|declined)\b|year\s+over\s+year"
 
 
+def _has_unhandled_request_scope(question):
+    """Reject explicit requests with meaningful text outside the bounded grammar."""
+    request = question
+    for alias in ALIASES.values():
+        request = re.sub(alias, " ", request, flags=re.IGNORECASE)
+    request = re.sub(
+        r"['’]s\b|\b(?:a|can|could|would|you|i|tell|give|show|calculate|compare|comparison|change|"
+        r"difference|investigate|switch|keeping|keep|mean|meant|want|use|spend|between|from|with|"
+        r"against|on|treating|as|same|unit|units|statement|statements|krw|usd|expense|amount|total|"
+        r"reported|consolidated|separate|not|but|rather|than|if|absent|missing|report|zero|just|"
+        r"invent|do|refuse|ignore|evidence|restrictions|answer|korean|english)\b|"
+        r"알려\s*주세요|(?:비교|계산)해\s*줘|회계연도|보고(?:한|된)|기록한|사용한|"
+        r"확인(?:하고|할|해줘)?|알아보고|싶어|수\s*있어|관해|백분율(?:로)?|변했는지|"
+        r"기존|규칙|무시하고|(?<!\d)0(?!\d)|이라고|같은|지표|회사는|및|연결|별도|기준(?:으로)?|"
+        r"말고|에서|으로|연도로|야|해",
+        " ", request, flags=re.IGNORECASE,
+    )
+    return not _is_context_followup(request)
+
+
 def _is_context_followup(question):
     """Carry company context only for a bounded company-free follow-up vocabulary."""
     remaining = re.sub(RELATIVE_YEAR, " ", question.lower())
-    remaining = re.sub(r"(?:증가|감소)(?:하거나|했어|했나요|했는지|한|했|해)?|(?:늘|줄)(?:었어|었나요|었는지|었|어)|비교(?:하면|해줘|해주세요|해)?|얼마나", " ", remaining)
+    remaining = re.sub(r"증감률|증가율|변화율", " ", remaining)
+    remaining = re.sub(r"(?:증가|감소)(?:하거나|했어|했나요|했는지|한|했|해)?|(?:늘|줄)(?:었어|었나요|었는지|었|어)|비교(?:하면|한|해줘|해주세요|해)?|얼마나", " ", remaining)
     remaining = re.sub(COMPARISON, " ", remaining, flags=re.IGNORECASE)
     for pattern in METRICS.values():
         remaining = re.sub(pattern, " ", remaining, flags=re.IGNORECASE)
@@ -59,7 +80,7 @@ def guard_intent(question, intent, context):
         if re.search(pattern, question, re.IGNORECASE)
     }
     company_question = re.sub(
-        r"연결\s*(?:이\s*아닌|이\s*아니라|말고|대신)\s*별도|"
+        r"연결\s*(?:이\s*아닌|이\s*아니라|말고|대신)\s*별도(?:로|\s*기준(?:으로)?)?|"
         r"\bnot\s+consolidated\s*[,;]?\s*(?:but\s+)?separate\b|"
         r"\bseparate\s+rather\s+than\s+consolidated\b",
         " ", question, flags=re.IGNORECASE,
@@ -85,6 +106,8 @@ def guard_intent(question, intent, context):
     actual = set(intent["companies"])
     if correction_requested:
         intent["companies"] = [corrected_company] if corrected_company else []
+    elif explicit and _has_unhandled_request_scope(company_question):
+        intent["companies"] = []
     elif len(explicit) == 1:
         intent["companies"] = sorted(explicit)
     elif explicit and actual != explicit:

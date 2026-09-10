@@ -115,11 +115,33 @@ header {
   border-bottom: 1px solid var(--line);
 }
 .wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 44px;
   font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: -0.045em;
   color: var(--ink);
   text-decoration: none;
+}
+.family-mark {
+  display: block;
+  width: 2.15rem;
+  height: 1.55rem;
+}
+.family-mark img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.family-mark .mark-dark,
+:root[data-theme="dark"] .family-mark .mark-light {
+  display: none;
+}
+:root[data-theme="dark"] .family-mark .mark-dark {
+  display: block;
 }
 nav {
   display: flex;
@@ -191,6 +213,30 @@ nav {
 .examples button {
   text-align: left;
   background: var(--surface);
+}
+.starter-questions {
+  margin-top: 1.75rem;
+}
+.starter-questions h2,
+.limit-example h2 {
+  margin-bottom: 0.65rem;
+}
+.limit-example {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(15rem, 0.55fr);
+  gap: 1rem;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+}
+.limit-example p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.limit-example button {
+  text-align: left;
 }
 .investigation-heading {
   display: flex;
@@ -316,6 +362,12 @@ details {
   gap: 0.5rem;
   margin: 0.8rem 0;
 }
+.primary-action {
+  color: var(--bg);
+  background: var(--accent);
+  border-color: var(--accent);
+  font-weight: 700;
+}
 .storage-recovery button {
   margin: 0.5rem 0.5rem 0 0;
 }
@@ -333,6 +385,21 @@ details {
   font-size: 0.88rem;
   display: block;
   margin-bottom: 0.4rem;
+}
+.follow-ups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.7rem;
+}
+.follow-ups span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+.follow-ups button {
+  padding-block: 0.35rem;
+  font-size: 0.84rem;
 }
 .prompt-row {
   display: flex;
@@ -514,10 +581,18 @@ dialog::backdrop {
   .coverage {
     font-size: 0.85rem;
   }
+  .limit-example {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 @media (hover: hover) and (pointer: fine) {
   button:not(:disabled):hover {
     background: var(--wash);
+  }
+  button.primary-action:not(:disabled):hover {
+    color: var(--bg);
+    background: var(--accent);
+    filter: brightness(1.08);
   }
 }
 @media (prefers-reduced-motion: reduce) {

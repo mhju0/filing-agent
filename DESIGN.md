@@ -19,3 +19,5 @@ Default to a concise answer and key figures with expandable explanation and evid
 Apply antislop during design and implementation as configured in AGENTS.md. Use this brief as the visual direction; document the reasons for major design choices and verify the eventual interface across languages, screen sizes, keyboard navigation, and loading, empty, partial, and error states.
 
 Design dials: ENERGY 1, RHYTHM 2, MOTION 1. Paired reported figures establish the primary comparison; the shared figure/excerpt highlight identifies the selected evidence. Numeric alignment supports comparison, visible controls improve discoverability, and the single mobile evidence state reserves the full reading area for the source.
+
+Use the Filing family’s bracketed F mark in the header and favicon to make the relationship to Filing Digest visible. Keep Agent’s brown evidence accent, ruled rows, and dense ledger workspace so the two products remain distinct at a glance.

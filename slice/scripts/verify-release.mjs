@@ -18,6 +18,12 @@ try{
   assert.deepEqual(axe.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)})),[]);
   if(width===1440){
    await page.locator('video').evaluate(async video=>{await video.play();video.pause();if(video.error)throw Error(video.error.message)});
+   await page.waitForFunction(lang => {
+    const video=document.querySelector('video');
+    const track=[...video.textTracks].find(track=>track.language===lang);
+    return track?.cues?.length>0;
+   },lang);
+   assert.equal(await page.locator('article.project > section').first().getAttribute('class'),'run');
   }
   for(const href of await page.locator('a').evaluateAll(links=>links.map(a=>a.href))){
    const response=await page.request.get(href);assert.equal(response.status(),200,href);

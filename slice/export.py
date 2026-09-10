@@ -14,6 +14,7 @@ def recording(investigations):
     translations = {
         "삼성전자 2023년과 2022년 매출액 증감률은?": "How did Samsung revenue change from FY2022 to FY2023?",
         "삼성전자 2023년 매출액은?": "What was Samsung revenue in FY2023?",
+        "2022년과 비교하면 얼마나 감소했어?": "How much did it decrease compared with FY2022?",
         "네이버는?": "What about NAVER?",
         "삼성전자 2023년 연구개발비는?": "What were Samsung R&D expenses in FY2023?",
     }

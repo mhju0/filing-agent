@@ -1,6 +1,6 @@
 # Filing Agent
 
-A bilingual research workspace for Korean DART and US SEC filings. Ask follow-up questions, compare annual figures and inspect the original evidence. Inference runs locally on a Mac.
+A bilingual local workspace for asking follow-up questions about a small, verified set of Korean DART and US SEC filing figures. Compare annual values and inspect the original evidence behind each answer.
 
 **Sister project to [Filing Digest](https://github.com/mhju0/filing-digest).** Digest handles filing ingestion, retrieval and the iOS reader. Agent adds conversational context, annual comparisons and saved investigations. Both projects keep financial figures separate from model-generated prose.
 
@@ -8,7 +8,7 @@ A bilingual research workspace for Korean DART and US SEC filings. Ask follow-up
 
 > The local application is implemented and the public replay is deployed. The replay contains actual recorded execution and works without the Mac. Live inference runs only on the owner's machine. Current coverage is 15 verified historical facts across three companies.
 
-![Filing Agent annual comparison with reported figures, calculated change and original filing evidence](docs/audits/2026-09-08-slice/replay-compare-en-dark.png)
+![Filing Agent follow-up comparison with reported figures, calculated change and original filing evidence](docs/audits/2026-09-10-final-polish/actual-run.png)
 
 ## The problem
 
@@ -34,7 +34,7 @@ The [coverage audit](docs/audits/2026-09-07-coverage/README.md) pins the inspect
 
 | Recorded investigation | Behavior to inspect |
 |---|---|
-| [Annual comparison](https://filing-agent.vercel.app/#scenario=0&turn=0) | Compare Samsung revenue across FY2022 and FY2023; inspect reported amounts and the calculation's source-bound inputs |
+| [Question and annual comparison](https://filing-agent.vercel.app/#scenario=0&turn=0) | Start with Samsung FY2023 revenue, then compare with FY2022 without repeating the company; inspect reported amounts and the calculation's source-bound inputs |
 | [Company switch](https://filing-agent.vercel.app/#scenario=1&turn=1) | Follow a Samsung revenue question with “What about NAVER?”; preserve metric and year while changing company |
 | [Insufficient evidence](https://filing-agent.vercel.app/#scenario=2&turn=0) | Withhold Samsung R&D expenses because the verified collection does not contain that metric; show the checked scope |
 
@@ -75,7 +75,7 @@ Local question path
 
 See the [model experiments](bench/runs/2026-09-07/README.md) and [workflow decision record](docs/adr/0006-persisted-local-workflows-and-release-scope.md) for the failed alternatives and implementation boundaries.
 
-## Evaluation
+## Historical release evaluation
 
 The release evaluation ran 40 scenarios held out from execution three times: **120 scenario runs and 138 actual conversation turns**. Each trial contained 20 Korean and 20 English scenarios.
 
@@ -90,7 +90,7 @@ The implementing agent authored the scenarios. They share task families, compani
 
 The architecture refactor passed 17 application tests and 31 benchmark tests, with 1,800 financial outputs unchanged across extraction. Separate checks exercised storage failure and uncertain commits, retry, cancellation and saved-result preservation, plus the browser interface in both languages and themes on desktop and mobile. The original held-out run blocked application/model outbound traffic except localhost. The public replay was checked with local services stopped. [Architecture verification](docs/audits/2026-09-08-architecture/README.md) separates current checks from the earlier model evaluation.
 
-[Evaluation method](evals/README.md) · [Results](evals/RESULTS.md) · [Release audit](docs/audits/2026-09-08-slice/README.md)
+[Evaluation method](evals/README.md) · [Results](evals/RESULTS.md) · [Release audit](docs/audits/2026-09-08-slice/README.md) · [Latest verification](docs/audits/2026-09-10-final-polish/README.md)
 
 ## Local setup
 

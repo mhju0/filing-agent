@@ -27,6 +27,16 @@ await context.route("**/*", (route) => {
   return route.continue();
 });
 const page = await context.newPage();
+const createdIDs = new Set();
+const creationReads = [];
+page.on("response", response => {
+  const request = response.request();
+  const path = new URL(response.url()).pathname;
+  if (mode === "live" && request.method() === "POST" && response.ok() &&
+      (path === "/api/investigations" || /^\/api\/investigations\/[^/]+\/fork$/.test(path))) {
+    creationReads.push(response.json().then(body => createdIDs.add(body.id)));
+  }
+});
 page.on("pageerror", (e) => errors.push(e.message));
 page.on("console", (m) => {
   if (m.type() === "error") errors.push(m.text());
@@ -60,9 +70,9 @@ try {
   if (mode === "live") {
     await page.getByRole("textbox").waitFor();
     for (const q of [
-      "삼성전자 2023년과 2022년 매출액 증감률은?",
+      "삼성전자 2023년과 2022년 매출액을 비교해 줘",
       "네이버 2023년 영업이익은?",
-      "Compare Microsoft revenue in FY2024 and FY2023.",
+      "Microsoft 2024년과 2023년 당기순이익을 비교해 줘",
       "삼성전자 2023년 연구개발비는?",
     ]) {
       await page.getByRole("button", { name: q, exact: true }).click();
@@ -143,7 +153,7 @@ try {
     assert.equal(await page.locator("dialog").count(), 0);
     await page
       .getByRole("button", {
-        name: "Refresh into new investigation",
+        name: "New investigation with current data",
         exact: true,
       })
       .click();
@@ -195,13 +205,16 @@ try {
     await page.locator(".figure").first().waitFor();
     assert.equal(await page.getByRole("textbox").count(), 0);
     assert.equal(await page.locator(".evidence").count(), 1);
+    assert.equal(await page.locator("article").count(), 1);
+    await page.getByRole("button", { name: "다음 질문" }).click();
+    await page.locator("article").nth(1).locator(".formula").waitFor();
     await audit("compare-ko-light");
     await page.locator(".formula summary").click();
     await page.locator(".formula button").first().click();
     await page.getByRole("button", { name: "English", exact: true }).click();
     await page.getByRole("button", { name: "Switch to dark theme" }).click();
     assert.match(
-      await page.locator(".answer-sentence").innerText(),
+      await page.locator(".answer-sentence").last().innerText(),
       /decreased/,
     );
     await audit("compare-en-dark");
@@ -312,5 +325,16 @@ try {
   );
   console.log(mode + " BROWSER PASS");
 } finally {
+  if (mode === "live") {
+    await Promise.all(creationReads);
+    await writeFile(`${out}/live-created.json`, JSON.stringify([...createdIDs]) + "\n");
+    const session = await (await page.request.get(base + "/api/session")).json();
+    for (const id of createdIDs) {
+      const response = await page.request.post(`${base}/api/investigations/${id}/delete`, {
+        headers: { "X-Filing-Token": session.token }, data: {},
+      });
+      assert.ok([200, 404, 409].includes(response.status()), `Test cleanup failed for ${id}`);
+    }
+  }
   await browser.close();
 }
