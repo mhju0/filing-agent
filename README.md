@@ -1,12 +1,34 @@
+<div align="center">
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/design/logos/mark_dark.svg">
+  <img src="docs/design/logos/mark_light.svg" width="130" alt="Filing Agent citation-bracket mark">
+</picture>
+
 # Filing Agent
 
-A bilingual local workspace for asking follow-up questions about a small, verified set of Korean DART and US SEC filing figures. Compare annual values and inspect the original evidence behind each answer.
+**Evidence before answers**
 
-**Sister project to [Filing Digest](https://github.com/mhju0/filing-digest).** Digest handles filing ingestion, retrieval and the iOS reader. Agent adds conversational context, annual comparisons and saved investigations. Both projects keep financial figures separate from model-generated prose.
+A bilingual local investigation workspace for a fixed, verified set of Korean
+DART and US SEC filing figures. Ask follow-up questions, compare annual values,
+and inspect the original evidence behind each answer.
 
-[Explore the recorded investigations](https://filing-agent.vercel.app) · [Engineering notes](https://filing-agent.vercel.app/engineering-en.html) · [Evaluation](evals/RESULTS.md) · [Local setup](#local-setup)
+[Recorded replay](https://filing-agent.vercel.app) · [Engineering notes](https://filing-agent.vercel.app/engineering-en.html) · [Source guide](#source-guide) · [Latest verification](docs/audits/2026-09-10-final-polish/README.md) · [Sister project: Filing Digest](https://github.com/mhju0/filing-digest)
 
-> The local application is implemented and the public replay is deployed. The replay contains actual recorded execution and works without the Mac. Live inference runs only on the owner's machine. Current coverage is 15 verified historical facts across three companies.
+[![CI](https://github.com/mhju0/filing-agent/actions/workflows/publication.yml/badge.svg)](https://github.com/mhju0/filing-agent/actions/workflows/publication.yml)
+![Python 3.11](https://img.shields.io/badge/Python-3.11-3776ab.svg)
+![React + TypeScript](https://img.shields.io/badge/React%20%2B%20TypeScript-20232a.svg)
+
+</div>
+
+> **Status:** The local application is implemented and the public replay is
+> deployed. The replay contains actual recorded execution and works without the
+> Mac. Live inference runs only on the owner's machine. Coverage is 15 verified
+> historical facts across three companies.
+>
+> [Latest verification](docs/audits/2026-09-10-final-polish/README.md): 57 policy
+> tests and 19 application tests passed. One fresh held-out model trial passed
+> 20/20 Korean and 20/20 English scenarios.
 
 ![Filing Agent follow-up comparison with reported figures, calculated change and original filing evidence](docs/audits/2026-09-10-final-polish/actual-run.png)
 
@@ -160,5 +182,3 @@ The [documentation index](docs/README.md) links current guides, architecture dec
 ## License
 
 Copyright (c) 2026 Michael Ju. All rights reserved. The public source archive is available for portfolio review; no open-source license is granted for original project code. Dependency, model and bundled font licenses apply separately.
-
-Release follow-up: [approved remediation and coverage boundaries](docs/audits/2026-09-09-remediation/README.md). Digest now has 18 local companies; Agent retains its separately qualified three-company snapshot.
