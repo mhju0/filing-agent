@@ -80,16 +80,17 @@ COPY = {
 }
 
 
-def build(destination):
+def build(destination, verification_directory="docs/audits/2026-09-10-final-polish"):
     from release.source_bundle import bundle
 
     bundle(destination / "filing-agent-source.zip")
     shutil.copyfile(ROOT / "slice/README.md", destination / "LOCAL-SETUP.md")
-    verification = (ROOT / "docs/audits/2026-09-10-final-polish/README.md").read_text()
+    audit = ROOT / verification_directory
+    verification = (audit / "README.md").read_text()
     verification = verification.replace("../../adr/", "https://github.com/mhju0/filing-agent/blob/main/docs/adr/")
-    verification = verification.replace("(artifact.json)", "(https://github.com/mhju0/filing-agent/blob/main/docs/audits/2026-09-10-final-polish/artifact.json)")
+    verification = verification.replace("(artifact.json)", f"(https://github.com/mhju0/filing-agent/blob/main/{verification_directory}/artifact.json)")
     (destination / "VERIFICATION.md").write_text(verification)
-    shutil.copyfile(ROOT / "docs/audits/2026-09-10-final-polish/verification.json", destination / "verification.json")
+    shutil.copyfile(audit / "verification.json", destination / "verification.json")
     shutil.copyfile(
         ROOT / "evals/release-summary.json", destination / "evaluation.json"
     )
@@ -170,5 +171,6 @@ def build(destination):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("destination", type=Path)
+    parser.add_argument("--verification-directory", default="docs/audits/2026-09-10-final-polish")
     args = parser.parse_args()
-    build(args.destination)
+    build(args.destination, args.verification_directory)
