@@ -43,6 +43,9 @@ page.on("console", (m) => {
 });
 const audit = async (name) => {
   await page.evaluate(() => document.fonts.ready);
+  await page.evaluate(() => new Promise(resolve =>
+    requestAnimationFrame(() => requestAnimationFrame(resolve)),
+  ));
   assert.equal(
     await page.evaluate(
       () => document.documentElement.scrollWidth > innerWidth,
@@ -146,11 +149,11 @@ try {
       .waitFor();
     await page.getByRole("button", { name: "History", exact: true }).click();
     await page
-      .locator("dialog .history-row")
+      .locator('[role="dialog"] .history-row')
       .filter({ hasText: "Saved" })
       .first()
       .click();
-    assert.equal(await page.locator("dialog").count(), 0);
+    assert.equal(await page.locator('[role="dialog"]').count(), 0);
     await page
       .getByRole("button", {
         name: "New investigation with current data",
@@ -246,7 +249,7 @@ try {
   if (mode === "live") {
     await page.getByRole("button", { name: "History", exact: true }).click();
     await page
-      .locator("dialog .history-row")
+      .locator('[role="dialog"] .history-row')
       .filter({ hasText: "Saved" })
       .first()
       .click();
@@ -258,12 +261,12 @@ try {
   for (let i = 0; i < 8; i++) {
     await page.keyboard.press("Tab");
     assert.equal(
-      await page.evaluate(() => !!document.activeElement?.closest("dialog")),
+      await page.evaluate(() => !!document.activeElement?.closest('[role="dialog"]')),
       true,
     );
   }
   await page.keyboard.press("Escape");
-  assert.equal(await page.locator("dialog").count(), 0);
+  assert.equal(await page.locator('[role="dialog"]').count(), 0);
   assert.equal(
     await page.evaluate(() =>
       document.activeElement?.classList.contains("figure"),

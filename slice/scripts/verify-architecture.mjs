@@ -9,6 +9,8 @@ await mkdir(out, { recursive: true });
 const recording = JSON.parse(await readFile(process.env.RECORDING_FIXTURE || 'slice/replay-release/recording.json', 'utf8'));
 const a = structuredClone(recording.investigations[0]);
 const b = structuredClone(recording.investigations[1]);
+a.turns = [a.turns[0]];
+b.turns = [b.turns[0]];
 a.saved = b.saved = false;
 a.turns[0].question = 'Investigation A'; b.turns[0].question = 'Investigation B';
 const completed = structuredClone(a.turns[0]);
@@ -20,6 +22,9 @@ let retryCalls = 0, cancelled = false;
 let releaseCreate, createStarted;
 const creating = new Promise(resolve => { createStarted = resolve; });
 const createWait = new Promise(resolve => { releaseCreate = resolve; });
+let historyCalls = 0, releaseHistory, historyReturned;
+const historyWait = new Promise(resolve => { releaseHistory = resolve; });
+const firstHistoryReturned = new Promise(resolve => { historyReturned = resolve; });
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
 const errors = [], checks = [];
 try {
@@ -37,7 +42,16 @@ try {
     }
     if (path === '/api/investigations/new-test') return send({ ...structuredClone(b), id: 'new-test', turns: [] });
     if (path === '/api/session') return send({ token: 'test', running });
-    if (path === '/api/history') return send([a, b]);
+    if (path === '/api/history') {
+      historyCalls++;
+      if (historyCalls === 1) {
+        await historyWait;
+        await send([a, b]);
+        historyReturned();
+        return;
+      }
+      return send([a, b]);
+    }
     if (path.endsWith('/cancel')) { cancelled = true; return send({}); }
     if (path.endsWith('/retry-storage')) {
       retryCalls++;
@@ -66,6 +80,13 @@ try {
   await page.getByRole('heading', { name: 'Investigation A', exact: true }).waitFor();
   await late;
   await page.getByRole('button', { name: 'History', exact: true }).click();
+  const loadingHistory = page.getByRole('dialog', { name: 'History' });
+  await loadingHistory.getByRole('status').filter({ hasText: 'Loading history.' }).waitFor();
+  await loadingHistory.getByRole('button', { name: 'Close' }).click();
+  releaseHistory();
+  await firstHistoryReturned;
+  assert.equal(await page.getByRole('dialog', { name: 'History' }).count(), 0);
+  await page.getByRole('button', { name: 'History', exact: true }).click();
   await page.locator('.history-row').filter({ hasText: 'Investigation B' }).click();
   await page.getByRole('textbox').fill('Draft belongs to B');
   await page.locator('article').first().locator('.figure').first().click();
@@ -77,9 +98,16 @@ try {
   assert.equal(await page.getByRole('textbox').inputValue(), 'Draft belongs to B');
   assert.equal(await page.locator('aside.evidence').innerText(), bEvidence);
   assert.equal(cancelled, false);
+  checks.push('Closing History while its request is pending cannot reopen it; a fresh open succeeds');
   checks.push('Late A response preserves B conversation, draft and evidence; navigation does not cancel A; global execution blocks new inference');
 
   await page.getByRole('button', { name: 'History', exact: true }).click();
+  const historyModal = page.getByRole('dialog', { name: 'History' });
+  await historyModal.locator('.history-item').filter({ hasText: 'Investigation B' }).getByRole('button', { name: 'Delete this investigation' }).click();
+  assert.equal(await page.getByRole('dialog').count(), 1);
+  assert.equal(await page.locator('.modal-layer[aria-hidden="true"][inert]').count(), 1);
+  await page.keyboard.press('Escape');
+  await historyModal.waitFor();
   await page.locator('.history-row').filter({ hasText: 'Investigation A' }).click();
   a.turns[0].status = 'storage_failed';
   await page.getByRole('button', { name: 'Retry storage', exact: true }).waitFor();
@@ -94,6 +122,9 @@ try {
       for (const dark of [false, true]) {
         await page.emulateMedia({ colorScheme: dark ? 'dark' : 'light', reducedMotion: 'reduce' });
         await page.evaluate(() => document.fonts.ready);
+        await page.evaluate(() => new Promise(resolve =>
+          requestAnimationFrame(() => requestAnimationFrame(resolve)),
+        ));
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
         const axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
         assert.deepEqual(axe.violations.map(v => v.id), []);
@@ -109,7 +140,7 @@ try {
   await page.getByRole('button', { name: 'Discard unstored result', exact: true }).click();
   await page.getByRole('button', { name: 'Confirm discard', exact: true }).click();
   await page.getByText('Unstored result discarded. Earlier turns are preserved.', { exact: true }).waitFor();
-  assert.equal(await page.locator('dialog').count(), 0);
+  assert.equal(await page.locator('[role="dialog"]').count(), 0);
   checks.push('Discard requires confirmation and removes only the unstored result');
   await page.getByRole('button', { name: 'New investigation', exact: true }).click();
   await creating;
@@ -150,4 +181,4 @@ try {
   assert.deepEqual(errors, []);
   await writeFile(`${out}/verification.json`, JSON.stringify({ status: 'PASS', checks, errors }, null, 2));
   console.log(checks.join('\n'));
-} finally { releaseLate?.(); await browser.close(); }
+} finally { releaseLate?.(); releaseHistory?.(); await browser.close(); }

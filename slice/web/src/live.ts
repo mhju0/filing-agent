@@ -27,6 +27,8 @@ export function useLiveInvestigation() {
   const [sending, setSending] = useState(false);
   const [running, setRunning] = useState(false);
   const [history, setHistory] = useState<Investigation[] | null>(null);
+  const historyVisible = useRef(false);
+  const historyGeneration = useRef(0);
   const repaint = () => { if (mounted.current) render(n => n + 1); };
   function setDraft(text: string) {
     localStorage.setItem(draftKey(selected.current), JSON.stringify({ text, at: Date.now() }));
@@ -112,9 +114,17 @@ export function useLiveInvestigation() {
     try { await fn(); } catch (e) { setError((e as Error).message); }
   }
   async function openHistory() {
+    historyVisible.current = true;
+    const generation = ++historyGeneration.current;
+    setHistory([]);
     const items = await request<Investigation[]>("/history");
     items.forEach(i => records.current.set(i.id, i));
-    setHistory(items);
+    if (historyVisible.current && historyGeneration.current === generation) setHistory(items);
+  }
+  function dismissHistory() {
+    historyVisible.current = false;
+    historyGeneration.current++;
+    setHistory(null);
   }
   async function newInvestigation(text = "") {
     if (sendingRef.current) return;
@@ -161,13 +171,16 @@ export function useLiveInvestigation() {
     records.current.delete(identity);
     localStorage.removeItem(draftKey(identity));
     if (selected.current === identity) select(null);
-    await openHistory();
+    const generation = historyGeneration.current;
+    const items = await request<Investigation[]>("/history");
+    items.forEach(i => records.current.set(i.id, i));
+    if (historyVisible.current && historyGeneration.current === generation) setHistory(items);
   }
   async function recover(identity: string, discard = false) {
     receive(await request<Investigation>("/investigations/" + identity + (discard ? "/discard-unstored" : "/retry-storage"), {}));
   }
   return { mode: "live" as const, current: selected.current ? records.current.get(selected.current) || null : null,
-    ready, error, setError, draft, setDraft, sending, running, history, setHistory,
-    select, openHistory, newInvestigation, submit, save, fork, remove, recover, action,
+    ready, error, setError, draft, setDraft, sending, running, history,
+    select, openHistory, dismissHistory, newInvestigation, submit, save, fork, remove, recover, action,
     cancel: (id: string) => request("/turns/" + id + "/cancel", {}) };
 }
