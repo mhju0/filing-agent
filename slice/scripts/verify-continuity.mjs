@@ -10,10 +10,11 @@ const recording = JSON.parse(await readFile(
 ));
 await mkdir(out, { recursive: true });
 
-async function replayPage(browser, options) {
+async function replayPage(browser, options, { blockFont = false } = {}) {
   const context = await browser.newContext(options);
   await context.route("**/*", async route => {
     const url = new URL(route.request().url());
+    if (blockFont && url.pathname.endsWith(".woff2")) return route.abort();
     if (url.pathname === "/recording.json") {
       return route.fulfill({ contentType: "application/json", body: JSON.stringify(recording) });
     }
@@ -147,19 +148,22 @@ try {
 
   {
     const { context, page } = await replayPage(chrome, {
-      viewport: { width: 320, height: 760 },
+      viewport: { width: 1440, height: 900 },
       reducedMotion: "reduce",
       colorScheme: "light",
-    });
-    await page.locator(".figure").first().click();
+    }, { blockFont: true });
+    await page.evaluate(() => { document.documentElement.style.fontSize = "200%"; });
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+    await page.evaluate(() => document.fonts.ready);
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+    await page.setViewportSize({ width: 320, height: 760 });
+    await page.getByRole("dialog").waitFor();
     await page.waitForTimeout(60);
     assert.equal(await page.locator(".modal-surface").evaluate(node => getComputedStyle(node).transform), "none");
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
-    await page.evaluate(() => { document.documentElement.style.fontSize = "200%"; });
-    await page.waitForTimeout(32);
-    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
     assert.equal(await page.getByRole("dialog").isVisible(), true);
-    checks.push("Reduced motion starts without spatial travel; the 320px layout reflows without horizontal overflow at default and 200% text size");
+    await page.screenshot({ path: `${out}/fallback-font-ko-light-200.png`, fullPage: false });
+    checks.push("With the bundled font unavailable, initial and settled fallback text at 200% stays within desktop and 320px layouts; reduced motion starts without spatial travel");
     await context.close();
   }
 
@@ -203,7 +207,11 @@ try {
     errors,
     unexpectedRequests,
     webkit: webkitResult,
-    screenshots: [`${out}/desktop-en-light.png`, `${out}/mobile-en-dark-reduced.png`],
+    screenshots: [
+      `${out}/desktop-en-light.png`,
+      `${out}/mobile-en-dark-reduced.png`,
+      `${out}/fallback-font-ko-light-200.png`,
+    ],
   };
   await writeFile(`${out}/continuity.json`, JSON.stringify(report, null, 2));
   console.log(JSON.stringify(report, null, 2));
