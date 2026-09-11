@@ -43,6 +43,9 @@ page.on("console", (m) => {
 });
 const audit = async (name) => {
   await page.evaluate(() => document.fonts.ready);
+  await page.evaluate(() => new Promise(resolve =>
+    requestAnimationFrame(() => requestAnimationFrame(resolve)),
+  ));
   assert.equal(
     await page.evaluate(
       () => document.documentElement.scrollWidth > innerWidth,
@@ -146,11 +149,11 @@ try {
       .waitFor();
     await page.getByRole("button", { name: "History", exact: true }).click();
     await page
-      .locator("dialog .history-row")
+      .locator('[role="dialog"] .history-row')
       .filter({ hasText: "Saved" })
       .first()
       .click();
-    assert.equal(await page.locator("dialog").count(), 0);
+    assert.equal(await page.locator('[role="dialog"]').count(), 0);
     await page
       .getByRole("button", {
         name: "New investigation with current data",
@@ -246,24 +249,31 @@ try {
   if (mode === "live") {
     await page.getByRole("button", { name: "History", exact: true }).click();
     await page
-      .locator("dialog .history-row")
+      .locator('[role="dialog"] .history-row')
       .filter({ hasText: "Saved" })
       .first()
       .click();
   }
   await page.setViewportSize({ width: 390, height: 844 });
+  if (await page.getByRole("dialog").count()) {
+    await page
+      .getByRole("dialog")
+      .getByRole("button", { name: "Close", exact: true })
+      .click();
+    assert.equal(await page.getByRole("dialog").count(), 0);
+  }
   await page.locator(".figure").first().click();
   await page.getByRole("dialog").waitFor();
   await audit("mobile-en-dark-evidence");
   for (let i = 0; i < 8; i++) {
     await page.keyboard.press("Tab");
     assert.equal(
-      await page.evaluate(() => !!document.activeElement?.closest("dialog")),
+      await page.evaluate(() => !!document.activeElement?.closest('[role="dialog"]')),
       true,
     );
   }
   await page.keyboard.press("Escape");
-  assert.equal(await page.locator("dialog").count(), 0);
+  assert.equal(await page.locator('[role="dialog"]').count(), 0);
   assert.equal(
     await page.evaluate(() =>
       document.activeElement?.classList.contains("figure"),
@@ -303,11 +313,25 @@ try {
     await page.getByRole("searchbox").fill("no matching question 89f03b");
     await page.getByText("No matching investigations.",{exact:true}).waitFor();
     await page.getByRole("searchbox").fill("");
-    await page.locator(".history-item").first().getByRole("button",{name:"Delete this investigation"}).click();
+    const deleteButton = page.locator(".history-item").first().getByRole("button",{name:"Delete this investigation"});
+    await deleteButton.click();
+    await page
+      .getByRole("dialog", { name: "Delete investigation", exact: true })
+      .getByRole("button", { name: "Close", exact: true })
+      .click();
+    assert.equal(await deleteButton.evaluate(node => document.activeElement === node), true);
+    await deleteButton.click();
     await page.getByRole("button",{name:"Confirm deletion",exact:true}).click();
     await page.waitForFunction(id=>localStorage.getItem("filing-investigation")!==id,draftID);
     assert.equal(await page.evaluate(id=>localStorage.getItem("filing-draft-"+id),draftID),null);
-    checks.push("Draft survives refresh; history search empty state; deletion confirms and removes current draft");
+    await page.getByRole("dialog", { name: "History", exact: true }).waitFor();
+    assert.equal(
+      await page.evaluate(() => Boolean(document.activeElement?.closest('[role="dialog"]'))),
+      true,
+    );
+    await page.keyboard.press("Escape");
+    assert.equal(await page.getByRole("dialog").count(), 0);
+    checks.push("Draft survives refresh; history search empty state; cancelling deletion restores its opener; confirmed deletion removes the draft; parent History recovers focus and Escape when the deleted opener is gone");
   }
   assert.deepEqual(errors, []);
   if (mode === "replay")

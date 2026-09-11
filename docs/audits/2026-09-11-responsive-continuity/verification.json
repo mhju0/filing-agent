@@ -1,0 +1,147 @@
+{
+  "status": "PASS",
+  "candidate_assets": {
+    "javascript": "index-CWa_lWQe.js",
+    "css": "index-CtArogjz.css"
+  },
+  "controls": [
+    "Evidence pointer-down feedback, source-origin spring open, close, rapid reopen and settled selection",
+    "History immediate loading, close while request pending stays closed, explicit reopen succeeds",
+    "Nested History/Delete exposes one dialog; underlying and exiting layers are inert and aria-hidden",
+    "Escape and Close restore source focus without scrolling; evidence survives 850/851 layout changes with reading position",
+    "Theme, language, live save/fork/history/delete, storage retry/discard, and replay scenario controls exercised"
+  ],
+  "coverage": {
+    "viewports": [
+      1440,
+      390,
+      320
+    ],
+    "languages": [
+      "ko",
+      "en"
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "motion": [
+      "normal spring",
+      "reduced motion at load",
+      "reduced motion enabled midflight"
+    ],
+    "input": [
+      "pointer",
+      "keyboard"
+    ],
+    "browsers": [
+      "Chrome 153.0.8010.36",
+      "Playwright WebKit"
+    ],
+    "text_zoom": "200% at 320px without horizontal overflow",
+    "security": "Replay made no API or foreign requests and emitted no CSP violations"
+  },
+  "contrast": {
+    "light": {
+      "ink/bg": "13.64:1",
+      "muted/bg": "5.38:1",
+      "accent/bg": "6.57:1",
+      "ink/surface": "15.25:1"
+    },
+    "dark": {
+      "ink/bg": "13.77:1",
+      "muted/bg": "7.52:1",
+      "accent/bg": "8.92:1",
+      "ink/surface": "11.46:1"
+    }
+  },
+  "implementation_commit": "69323703dfdb1fe36d2c4c300cc646e511222222",
+  "unit_tests": {
+    "policy": 57,
+    "application": 19
+  },
+  "preserved_original_investigations": 92,
+  "limitations": [
+    "No physical iPhone or full VoiceOver session performed.",
+    "WebKit coverage is a targeted mobile open/close check; full live workflow coverage uses Chromium."
+  ],
+  "source_sha256": {
+    "slice/web/src/glossary.json": "9083fbcc9fb330256cd3299b65b381f7ab884851543712a54392301db3ce45fc",
+    "slice/web/src/live.ts": "cc56fb16950708c38bd77c874e37fe1fa137076ed732c108dba17b78006d6435",
+    "slice/web/src/main.tsx": "3b595a6b69fd227127a163e3f06f11e2d8ccc18b067ed6c9852aa782b3799389",
+    "slice/web/src/replay.ts": "23262bc41f0c42b5ba7be8812c1d5ef506a3fc573332ce1476e3a8d228492ab4",
+    "slice/web/src/styles.css": "c36e8fdf0dcf6d80699964e4f02a7ed53a60c97b2d658993f38e73809812ad42",
+    "slice/web/src/types.ts": "33e1f38a05762352d7202b252dc67b78368bfecf6ec048f4cccf380b86a54a1a"
+  },
+  "browser_checks": {
+    "continuity": [
+      "Desktop press responds on pointer down; evidence spring has an in-flight presentation and rapid close/reopen settles to one selected source; desktop grid occupancy survives a completed narrow handoff and return",
+      "Evidence survives the 850/851 layout boundary with reading position; close releases modal semantics immediately; an exit reversal restores dialog focus and Escape behavior; changing to reduced motion settles spatial travel",
+      "Reduced motion starts without spatial travel; the 320px layout reflows without horizontal overflow at default and 200% text size",
+      "WebKit mobile evidence opens semantically and Escape closes immediately",
+      "Replay made no live API or foreign request and raised no CSP or browser errors"
+    ],
+    "live": [
+      "start-en-light no overflow; axe WCAG A/AA checks passed",
+      "start-en-dark no overflow; axe WCAG A/AA checks passed",
+      "answer-ko-light no overflow; axe WCAG A/AA checks passed",
+      "answer-en-dark no overflow; axe WCAG A/AA checks passed",
+      "Examples fill without sending; live compare; formula inputs; saved continuation; refresh; history; language preserves past answer; persisted clarification resumes; edit starts new",
+      "mobile-en-dark-evidence no overflow; axe WCAG A/AA checks passed",
+      "mobile-en-dark-conversation no overflow; axe WCAG A/AA checks passed",
+      "mobile-ko-light-320 no overflow; axe WCAG A/AA checks passed",
+      "390px and 320px reflow; modal focus trap; Escape and close restore figure focus; original filing URL retained; reduced-motion mode",
+      "Draft survives refresh; history search empty state; deletion confirms and removes current draft"
+    ],
+    "architecture": [
+      "Closing History while its request is pending cannot reopen it; a fresh open succeeds",
+      "Late A response preserves B conversation, draft and evidence; navigation does not cancel A; global execution blocks new inference",
+      "Storage failure retains figures; repeated explicit retry restores one turn; KO/EN light/dark recovery passes axe and reflow at 1440/390/320",
+      "Discard requires confirmation and removes only the unstored result",
+      "Composer waits for new investigation creation; its draft is present immediately on reload",
+      "Replay restores URL selection, resets turn on scenario switch, has no composer and makes no live requests"
+    ]
+  },
+  "independent_review": {
+    "commit": "69323703dfdb1fe36d2c4c300cc646e511222222",
+    "status": "No blocking findings",
+    "browsers": [
+      "Chromium",
+      "WebKit"
+    ],
+    "checks": [
+      "Settled desktop/mobile/desktop grid restoration",
+      "25ms modal reopen focus and Escape",
+      "Nested cancellation returns keyboard opener",
+      "Deleted opener falls back to History focus"
+    ]
+  },
+  "artifact_checks": {
+    "replay": [
+      "compare-ko-light no overflow; axe WCAG A/AA checks passed",
+      "compare-en-dark no overflow; axe WCAG A/AA checks passed",
+      "refusal-en-dark no overflow; axe WCAG A/AA checks passed",
+      "Three captured scenarios; stable turns; formula/source selection; no live prompt; recorded actual timings; bilingual answer text",
+      "mobile-en-dark-evidence no overflow; axe WCAG A/AA checks passed",
+      "mobile-en-dark-conversation no overflow; axe WCAG A/AA checks passed",
+      "mobile-ko-light-320 no overflow; axe WCAG A/AA checks passed",
+      "390px and 320px reflow; modal focus trap; Escape and close restore figure focus; original filing URL retained; reduced-motion mode"
+    ],
+    "motion": [
+      "Desktop press responds on pointer down; evidence spring has an in-flight presentation and rapid close/reopen settles to one selected source; desktop grid occupancy survives a completed narrow handoff and return",
+      "Evidence survives the 850/851 layout boundary with reading position; close releases modal semantics immediately; an exit reversal restores dialog focus and Escape behavior; changing to reduced motion settles spatial travel",
+      "Reduced motion starts without spatial travel; the 320px layout reflows without horizontal overflow at default and 200% text size",
+      "WebKit mobile evidence opens semantically and Escape closes immediately",
+      "Replay made no live API or foreign request and raised no CSP or browser errors"
+    ],
+    "release": [
+      "ko 1440 project notes: links, reflow, axe passed",
+      "ko 390 project notes: links, reflow, axe passed",
+      "ko 320 project notes: links, reflow, axe passed",
+      "en 1440 project notes: links, reflow, axe passed",
+      "en 390 project notes: links, reflow, axe passed",
+      "en 320 project notes: links, reflow, axe passed",
+      "Recording asset failure is visible and reload works"
+    ]
+  }
+}

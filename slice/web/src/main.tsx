@@ -1,5 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
+import {
+  AnimatePresence,
+  MotionConfig,
+  motion,
+  useIsPresent,
+  useReducedMotion,
+} from "motion/react";
 import type {
   Answer,
   Figure,
@@ -39,55 +46,160 @@ function compact(f: Figure, lang: Lang) {
 }
 const busy = executing;
 
+type SurfaceOrigin = { x: number; y: number } | null;
+const surfaceSpring = {
+  type: "spring",
+  stiffness: 520,
+  damping: 42,
+  mass: 0.9,
+} as const;
+
+function originOf(element?: HTMLElement | null): SurfaceOrigin {
+  if (!element) return null;
+  const rect = element.getBoundingClientRect();
+  return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+}
+
+function modalOffset(origin: SurfaceOrigin) {
+  if (!origin) return { x: 0, y: 28 };
+  return {
+    x: Math.max(-72, Math.min(72, origin.x - window.innerWidth / 2)),
+    y: Math.max(-72, Math.min(72, origin.y - window.innerHeight / 2)),
+  };
+}
+
 function Modal({
+  active = true,
   children,
   close,
+  evidenceSurface = false,
+  origin,
+  title,
+}: {
+  active?: boolean;
+  children: React.ReactNode;
+  close: () => void;
+  evidenceSurface?: boolean;
+  origin?: SurfaceOrigin;
+  title: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const opener = useRef<HTMLElement | null>(null);
+  const present = useIsPresent();
+  const reduceMotion = useReducedMotion();
+  const offset = modalOffset(origin || null);
+  useEffect(() => {
+    opener.current = document.activeElement as HTMLElement;
+  }, []);
+  useEffect(() => {
+    if (!present || !active) return;
+    let cancelled = false;
+    queueMicrotask(() => {
+      if (cancelled || ref.current?.contains(document.activeElement)) return;
+      ref.current?.querySelector<HTMLElement>("button")?.focus({ preventScroll: true });
+    });
+    return () => { cancelled = true; };
+  }, [present, active]);
+  useEffect(() => {
+    if (!present && ref.current?.contains(document.activeElement) && opener.current?.isConnected) {
+      opener.current.focus({ preventScroll: true });
+    }
+  }, [present]);
+  useEffect(() => {
+    if (!present || !active) return;
+    const previous = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = "hidden";
+    return () => { document.documentElement.style.overflow = previous; };
+  }, [present, active]);
+  return (
+    <motion.div
+      className="modal-layer"
+      data-exiting={!present || undefined}
+      inert={!present || !active || undefined}
+      aria-hidden={!present || !active || undefined}
+      initial={{ backgroundColor: reduceMotion ? "rgba(17, 17, 17, 0.48)" : "rgba(17, 17, 17, 0)" }}
+      animate={{ backgroundColor: "rgba(17, 17, 17, 0.48)" }}
+      exit={{ backgroundColor: "rgba(17, 17, 17, 0)" }}
+      transition={reduceMotion ? { duration: 0.01 } : surfaceSpring}
+    >
+      <motion.div
+        ref={ref}
+        className={evidenceSurface ? "modal-surface evidence-modal" : "modal-surface"}
+        role={present && active ? "dialog" : undefined}
+        aria-modal={present && active || undefined}
+        aria-label={title}
+        initial={reduceMotion ? { opacity: 1 } : { opacity: 0.72, scale: 0.96, ...offset }}
+        animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+        exit={reduceMotion ? { opacity: 0 } : { opacity: 0.72, scale: 0.96, ...offset }}
+        transition={reduceMotion ? { duration: 0.01 } : surfaceSpring}
+        onKeyDown={(e) => {
+          if (!active) return;
+          if (e.key === "Escape") {
+            e.preventDefault();
+            close();
+            return;
+          }
+          if (e.key !== "Tab") return;
+          const controls = Array.from(e.currentTarget.querySelectorAll<HTMLElement>(
+            'button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex="0"]',
+          )).filter((el) => el.getClientRects().length > 0);
+          const first = controls[0];
+          const last = controls[controls.length - 1];
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last?.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first?.focus();
+          }
+        }}
+      >
+        <div className="panel-head">
+          <h2>{title}</h2>
+          <button onClick={close}>
+            {/[가-힣]/.test(title) ? "닫기" : "Close"}
+          </button>
+        </div>
+        {children}
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function DesktopEvidence({
+  children,
+  close,
+  origin,
+  reduceMotion,
   title,
 }: {
   children: React.ReactNode;
   close: () => void;
+  origin: SurfaceOrigin;
+  reduceMotion: boolean | null;
   title: string;
 }) {
-  const ref = useRef<HTMLDialogElement>(null);
-  useEffect(() => {
-    const opener = document.activeElement as HTMLElement;
-    ref.current?.showModal();
-    return () => {
-      if (opener?.isConnected) opener.focus();
-    };
-  }, []);
+  const present = useIsPresent();
+  const offsetY = origin
+    ? Math.max(-36, Math.min(36, origin.y - innerHeight / 2))
+    : 0;
   return (
-    <dialog
-      ref={ref}
-      onCancel={(e) => {
-        e.preventDefault();
-        close();
-      }}
-      onKeyDown={(e) => {
-        if (e.key !== "Tab") return;
-        const controls = Array.from(e.currentTarget.querySelectorAll<HTMLElement>(
-          'button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex="0"]',
-        )).filter((el) => el.getClientRects().length > 0);
-        const first = controls[0];
-        const last = controls[controls.length - 1];
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault();
-          last?.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault();
-          first?.focus();
-        }
-      }}
-      aria-label={title}
+    <motion.aside
+      className="evidence"
+      aria-label={present ? title : undefined}
+      aria-hidden={!present || undefined}
+      inert={!present || undefined}
+      initial={reduceMotion ? { opacity: 0 } : { opacity: 0.74, x: -24, y: offsetY }}
+      animate={{ opacity: 1, x: 0, y: 0 }}
+      exit={reduceMotion ? { opacity: 0 } : { opacity: 0.74, x: -24, y: offsetY }}
+      transition={reduceMotion ? { duration: 0.01 } : surfaceSpring}
     >
       <div className="panel-head">
         <h2>{title}</h2>
-        <button onClick={close}>
-          {/[가-힣]/.test(title) ? "닫기" : "Close"}
-        </button>
+        <button onClick={close}>{/[가-힣]/.test(title) ? "닫기" : "Close"}</button>
       </div>
       {children}
-    </dialog>
+    </motion.aside>
   );
 }
 
@@ -105,7 +217,7 @@ function Workspace({ session }: { session: Session }) {
   const replay = recorded?.replay || null;
   const scenario = recorded?.scenario || 0;
   const turnIndex = recorded?.turnIndex || 0;
-  const setHistory = (value: Investigation[] | null) => live?.setHistory(value);
+  const closeHistory = () => live?.dismissHistory();
   const setDraft = (value: string) => live?.setDraft(value);
   const setScenario = (value: number) => recorded?.setScenario(value);
   const setTurnIndex = (value: number) => recorded?.setTurnIndex(value);
@@ -124,14 +236,25 @@ function Workspace({ session }: { session: Session }) {
     matchMedia("(max-width: 850px)").matches,
   );
   const [evidence, setEvidence] = useState<Figure | Answer | null>(null);
+  const [evidencePresence, setEvidencePresence] = useState(false);
+  const [evidenceOrigin, setEvidenceOrigin] = useState<SurfaceOrigin>(null);
   const [clock, setClock] = useState(Date.now());
   const [deleteTarget, setDeleteTarget] = useState<Investigation | null>(null);
+  const [deleteOrigin, setDeleteOrigin] = useState<SurfaceOrigin>(null);
+  const [discardOrigin, setDiscardOrigin] = useState<SurfaceOrigin>(null);
+  const [historyOrigin, setHistoryOrigin] = useState<SurfaceOrigin>(null);
+  const [historyLoading, setHistoryLoading] = useState(false);
   const [historyQuery, setHistoryQuery] = useState("");
   const prompt = useRef<HTMLTextAreaElement>(null);
   const selectedRef = useRef<HTMLElement | null>(null);
+  const evidenceScroll = useRef({ narrow: 0, wide: 0 });
+  const desktopEvidenceOpenRef = useRef(false);
   const autoSeen = useRef("");
   const t = (ko: string, en: string) => (lang === "ko" ? ko : en);
+  const reduceMotion = useReducedMotion();
   const dark = theme === "system" ? systemDark : theme === "dark";
+  const desktopEvidenceOpen = Boolean(evidence && !narrow);
+  desktopEvidenceOpenRef.current = desktopEvidenceOpen;
   const active = current?.turns.some(unresolved) || false;
   const runtimeBusy = live?.running || false;
   useEffect(() => {
@@ -147,12 +270,15 @@ function Workspace({ session }: { session: Session }) {
   }, []);
   useEffect(() => {
     const media = matchMedia("(max-width: 850px)");
-    const change = () => setNarrow(media.matches);
+    const change = () => {
+      setNarrow(media.matches);
+    };
     media.addEventListener("change", change);
     return () => media.removeEventListener("change", change);
   }, []);
   useEffect(() => {
-    document.documentElement.dataset.theme = dark ? "dark" : "light";
+    const value = dark ? "dark" : "light";
+    document.documentElement.dataset.theme = value;
   }, [dark]);
   useEffect(() => {
     document.documentElement.lang = lang;
@@ -162,8 +288,12 @@ function Workspace({ session }: { session: Session }) {
     const turn = current?.turns[turnIndex];
     setEvidence(replayMode && !narrow && turnIndex === 0
       ? turn?.answer?.figures[0] || turn?.answer || null : null);
+    setEvidenceOrigin(null);
     selectedRef.current = null;
-  }, [current?.id, scenario, turnIndex, narrow]);
+  }, [current?.id, scenario, turnIndex]);
+  useEffect(() => {
+    if (desktopEvidenceOpen) setEvidencePresence(true);
+  }, [desktopEvidenceOpen]);
   useEffect(() => {
     if (replayMode || !current) return;
     const last = current.turns.at(-1);
@@ -182,12 +312,34 @@ function Workspace({ session }: { session: Session }) {
     await live?.submit(question, lang, retry);
   }
   function inspect(value: Figure | Answer, e?: React.MouseEvent<HTMLElement>) {
+    if (!("id" in value) || selected !== value.id) {
+      evidenceScroll.current = { narrow: 0, wide: 0 };
+    }
     selectedRef.current = e?.currentTarget || null;
+    setEvidenceOrigin(originOf(e?.currentTarget));
     setEvidence(value);
   }
   function closeEvidence() {
     setEvidence(null);
-    selectedRef.current?.focus();
+    requestAnimationFrame(() => selectedRef.current?.focus());
+  }
+  function evidenceContent(content: React.ReactNode, layout: "narrow" | "wide") {
+    return (
+      <div
+        className="evidence-content"
+        ref={(node) => {
+          if (node) node.scrollTop = evidenceScroll.current[layout];
+        }}
+        onScroll={(e) => {
+          const isNarrow = matchMedia("(max-width: 850px)").matches;
+          if ((layout === "narrow") === isNarrow) {
+            evidenceScroll.current[layout] = e.currentTarget.scrollTop;
+          }
+        }}
+      >
+        {content}
+      </div>
+    );
   }
   const turns = current
     ? replayMode
@@ -196,6 +348,7 @@ function Workspace({ session }: { session: Session }) {
     : [];
   const selected = "id" in (evidence || {}) ? (evidence as Figure).id : null;
   const context = current?.pending || current?.accepted;
+  const modalOpen = Boolean((narrow && evidence) || history || discardTarget || deleteTarget);
   const followUps = (() => {
     if (!context || context.companies.length !== 1 || !context.metric) return [];
     const company = context.companies[0];
@@ -296,7 +449,7 @@ function Workspace({ session }: { session: Session }) {
     ));
 
   return (
-    <>
+    <div className="app-shell" data-theme={dark ? "dark" : "light"}>
       <a className="skip" href="#conversation">
         {t("대화로 이동", "Skip to conversation")}
       </a>
@@ -307,7 +460,7 @@ function Workspace({ session }: { session: Session }) {
             ? t("답변이 준비되었습니다.", "The answer is ready.")
             : ""}
       </div>
-      <header>
+      <header inert={modalOpen || undefined}>
         <a className="wordmark" href={replayMode ? "./index.html" : "/"}>
           <span className="family-mark" aria-hidden="true">
             <img className="mark-light" src="/family-mark-light.png" alt="" />
@@ -325,9 +478,14 @@ function Workspace({ session }: { session: Session }) {
                 {t("새 조사", "New investigation")}
               </button>
               <button
-                onClick={() =>
-                  action(async () => { await live?.openHistory(); })
-                }
+                onClick={(e) => {
+                  setHistoryOrigin(originOf(e.currentTarget));
+                  setHistoryLoading(true);
+                  void action(async () => {
+                    try { await live?.openHistory(); }
+                    finally { setHistoryLoading(false); }
+                  });
+                }}
               >
                 {t("기록", "History")}
               </button>
@@ -359,6 +517,7 @@ function Workspace({ session }: { session: Session }) {
             }
             onClick={() => {
               const v = dark ? "light" : "dark";
+              document.documentElement.dataset.theme = v;
               setTheme(v);
               localStorage.setItem("filing-theme", v);
             }}
@@ -367,7 +526,7 @@ function Workspace({ session }: { session: Session }) {
           </button>
         </nav>
       </header>
-      <div className="mode-line">
+      <div className="mode-line" inert={modalOpen || undefined}>
         {replayMode
           ? t(
               "녹화된 조사 · 질문을 입력할 수 없습니다",
@@ -381,6 +540,7 @@ function Workspace({ session }: { session: Session }) {
       {replayMode && replay && (
         <nav
           className="replay-nav"
+          inert={modalOpen || undefined}
           aria-label={t("녹화 탐색", "Replay navigation")}
         >
           <label>
@@ -421,8 +581,11 @@ function Workspace({ session }: { session: Session }) {
         </nav>
       )}
       <main
+        inert={modalOpen || undefined}
         className={
-          evidence && !narrow ? "workspace with-evidence" : "workspace"
+          desktopEvidenceOpen || evidencePresence
+            ? "workspace with-evidence"
+            : "workspace"
         }
       >
         <section
@@ -776,7 +939,10 @@ function Workspace({ session }: { session: Session }) {
                       <button onClick={() => action(async () => { if (current) await live?.recover(current.id); })}>
                         {t("기록 다시 시도", "Retry storage")}
                       </button>
-                      <button onClick={() => setDiscardTarget(current!.id)}>
+                      <button onClick={(e) => {
+                        setDiscardOrigin(originOf(e.currentTarget));
+                        setDiscardTarget(current!.id);
+                      }}>
                         {t("기록되지 않은 결과 버리기", "Discard unstored result")}
                       </button>
                     </div>
@@ -1015,23 +1181,41 @@ function Workspace({ session }: { session: Session }) {
           )}
           {replayMode && error && <p role="alert">{error}</p>}
         </section>
-        {evidence && !narrow && (
-          <aside className="evidence" aria-label={t("근거", "Evidence")}>
-            <div className="panel-head">
-              <h2>{t("근거", "Evidence")}</h2>
-              <button onClick={closeEvidence}>{t("닫기", "Close")}</button>
-            </div>
-            {sourceView}
-          </aside>
-        )}
+        <AnimatePresence
+          initial={false}
+          onExitComplete={() => {
+            if (!desktopEvidenceOpenRef.current) setEvidencePresence(false);
+          }}
+        >
+          {desktopEvidenceOpen && (
+            <DesktopEvidence
+              key="desktop-evidence"
+              title={t("근거", "Evidence")}
+              close={closeEvidence}
+              origin={evidenceOrigin}
+              reduceMotion={reduceMotion}
+            >
+              {evidenceContent(sourceView, "wide")}
+            </DesktopEvidence>
+          )}
+        </AnimatePresence>
       </main>
-      {evidence && narrow && (
-        <Modal title={t("근거", "Evidence")} close={closeEvidence}>
-          {sourceView}
-        </Modal>
-      )}
+      <AnimatePresence initial={false}>
+        {evidence && narrow && (
+          <Modal key="mobile-evidence" title={t("근거", "Evidence")} close={closeEvidence} origin={evidenceOrigin} evidenceSurface>
+            {evidenceContent(sourceView, "narrow")}
+          </Modal>
+        )}
+      </AnimatePresence>
+      <AnimatePresence initial={false}>
       {history && (
-        <Modal title={t("기록", "History")} close={() => setHistory(null)}>
+        <Modal
+          key="history"
+          title={t("기록", "History")}
+          close={closeHistory}
+          origin={historyOrigin}
+          active={!deleteTarget}
+        >
           <label>
             {t("기록 검색", "Search history")}
             <input
@@ -1051,8 +1235,11 @@ function Workspace({ session }: { session: Session }) {
               "Ordinary investigations expire after 30 idle days. Saved investigations remain until deleted.",
             )}
           </p>
-          {history.length > 0 && historyQuery && !history.some((inv) => inv.turns.some((turn) => turn.question.toLowerCase().includes(historyQuery.toLowerCase()))) && <p>{t("일치하는 조사가 없습니다.", "No matching investigations.")}</p>}
-          {history.length === 0 ? (
+          {historyLoading ? (
+            <p role="status">{t("기록을 불러오는 중입니다.", "Loading history.")}</p>
+          ) : history.length > 0 && historyQuery && !history.some((inv) => inv.turns.some((turn) => turn.question.toLowerCase().includes(historyQuery.toLowerCase()))) ? (
+            <p>{t("일치하는 조사가 없습니다.", "No matching investigations.")}</p>
+          ) : history.length === 0 ? (
             <p>{t("아직 조사가 없습니다.", "No investigations yet.")}</p>
           ) : (
             history
@@ -1070,7 +1257,7 @@ function Workspace({ session }: { session: Session }) {
                     className="history-row"
                     onClick={() => {
                       live?.select(inv);
-                      setHistory(null);
+                      closeHistory();
                     }}
                   >
                     {inv.turns[0]?.question ||
@@ -1086,7 +1273,10 @@ function Workspace({ session }: { session: Session }) {
                   <button
                     aria-label={t("이 조사 삭제", "Delete this investigation")}
                     disabled={inv.turns.some(unresolved)}
-                    onClick={() => setDeleteTarget(inv)}
+                    onClick={(e) => {
+                      setDeleteOrigin(originOf(e.currentTarget));
+                      setDeleteTarget(inv);
+                    }}
                   >
                     {t("삭제", "Delete")}
                   </button>
@@ -1095,8 +1285,10 @@ function Workspace({ session }: { session: Session }) {
           )}
         </Modal>
       )}
+      </AnimatePresence>
+      <AnimatePresence initial={false}>
       {discardTarget && (
-        <Modal title={t("기록되지 않은 결과 버리기", "Discard unstored result")} close={() => setDiscardTarget(null)}>
+        <Modal key="discard" title={t("기록되지 않은 결과 버리기", "Discard unstored result")} close={() => setDiscardTarget(null)} origin={discardOrigin}>
           <p>{t("이 결과를 버립니다. 이전에 기록된 대화와 문맥은 유지됩니다. 버림 처리를 기록할 때까지 새 질문은 제한됩니다.", "Discard this result and preserve earlier stored turns and context. New turns remain blocked until the discard is recorded.")}</p>
           <button onClick={() => action(async () => {
             await live?.recover(discardTarget, true);
@@ -1105,10 +1297,14 @@ function Workspace({ session }: { session: Session }) {
           {error && <p role="alert">{error}</p>}
         </Modal>
       )}
+      </AnimatePresence>
+      <AnimatePresence initial={false}>
       {deleteTarget && (
         <Modal
+          key="delete"
           title={t("조사 삭제", "Delete investigation")}
           close={() => setDeleteTarget(null)}
+          origin={deleteOrigin}
         >
           <p>
             {t(
@@ -1128,7 +1324,12 @@ function Workspace({ session }: { session: Session }) {
           </button>
         </Modal>
       )}
-    </>
+      </AnimatePresence>
+    </div>
   );
 }
-createRoot(document.getElementById("root")!).render(replayMode ? <ReplayApp /> : <LiveApp />);
+createRoot(document.getElementById("root")!).render(
+  <MotionConfig reducedMotion="user">
+    {replayMode ? <ReplayApp /> : <LiveApp />}
+  </MotionConfig>,
+);
