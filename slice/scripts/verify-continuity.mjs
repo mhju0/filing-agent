@@ -83,8 +83,14 @@ try {
     assert.equal(await page.locator(".figure.selected").count(), 1);
     assert.equal(await page.locator("aside.evidence").evaluate(node => getComputedStyle(node).transform), "none");
     assert.equal(await page.locator("aside.evidence").evaluate(node => getComputedStyle(node).opacity), "1");
+    await page.setViewportSize({ width: 390, height: 620 });
+    await page.locator("aside.evidence").waitFor({ state: "detached" });
+    assert.equal(await page.locator(".workspace.with-evidence").count(), 0);
+    await page.setViewportSize({ width: 851, height: 620 });
+    await page.locator("aside.evidence").waitFor();
+    assert.equal(await page.locator(".workspace.with-evidence").count(), 1);
     await page.screenshot({ path: `${out}/desktop-en-light.png`, fullPage: false });
-    checks.push("Desktop press responds on pointer down; evidence spring has an in-flight presentation and rapid close/reopen settles to one selected source");
+    checks.push("Desktop press responds on pointer down; evidence spring has an in-flight presentation and rapid close/reopen settles to one selected source; desktop grid occupancy survives a completed narrow handoff and return");
     await context.close();
   }
 
@@ -116,6 +122,15 @@ try {
     assert.equal(await page.locator(".modal-layer[aria-hidden=true][inert]").count(), 1);
     await figure.click();
     assert.equal(await page.getByRole("dialog").count(), 1);
+    assert.equal(
+      await page.evaluate(() => Boolean(document.activeElement?.closest('[role="dialog"]'))),
+      true,
+    );
+    await page.keyboard.press("Escape");
+    assert.equal(await page.getByRole("dialog").count(), 0);
+    assert.equal(await figure.evaluate(node => document.activeElement === node), true);
+    await figure.click();
+    assert.equal(await page.getByRole("dialog").count(), 1);
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.waitForTimeout(60);
     assert.equal(await page.locator(".modal-surface").last().evaluate(node => getComputedStyle(node).transform), "none");
@@ -126,7 +141,7 @@ try {
       /^rgb\(/,
     );
     await page.screenshot({ path: `${out}/mobile-en-dark-reduced.png`, fullPage: false });
-    checks.push("Evidence survives the 850/851 layout boundary with reading position; close releases modal semantics immediately; reopen retargets; changing to reduced motion settles spatial travel");
+    checks.push("Evidence survives the 850/851 layout boundary with reading position; close releases modal semantics immediately; an exit reversal restores dialog focus and Escape behavior; changing to reduced motion settles spatial travel");
     await context.close();
   }
 

@@ -90,8 +90,16 @@ function Modal({
   const offset = modalOffset(origin || null);
   useEffect(() => {
     opener.current = document.activeElement as HTMLElement;
-    if (active) ref.current?.querySelector<HTMLElement>("button")?.focus();
   }, []);
+  useEffect(() => {
+    if (!present || !active) return;
+    let cancelled = false;
+    queueMicrotask(() => {
+      if (cancelled || ref.current?.contains(document.activeElement)) return;
+      ref.current?.querySelector<HTMLElement>("button")?.focus({ preventScroll: true });
+    });
+    return () => { cancelled = true; };
+  }, [present, active]);
   useEffect(() => {
     if (!present && ref.current?.contains(document.activeElement) && opener.current?.isConnected) {
       opener.current.focus({ preventScroll: true });
@@ -240,10 +248,13 @@ function Workspace({ session }: { session: Session }) {
   const prompt = useRef<HTMLTextAreaElement>(null);
   const selectedRef = useRef<HTMLElement | null>(null);
   const evidenceScroll = useRef({ narrow: 0, wide: 0 });
+  const desktopEvidenceOpenRef = useRef(false);
   const autoSeen = useRef("");
   const t = (ko: string, en: string) => (lang === "ko" ? ko : en);
   const reduceMotion = useReducedMotion();
   const dark = theme === "system" ? systemDark : theme === "dark";
+  const desktopEvidenceOpen = Boolean(evidence && !narrow);
+  desktopEvidenceOpenRef.current = desktopEvidenceOpen;
   const active = current?.turns.some(unresolved) || false;
   const runtimeBusy = live?.running || false;
   useEffect(() => {
@@ -281,8 +292,8 @@ function Workspace({ session }: { session: Session }) {
     selectedRef.current = null;
   }, [current?.id, scenario, turnIndex]);
   useEffect(() => {
-    if (evidence) setEvidencePresence(true);
-  }, [evidence]);
+    if (desktopEvidenceOpen) setEvidencePresence(true);
+  }, [desktopEvidenceOpen]);
   useEffect(() => {
     if (replayMode || !current) return;
     const last = current.turns.at(-1);
@@ -572,7 +583,9 @@ function Workspace({ session }: { session: Session }) {
       <main
         inert={modalOpen || undefined}
         className={
-          evidencePresence && !narrow ? "workspace with-evidence" : "workspace"
+          desktopEvidenceOpen || evidencePresence
+            ? "workspace with-evidence"
+            : "workspace"
         }
       >
         <section
@@ -1170,9 +1183,11 @@ function Workspace({ session }: { session: Session }) {
         </section>
         <AnimatePresence
           initial={false}
-          onExitComplete={() => setEvidencePresence(false)}
+          onExitComplete={() => {
+            if (!desktopEvidenceOpenRef.current) setEvidencePresence(false);
+          }}
         >
-          {evidence && !narrow && (
+          {desktopEvidenceOpen && (
             <DesktopEvidence
               key="desktop-evidence"
               title={t("근거", "Evidence")}
