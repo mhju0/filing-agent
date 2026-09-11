@@ -48,6 +48,11 @@ physical-device conformance.
   checks under its content security policy, with no live API or foreign requests.
 - Project-note links, captions and video playback passed. The source archive
   matches the current UI files and all of its recorded manifest hashes.
+- Production checking found a one-pixel table overflow with the bundled font
+  unavailable at 200% text on a 320px screen. Fixed table sizing and wrapping
+  preserve readable values without clipping. The regression now blocks the font
+  and checks fallback text before and after font loading settles, on desktop and
+  mobile. The full replay and Chromium/WebKit continuity checks passed again.
 
 Physical iPhone touch behavior and a full VoiceOver session have not been verified.
 The WebKit check does not replace the wider Chromium live-flow coverage.

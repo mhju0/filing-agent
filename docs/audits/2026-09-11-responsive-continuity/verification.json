@@ -1,8 +1,8 @@
 {
   "status": "PASS",
   "candidate_assets": {
-    "javascript": "index-CWa_lWQe.js",
-    "css": "index-CtArogjz.css"
+    "javascript": "index-BMJid2GX.js",
+    "css": "index-Cu-yqMgF.css"
   },
   "controls": [
     "Evidence pointer-down feedback, source-origin spring open, close, rapid reopen and settled selection",
@@ -70,7 +70,7 @@
     "slice/web/src/live.ts": "cc56fb16950708c38bd77c874e37fe1fa137076ed732c108dba17b78006d6435",
     "slice/web/src/main.tsx": "3b595a6b69fd227127a163e3f06f11e2d8ccc18b067ed6c9852aa782b3799389",
     "slice/web/src/replay.ts": "23262bc41f0c42b5ba7be8812c1d5ef506a3fc573332ce1476e3a8d228492ab4",
-    "slice/web/src/styles.css": "c36e8fdf0dcf6d80699964e4f02a7ed53a60c97b2d658993f38e73809812ad42",
+    "slice/web/src/styles.css": "a05e771d91d1cd82d57b60887db470861314460bf76fbded998b49a7f5a045d5",
     "slice/web/src/types.ts": "33e1f38a05762352d7202b252dc67b78368bfecf6ec048f4cccf380b86a54a1a"
   },
   "browser_checks": {
@@ -143,5 +143,13 @@
       "en 320 project notes: links, reflow, axe passed",
       "Recording asset failure is visible and reload works"
     ]
-  }
+  },
+  "presentation_followup_commit": "060eab9bcb59464084e9930e06b2d0bf43a96cb1",
+  "fallback_font_checks": [
+    "Desktop press responds on pointer down; evidence spring has an in-flight presentation and rapid close/reopen settles to one selected source; desktop grid occupancy survives a completed narrow handoff and return",
+    "Evidence survives the 850/851 layout boundary with reading position; close releases modal semantics immediately; an exit reversal restores dialog focus and Escape behavior; changing to reduced motion settles spatial travel",
+    "With the bundled font unavailable, initial and settled fallback text at 200% stays within desktop and 320px layouts; reduced motion starts without spatial travel",
+    "WebKit mobile evidence opens semantically and Escape closes immediately",
+    "Replay made no live API or foreign request and raised no CSP or browser errors"
+  ]
 }
