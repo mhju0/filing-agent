@@ -10,4 +10,6 @@ Checks on the assembled directory before deployment:
 - Source archive: 78 entries from the explicit allowlist. None are environment files, private planning or Git history.
 - `npm test` (format and glossary), `npm run build` and `python3 release/check_publication.py` pass.
 
+A follow-up rebuild the same day localizes the currency unit in the Korean calculation chips (원/달러 instead of KRW/USD). Only the JavaScript bundle changed. The detector still reports 0 issues on the comparison run.
+
 [artifact.json](artifact.json) records the exact file list and SHA-256 hashes that `release/deploy.sh` verifies.
