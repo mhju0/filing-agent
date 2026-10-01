@@ -1,10 +1,10 @@
 # Filing Agent design direction
 
-Status: September 11, 2026. Owner selected **B: Ledger** from three rendered static alternatives, then extended it with responsive continuity for the Filing Agent application and replay. The Ledger hierarchy and evidence semantics remain the identity. [ADR 0012](docs/adr/0012-responsive-continuity-for-reading.md) records the interaction decisions.
+Status: October 1, 2026. Owner selected **B: Ledger** from three rendered static alternatives, extended it with responsive continuity, then approved the reading-experience revamp: Overview, Ledger and 공시 Guide surfaces and Filing family typography. The Ledger hierarchy and evidence semantics remain the identity. [ADR 0012](docs/adr/0012-responsive-continuity-for-reading.md) records the interaction decisions and [ADR 0013](docs/adr/0013-filing-family-reading-surfaces.md) the surfaces and typography.
 
 Design for a filing reader investigating company disclosures in Korean or English on desktop and mobile. The experience should feel calm and support sustained reading: warm neutral backgrounds, readable typography in both languages, restrained color, and prominent financial figures and original-filing sources.
 
-Use Ledger's paired reported figures, subordinate calculated change, ruled figure rows, and tabular source fragment. Retain its warm neutrals, restrained evidence accent, Pretendard and tabular numerals as the implementation baseline. The relationship to Digest is expressed through the neutral research-workspace character and project story; an identical font family is not a requirement. Desktop evidence opens beside the conversation at approximately 45% width.
+Use Ledger's paired reported figures, subordinate calculated change, ruled figure rows, and tabular source fragment. Retain its warm neutrals, restrained evidence accent, Pretendard body text and tabular numerals. Share Filing Digest's paper, ink, muted and border tokens, 2px corners, tracked caption labels and serif display: Filing Serif KR for Korean headings and the system serif for English. Desktop evidence opens beside the conversation at approximately 45% width.
 
 Put language and theme controls directly in the top bar beside New investigation and History. Use visible native-language names `한국어 / English` with an explicit selected state and a separate sun/moon theme button with an accessible destination label. Do not hide these controls in an overflow menu. On narrow screens, give controls a deliberate second row rather than hiding or crowding them.
 
@@ -25,7 +25,9 @@ Design dials: ENERGY 1, RHYTHM 2, MOTION 2. Paired reported figures establish th
 Major decisions and reasons:
 
 - Warm neutral surfaces keep long filing excerpts calm; brown remains the one evidence accent because it already identifies source selection.
-- Pretendard stays because its Korean and Latin readability is proven in the existing bilingual application.
+- Pretendard stays for body text because its Korean and Latin readability is proven in the existing bilingual application; the serif display ties headings to Filing Digest.
+- Corners are 2px because square ledger edges are the family's shape; Digest uses the same treatment.
+- `word-break: keep-all` applies to the whole document, with `text-wrap: balance` on headings and `pretty` on running text, because English pages also contain Korean text.
 - Conversation and evidence remain a 55/45 desktop split because the relationship is parallel reading, while mobile gives evidence the full viewport for legibility.
 - Header and composer use the only translucent materials because they float above scrolling content; evidence and dialogs stay solid for sustained reading.
 - Soft elevation belongs only to evidence and modal surfaces because those are the layers that move above the conversation.
@@ -33,3 +35,5 @@ Major decisions and reasons:
 - Native scrolling, disclosure controls, form behavior and keyboard order remain because familiar platform behavior is more direct and accessible than custom gestures here.
 
 Use the Filing family’s bracketed F mark in the header and favicon to make the relationship to Filing Digest visible. Keep Agent’s brown evidence accent, ruled rows, and dense ledger workspace so the two products remain distinct at a glance.
+
+The public replay opens on an Overview that explains the app, offers real filing questions and shows verified coverage. A Ledger lists every verified figure with derived margins and changes, and a 공시 Guide explains filings for first-time readers. Number formatting lives in one tested module: true minus, thousands separators, `≈ 258.9조 원` in Korean and `≈ 258.9tn KRW` in English, and a 조/억 reading in evidence.
