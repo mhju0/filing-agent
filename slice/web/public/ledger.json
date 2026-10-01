@@ -1,0 +1,390 @@
+{
+ "schema": "filing-agent-ledger-v1",
+ "snapshot_id": "sha256:04434f0db0989e544c65086c5dd5708ad032ade0c54cceb634599cfbf82d08fb",
+ "figures": [
+  {
+   "id": "sec:0000950170-23-035122:2023-annual:net_income",
+   "company": "Microsoft",
+   "metric": "net_income",
+   "period": "2023",
+   "period_start": "2022-07-01",
+   "period_end": "2023-06-30",
+   "basis": "consolidated_entity_total",
+   "value": "72361000000",
+   "currency": "USD",
+   "original_value": "72,361",
+   "original_unit": "USD millions",
+   "source_label": "Net income $ 72,361 $ 72,738 $ 61,271",
+   "source": {
+    "regulator": "sec",
+    "filing_title": "Form 10-K (FY2023)",
+    "filing_identity": "0000950170-23-035122",
+    "filed_at": "2023-07-27",
+    "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017023035122/msft-20230630.htm",
+    "excerpt": "Net income $ 72,361 $ 72,738 $ 61,271"
+   }
+  },
+  {
+   "id": "sec:0000950170-23-035122:2023-annual:operating_income",
+   "company": "Microsoft",
+   "metric": "operating_income",
+   "period": "2023",
+   "period_start": "2022-07-01",
+   "period_end": "2023-06-30",
+   "basis": "consolidated_entity_total",
+   "value": "88523000000",
+   "currency": "USD",
+   "original_value": "88,523",
+   "original_unit": "USD millions",
+   "source_label": "Operating income 88,523 83,383 69,916",
+   "source": {
+    "regulator": "sec",
+    "filing_title": "Form 10-K (FY2023)",
+    "filing_identity": "0000950170-23-035122",
+    "filed_at": "2023-07-27",
+    "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017023035122/msft-20230630.htm",
+    "excerpt": "Operating income 88,523 83,383 69,916"
+   }
+  },
+  {
+   "id": "sec:0000950170-23-035122:2023-annual:revenue",
+   "company": "Microsoft",
+   "metric": "revenue",
+   "period": "2023",
+   "period_start": "2022-07-01",
+   "period_end": "2023-06-30",
+   "basis": "consolidated_entity_total",
+   "value": "211915000000",
+   "currency": "USD",
+   "original_value": "211,915",
+   "original_unit": "USD millions",
+   "source_label": "Total revenue 211,915 198,270 168,088",
+   "source": {
+    "regulator": "sec",
+    "filing_title": "Form 10-K (FY2023)",
+    "filing_identity": "0000950170-23-035122",
+    "filed_at": "2023-07-27",
+    "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017023035122/msft-20230630.htm",
+    "excerpt": "Total revenue 211,915 198,270 168,088"
+   }
+  },
+  {
+   "id": "sec:0000950170-24-087843:2024-annual:net_income",
+   "company": "Microsoft",
+   "metric": "net_income",
+   "period": "2024",
+   "period_start": "2023-07-01",
+   "period_end": "2024-06-30",
+   "basis": "consolidated_entity_total",
+   "value": "88136000000",
+   "currency": "USD",
+   "original_value": "88,136",
+   "original_unit": "USD millions",
+   "source_label": "Net income $ 88,136 $ 72,361 $ 72,738",
+   "source": {
+    "regulator": "sec",
+    "filing_title": "Form 10-K (FY2024)",
+    "filing_identity": "0000950170-24-087843",
+    "filed_at": "2024-07-30",
+    "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/msft-20240630.htm",
+    "excerpt": "Net income $ 88,136 $ 72,361 $ 72,738"
+   }
+  },
+  {
+   "id": "sec:0000950170-24-087843:2024-annual:operating_income",
+   "company": "Microsoft",
+   "metric": "operating_income",
+   "period": "2024",
+   "period_start": "2023-07-01",
+   "period_end": "2024-06-30",
+   "basis": "consolidated_entity_total",
+   "value": "109433000000",
+   "currency": "USD",
+   "original_value": "109,433",
+   "original_unit": "USD millions",
+   "source_label": "Operating income 109,433 88,523 83,383",
+   "source": {
+    "regulator": "sec",
+    "filing_title": "Form 10-K (FY2024)",
+    "filing_identity": "0000950170-24-087843",
+    "filed_at": "2024-07-30",
+    "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/msft-20240630.htm",
+    "excerpt": "Operating income 109,433 88,523 83,383"
+   }
+  },
+  {
+   "id": "sec:0000950170-24-087843:2024-annual:revenue",
+   "company": "Microsoft",
+   "metric": "revenue",
+   "period": "2024",
+   "period_start": "2023-07-01",
+   "period_end": "2024-06-30",
+   "basis": "consolidated_entity_total",
+   "value": "245122000000",
+   "currency": "USD",
+   "original_value": "245,122",
+   "original_unit": "USD millions",
+   "source_label": "Total revenue 245,122 211,915 198,270",
+   "source": {
+    "regulator": "sec",
+    "filing_title": "Form 10-K (FY2024)",
+    "filing_identity": "0000950170-24-087843",
+    "filed_at": "2024-07-30",
+    "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/msft-20240630.htm",
+    "excerpt": "Total revenue 245,122 211,915 198,270"
+   }
+  },
+  {
+   "id": "dart:20240318000844:2023:net_income",
+   "company": "NAVER",
+   "metric": "net_income",
+   "period": "2023",
+   "period_start": "2023-01-01",
+   "period_end": "2023-12-31",
+   "basis": "consolidated",
+   "value": "985017762493",
+   "currency": "KRW",
+   "original_value": "985,017,762,493",
+   "original_unit": "원",
+   "source_label": "당기순이익",
+   "source": {
+    "regulator": "dart",
+    "filing_title": "사업보고서 (2023.12)",
+    "filing_identity": "20240318000844",
+    "filed_at": "2024-03-18",
+    "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240318000844",
+    "section": "2-2. 연결 포괄손익계산서",
+    "excerpt_cells": [
+     "당기순이익",
+     "985,017,762,493",
+     "673,180,300,087",
+     "16,477,625,559,645"
+    ]
+   }
+  },
+  {
+   "id": "dart:20240318000844:2023:operating_income",
+   "company": "NAVER",
+   "metric": "operating_income",
+   "period": "2023",
+   "period_start": "2023-01-01",
+   "period_end": "2023-12-31",
+   "basis": "consolidated",
+   "value": "1488820269608",
+   "currency": "KRW",
+   "original_value": "1,488,820,269,608",
+   "original_unit": "원",
+   "source_label": "영업이익",
+   "source": {
+    "regulator": "dart",
+    "filing_title": "사업보고서 (2023.12)",
+    "filing_identity": "20240318000844",
+    "filed_at": "2024-03-18",
+    "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240318000844",
+    "section": "2-2. 연결 포괄손익계산서",
+    "excerpt_cells": [
+     "영업이익",
+     "1,488,820,269,608",
+     "1,304,664,410,543",
+     "1,325,478,171,117"
+    ]
+   }
+  },
+  {
+   "id": "dart:20240318000844:2023:revenue",
+   "company": "NAVER",
+   "metric": "revenue",
+   "period": "2023",
+   "period_start": "2023-01-01",
+   "period_end": "2023-12-31",
+   "basis": "consolidated",
+   "value": "9670643576585",
+   "currency": "KRW",
+   "original_value": "9,670,643,576,585",
+   "original_unit": "원",
+   "source_label": "영업수익 (주35)",
+   "source": {
+    "regulator": "dart",
+    "filing_title": "사업보고서 (2023.12)",
+    "filing_identity": "20240318000844",
+    "filed_at": "2024-03-18",
+    "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240318000844",
+    "section": "2-2. 연결 포괄손익계산서",
+    "excerpt_cells": [
+     "영업수익 (주35)",
+     "9,670,643,576,585",
+     "8,220,078,708,810",
+     "6,817,599,707,250"
+    ]
+   }
+  },
+  {
+   "id": "dart:20240312000736:2022:net_income",
+   "company": "삼성전자",
+   "metric": "net_income",
+   "period": "2022",
+   "period_start": "2022-01-01",
+   "period_end": "2022-12-31",
+   "basis": "consolidated",
+   "value": "55654077000000",
+   "currency": "KRW",
+   "original_value": "55,654,077",
+   "original_unit": "백만원",
+   "source_label": "당기순이익(손실)",
+   "source": {
+    "regulator": "dart",
+    "filing_title": "사업보고서 (2023.12)",
+    "filing_identity": "20240312000736",
+    "filed_at": "2024-03-12",
+    "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240312000736",
+    "section": "2-2. 연결 손익계산서",
+    "excerpt_cells": [
+     "당기순이익(손실)",
+     "15,487,100",
+     "55,654,077",
+     "39,907,450"
+    ]
+   }
+  },
+  {
+   "id": "dart:20240312000736:2022:operating_income",
+   "company": "삼성전자",
+   "metric": "operating_income",
+   "period": "2022",
+   "period_start": "2022-01-01",
+   "period_end": "2022-12-31",
+   "basis": "consolidated",
+   "value": "43376630000000",
+   "currency": "KRW",
+   "original_value": "43,376,630",
+   "original_unit": "백만원",
+   "source_label": "영업이익 (주29)",
+   "source": {
+    "regulator": "dart",
+    "filing_title": "사업보고서 (2023.12)",
+    "filing_identity": "20240312000736",
+    "filed_at": "2024-03-12",
+    "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240312000736",
+    "section": "2-2. 연결 손익계산서",
+    "excerpt_cells": [
+     "영업이익 (주29)",
+     "6,566,976",
+     "43,376,630",
+     "51,633,856"
+    ]
+   }
+  },
+  {
+   "id": "dart:20240312000736:2022:revenue",
+   "company": "삼성전자",
+   "metric": "revenue",
+   "period": "2022",
+   "period_start": "2022-01-01",
+   "period_end": "2022-12-31",
+   "basis": "consolidated",
+   "value": "302231360000000",
+   "currency": "KRW",
+   "original_value": "302,231,360",
+   "original_unit": "백만원",
+   "source_label": "영업수익 (주29)",
+   "source": {
+    "regulator": "dart",
+    "filing_title": "사업보고서 (2023.12)",
+    "filing_identity": "20240312000736",
+    "filed_at": "2024-03-12",
+    "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240312000736",
+    "section": "2-2. 연결 손익계산서",
+    "excerpt_cells": [
+     "영업수익 (주29)",
+     "258,935,494",
+     "302,231,360",
+     "279,604,799"
+    ]
+   }
+  },
+  {
+   "id": "dart:20240312000736:2023:net_income",
+   "company": "삼성전자",
+   "metric": "net_income",
+   "period": "2023",
+   "period_start": "2023-01-01",
+   "period_end": "2023-12-31",
+   "basis": "consolidated",
+   "value": "15487100000000",
+   "currency": "KRW",
+   "original_value": "15,487,100",
+   "original_unit": "백만원",
+   "source_label": "당기순이익(손실)",
+   "source": {
+    "regulator": "dart",
+    "filing_title": "사업보고서 (2023.12)",
+    "filing_identity": "20240312000736",
+    "filed_at": "2024-03-12",
+    "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240312000736",
+    "section": "2-2. 연결 손익계산서",
+    "excerpt_cells": [
+     "당기순이익(손실)",
+     "15,487,100",
+     "55,654,077",
+     "39,907,450"
+    ]
+   }
+  },
+  {
+   "id": "dart:20240312000736:2023:operating_income",
+   "company": "삼성전자",
+   "metric": "operating_income",
+   "period": "2023",
+   "period_start": "2023-01-01",
+   "period_end": "2023-12-31",
+   "basis": "consolidated",
+   "value": "6566976000000",
+   "currency": "KRW",
+   "original_value": "6,566,976",
+   "original_unit": "백만원",
+   "source_label": "영업이익 (주29)",
+   "source": {
+    "regulator": "dart",
+    "filing_title": "사업보고서 (2023.12)",
+    "filing_identity": "20240312000736",
+    "filed_at": "2024-03-12",
+    "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240312000736",
+    "section": "2-2. 연결 손익계산서",
+    "excerpt_cells": [
+     "영업이익 (주29)",
+     "6,566,976",
+     "43,376,630",
+     "51,633,856"
+    ]
+   }
+  },
+  {
+   "id": "dart:20240312000736:2023:revenue",
+   "company": "삼성전자",
+   "metric": "revenue",
+   "period": "2023",
+   "period_start": "2023-01-01",
+   "period_end": "2023-12-31",
+   "basis": "consolidated",
+   "value": "258935494000000",
+   "currency": "KRW",
+   "original_value": "258,935,494",
+   "original_unit": "백만원",
+   "source_label": "영업수익 (주29)",
+   "source": {
+    "regulator": "dart",
+    "filing_title": "사업보고서 (2023.12)",
+    "filing_identity": "20240312000736",
+    "filed_at": "2024-03-12",
+    "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240312000736",
+    "section": "2-2. 연결 손익계산서",
+    "excerpt_cells": [
+     "영업수익 (주29)",
+     "258,935,494",
+     "302,231,360",
+     "279,604,799"
+    ]
+   }
+  }
+ ]
+}
