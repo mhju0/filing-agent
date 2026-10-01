@@ -5,7 +5,7 @@ function locationIndex(key: string) {
   const value = Number(new URLSearchParams(location.hash.slice(1)).get(key));
   return Number.isFinite(value) ? Math.max(0, Math.trunc(value)) : 0;
 }
-export function useReplayInvestigation() {
+export function useReplayInvestigation(syncHash = true) {
   const [replay, setReplay] = useState<Replay | null>(null);
   const [scenario, scenarioState] = useState(0);
   const [turnIndex, turnState] = useState(0);
@@ -26,8 +26,8 @@ export function useReplayInvestigation() {
     return () => controller.abort();
   }, []);
   useEffect(() => {
-    if (replay) window.history.replaceState(null, "", `#scenario=${scenario}&turn=${turnIndex}`);
-  }, [replay, scenario, turnIndex]);
+    if (replay && syncHash) window.history.replaceState(null, "", `#scenario=${scenario}&turn=${turnIndex}`);
+  }, [replay, scenario, turnIndex, syncHash]);
   function setScenario(index: number) {
     if (!replay) return;
     scenarioState(Math.max(0, Math.min(index, replay.investigations.length - 1)));

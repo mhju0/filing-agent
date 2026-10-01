@@ -12,39 +12,25 @@ import type {
   Figure,
   Investigation,
   Lang,
-  Replay,
   Turn,
 } from "./types";
 import "./styles.css";
-import glossary from "./glossary.json";
 import { useLiveInvestigation, executing, unresolved } from "./live";
 import { useReplayInvestigation } from "./replay";
+import { compact, exact, signedPercent } from "./format";
+import { pick, scenarios, type Destination, type View } from "./content";
+import { EvidenceBody, Guide, Home, Ledger, SourceBadge, label, periodLabel, useLedger } from "./views";
 
 const replayMode = document.documentElement.dataset.mode === "replay";
-const metricNames: Record<string, string[]> = glossary.metrics;
-const companyNames: Record<string, string[]> = glossary.companies;
-function label(map: Record<string, string[]>, key: string, lang: Lang) {
-  return map[key]?.[lang === "ko" ? 0 : 1] || key;
-}
-function exact(value: string) {
-  const [a, b] = value.split(".");
-  return BigInt(a).toLocaleString("en-US") + (b ? "." + b : "");
-}
-function compact(f: Figure, lang: Lang) {
-  const divisor = f.currency === "KRW" ? 1000000000000n : 1000000000n;
-  const v = BigInt(f.value);
-  const sign = v < 0n ? "−" : "";
-  const tenths = ((v < 0n ? -v : v) * 10n + divisor / 2n) / divisor;
-  return (
-    (((v < 0n ? -v : v) * 10n) % divisor === 0n ? "" : "≈ ") +
-    sign +
-    (tenths / 10n).toLocaleString("en-US") +
-    "." +
-    (tenths % 10n) +
-    (f.currency === "KRW" ? (lang === "ko" ? "조원" : "tn KRW") : "bn USD")
-  );
-}
 const busy = executing;
+
+function initialView(): View {
+  const hash = location.hash.slice(1);
+  if (hash.startsWith("guide")) return "guide";
+  if (hash.startsWith("ledger")) return "ledger";
+  if (hash.includes("scenario=")) return "investigate";
+  return replayMode ? "home" : "investigate";
+}
 
 type SurfaceOrigin = { x: number; y: number } | null;
 const surfaceSpring = {
@@ -203,11 +189,18 @@ function DesktopEvidence({
   );
 }
 
-type Session = ReturnType<typeof useLiveInvestigation> | ReturnType<typeof useReplayInvestigation>;
-function LiveApp() { return <Workspace session={useLiveInvestigation()} />; }
-function ReplayApp() { return <Workspace session={useReplayInvestigation()} />; }
 
-function Workspace({ session }: { session: Session }) {
+type Session = ReturnType<typeof useLiveInvestigation> | ReturnType<typeof useReplayInvestigation>;
+function LiveApp() {
+  const [view, setView] = useState<View>(initialView);
+  return <Workspace session={useLiveInvestigation()} view={view} setView={setView} />;
+}
+function ReplayApp() {
+  const [view, setView] = useState<View>(initialView);
+  return <Workspace session={useReplayInvestigation(view === "investigate")} view={view} setView={setView} />;
+}
+
+function Workspace({ session, view, setView }: { session: Session; view: View; setView: (v: View) => void }) {
   const live = session.mode === "live" ? session : null;
   const recorded = session.mode === "replay" ? session : null;
   const { current, ready, error } = session;
@@ -245,7 +238,13 @@ function Workspace({ session }: { session: Session }) {
   const [historyOrigin, setHistoryOrigin] = useState<SurfaceOrigin>(null);
   const [historyLoading, setHistoryLoading] = useState(false);
   const [historyQuery, setHistoryQuery] = useState("");
+  const [anchor, setAnchor] = useState<string | null>(() => {
+    const hash = location.hash.slice(1);
+    return hash.includes("/") ? hash.split("/")[1] : null;
+  });
+  const ledger = useLedger();
   const prompt = useRef<HTMLTextAreaElement>(null);
+  const pane = useRef<HTMLElement>(null);
   const selectedRef = useRef<HTMLElement | null>(null);
   const evidenceScroll = useRef({ narrow: 0, wide: 0 });
   const desktopEvidenceOpenRef = useRef(false);
@@ -285,12 +284,25 @@ function Workspace({ session }: { session: Session }) {
     localStorage.setItem("filing-language", lang);
   }, [lang]);
   useEffect(() => {
+    if (view === "investigate") return;
+    const hash = view === "home" ? "" : "#" + view + (anchor ? "/" + anchor : "");
+    window.history.replaceState(null, "", location.pathname + location.search + hash);
+  }, [view, anchor]);
+  useEffect(() => {
+    setEvidence(null);
+    if (!anchor) {
+      pane.current?.scrollTo({ top: 0 });
+      window.scrollTo({ top: 0 });
+    }
+  }, [view]);
+  useEffect(() => {
+    if (view !== "investigate") return;
     const turn = current?.turns[turnIndex];
     setEvidence(replayMode && !narrow && turnIndex === 0
       ? turn?.answer?.figures[0] || turn?.answer || null : null);
     setEvidenceOrigin(null);
     selectedRef.current = null;
-  }, [current?.id, scenario, turnIndex]);
+  }, [current?.id, scenario, turnIndex, view]);
   useEffect(() => {
     if (desktopEvidenceOpen) setEvidencePresence(true);
   }, [desktopEvidenceOpen]);
@@ -303,8 +315,23 @@ function Workspace({ session }: { session: Session }) {
       setEvidence(last.answer);
     }
   }, [current]);
+  function go(destination: Destination) {
+    if (destination.view === "investigate") {
+      if (recorded) setScenario(destination.scenario);
+      setAnchor(null);
+      setView("investigate");
+      if (live) requestAnimationFrame(() => prompt.current?.focus());
+      return;
+    }
+    setAnchor(destination.anchor === "top" ? null : destination.anchor);
+    setView(destination.view);
+    if (destination.view === "guide" && destination.anchor !== "top") {
+      requestAnimationFrame(() => document.getElementById(destination.anchor)?.scrollIntoView({ block: "start" }));
+    }
+  }
   async function newInvestigation(text = "") {
     if (!live) return;
+    setView("investigate");
     await live.newInvestigation(text);
     requestAnimationFrame(() => prompt.current?.focus());
   }
@@ -365,93 +392,368 @@ function Workspace({ session }: { session: Session }) {
       ? [nextMetric, t(`${alternatePeriod}년은?`, `What about FY${alternatePeriod}?`)]
       : [nextMetric];
   })();
-  const sourceView =
-    evidence &&
-    ("id" in evidence ? (
-      <>
-        <p className="eyebrow">
-          {t("원문 발췌 · 번역 아님", "Original excerpt · not translated")}
-        </p>
-        <div
-          className="excerpt"
-          lang={evidence.source.regulator === "dart" ? "ko" : "en"}
-        >
-          <strong>{evidence.source_label}</strong>
-          <p>
-            <mark>{evidence.original_value}</mark> ({evidence.original_unit})
-          </p>
-          <p className="muted">
-            {evidence.source.excerpt ||
-              evidence.source.excerpt_cells?.join(" · ")}
-          </p>
-        </div>
-        <p>
-          {label(companyNames, evidence.company, lang)} ·{" "}
-          {evidence.source.filing_title} · FY{evidence.period}
-        </p>
-        <p className="muted">
-          {evidence.source.section || "Inline XBRL"} ·{" "}
-          {t("연결", "Consolidated")} · {evidence.period_start} ~{" "}
-          {evidence.period_end}
-        </p>
-        <p className="reconcile">
-          {t("원문", "Source")}: {evidence.original_value} (
-          {evidence.original_unit}) → {t("표시", "Display")}:{" "}
-          {compact(evidence, lang)}
-        </p>
-        <p className="muted">
-          {t("정확한 값", "Exact value")}: {exact(evidence.value)}{" "}
-          {evidence.currency}
-        </p>
-        <a
-          className="source-link"
-          href={evidence.source.url}
-          target="_blank"
-          rel="noreferrer"
-        >
-          {t("원문 열기", "Open original filing")} ↗
-        </a>
-        {evidence.source.regulator === "sec" && (
-          <p className="limitation">
-            {t(
-              "SEC는 자동화된 접근을 제한할 수 있습니다. 공시 링크는 새 탭에서 열립니다.",
-              "SEC may restrict automated access. The filing link opens in a new tab.",
+  const sourceView = evidence && <EvidenceBody evidence={evidence} lang={lang} t={t} />;
+  const tabs: [View, string][] = [
+    ...(replayMode ? [["home", t("소개", "Overview")] as [View, string]] : []),
+    ["investigate", replayMode ? t("녹화된 조사", "Recorded runs") : t("조사", "Investigate")],
+    ["ledger", t("수치 장부", "Ledger")],
+    ["guide", t("공시 가이드", "Guide")],
+  ];
+  const answerLang = (turn: Turn) => (replayMode ? lang : turn.language);
+
+  function renderTurn(turn: Turn, index: number) {
+    const a = turn.answer;
+    const al = answerLang(turn);
+    const note = replayMode ? scenarios[scenario]?.turns[index] : undefined;
+    return (
+      <article className="turn" key={turn.id} data-turn={turn.id}>
+        <div className="question">
+          <div>
+            <p className="label">{t(`질문 ${index + 1}`, `Question ${index + 1}`)}</p>
+            <h2>
+              {replayMode && lang === "en" && turn.question_en
+                ? turn.question_en
+                : turn.question}
+            </h2>
+            {replayMode && lang === "en" && turn.question_en && (
+              <details className="original-question">
+                <summary>Translated · asked in Korean</summary>
+                <p lang="ko">{turn.question}</p>
+              </details>
             )}
+          </div>
+          {!replayMode && (
+            <button
+              className="quiet"
+              disabled={active}
+              onClick={() =>
+                action(() => newInvestigation(turn.question))
+              }
+            >
+              {t("고쳐서 새로 묻기", "Edit as new")}
+            </button>
+          )}
+        </div>
+        {note && <p className="turn-note"><span className="label">{t("볼 것", "Notice")}</span>{pick(note, lang)}</p>}
+        {a && (
+          <div className="answer" lang={al}>
+            <p className="answer-sentence">{a[al === "ko" ? "answer_ko" : "answer_en"]}</p>
+            {a.figures.length ? (
+              <table className="ledger-table answer-figures">
+                <caption className="sr-only">{t("답에 쓰인 수치", "Figures in this answer")}</caption>
+                <tbody>
+                  {a.figures.map((f) => (
+                    <tr key={f.id} className={selected === f.id ? "selected" : undefined}>
+                      <th scope="row">
+                        <span className="figure-company">{label("company", f.company, al)}</span>
+                        <span className="figure-meta">{periodLabel(f.period, al)} · {label("metric", f.metric, al)}</span>
+                      </th>
+                      <td className="num">
+                        <button
+                          className={"figure-value" + (selected === f.id ? " selected" : "")}
+                          onClick={(e) => inspect(f, e)}
+                          aria-label={`${label("company", f.company, lang)} ${periodLabel(f.period, lang)} ${label("metric", f.metric, lang)} ${compact(f.value, f.currency, al)}, ${t("원문 근거 보기", "inspect source")}`}
+                        >
+                          {compact(f.value, f.currency, al)}
+                        </button>
+                      </td>
+                      <td className="badge-cell"><SourceBadge regulator={f.source.regulator} /></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <div className="missing">
+                <strong aria-hidden="true">–</strong>
+                <span>{t("검증된 수치 없음", "No verified figure")}</span>
+              </div>
+            )}
+            {a.calculated.map((c, i) => {
+              const inputs = c.inputs.map((id) => a.figures.find((f) => f.id === id)!);
+              return (
+                <div className="calc-block" key={i}>
+                  <p className="label">{t("계산 · 코드가 수행", "Calculation · done by code")}</p>
+                  <p className="calc-result">{signedPercent(c.percentage_change)}</p>
+                  <p className="calc-formula">
+                    ({periodLabel(inputs[0]?.period || "", al)} − {periodLabel(inputs[1]?.period || "", al)}) ÷ {periodLabel(inputs[1]?.period || "", al)} × 100
+                  </p>
+                  <p className="calc-detail num">
+                    {t("차이", "Difference")} {exact(c.absolute_change)} {c.currency}
+                  </p>
+                  <div className="calc-inputs">
+                    {inputs.map((f) => (
+                      <button key={f.id} className="quiet" onClick={(e) => inspect(f, e)}>
+                        {periodLabel(f.period, al)} · {exact(f.value)} {f.currency}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+            {a.reason_code && a.operation !== "clarify" && (
+              <button onClick={(e) => inspect(a, e)}>
+                {t("확인한 범위 보기", "See what was checked")}
+              </button>
+            )}
+            {a.operation === "clarify" &&
+              !replayMode &&
+              turn.id === current?.turns.at(-1)?.id && (
+                <div className="choices">
+                  {(!turn.intent?.companies.length
+                    ? ["삼성전자", "네이버", "Microsoft"]
+                    : !turn.intent?.periods.length
+                      ? ["2022", "2023", "2024"]
+                      : ["매출액", "영업이익", "당기순이익"]
+                  ).map((choice) => (
+                    <button
+                      disabled={active || runtimeBusy || current?.saved}
+                      key={choice}
+                      onClick={() => submit(choice)}
+                    >
+                      {choice}
+                    </button>
+                  ))}
+                </div>
+              )}
+          </div>
+        )}
+        {!replayMode && turn.status === "saving" && <p role="status">{t("결과를 기록하는 중…", "Saving result…")}</p>}
+        {!replayMode && turn.status === "storage_failed" && (
+          <div className="storage-recovery" role="status">
+            <p>{t("결과를 기록하지 못했습니다.", "This result couldn't be stored.")}</p>
+            <p>{t("로컬 앱을 종료하면 기록되지 않은 결과가 사라질 수 있습니다.", "Closing the local app could lose this result.")}</p>
+            <button onClick={() => action(async () => { if (current) await live?.recover(current.id); })}>
+              {t("기록 다시 시도", "Retry storage")}
+            </button>
+            <button onClick={(e) => {
+              setDiscardOrigin(originOf(e.currentTarget));
+              setDiscardTarget(current!.id);
+            }}>
+              {t("기록되지 않은 결과 버리기", "Discard unstored result")}
+            </button>
+          </div>
+        )}
+        {turn.status === "discarded" && <p role="status">{t("기록되지 않은 결과를 버렸습니다. 이전 대화는 유지됩니다.", "Unstored result discarded. Earlier turns are preserved.")}</p>}
+        {turn.error && !["storage_failed", "discarded"].includes(turn.status) && (
+          <p className="error" role="status">
+            {t(
+              "로컬 실행이 완료되지 않았습니다.",
+              "Local execution did not complete.",
+            )}{" "}
+            {turn.error}
           </p>
         )}
-        <p className="muted">
+        <details className="steps" open={busy(turn)}>
+          <summary>
+            {busy(turn)
+              ? t("실행 중", "Running")
+              : t("실행 기록", "Execution record")}{" "}
+            ·{" "}
+            {(() => {
+              const seconds = turn.wall_seconds?.toFixed(2) ||
+                (busy(turn)
+                  ? Math.max(0, (clock - Date.parse(turn.created_at)) / 1000).toFixed(1)
+                  : null);
+              return seconds ? t(`${seconds}초`, `${seconds}s`) : "…";
+            })()}
+            {replayMode ? t(" · 녹화된 실제 시간", " · actual recorded time") : ""}
+          </summary>
+          <ol>
+            {turn.steps.map((s) => (
+              <li key={s.name}>
+                <span>
+                  {
+                    (
+                      {
+                        interpret: t("질문 해석", "Interpret question"),
+                        evidence: t("검증 자료 조회 및 계산", "Resolve evidence and calculate"),
+                        answer: t("답변 저장", "Persist answer"),
+                      } as Record<string, string>
+                    )[s.name]
+                  }
+                </span>{" "}
+                ·{" "}
+                {(
+                  {
+                    complete: t("완료", "Complete"),
+                    running: t("실행 중", "Running"),
+                    pending: t("대기", "Pending"),
+                    interrupted: t("중단됨", "Interrupted"),
+                    cancelled: t("취소됨", "Cancelled"),
+                    error: t("실패", "Failed"),
+                    timeout: t("시간 초과", "Timed out"),
+                    stop_unconfirmed: t("중지 미확인", "Stop unconfirmed"),
+                  } as Record<string, string>
+                )[s.status] || s.status}{" "}
+                <span className="num">
+                  {s.seconds !== undefined
+                    ? t(`${s.seconds.toFixed(2)}초`, `${s.seconds.toFixed(2)}s`)
+                    : s.status === "running" && s.started_at
+                      ? t(`${Math.max(0, (clock - Date.parse(s.started_at)) / 1000).toFixed(1)}초`, `${Math.max(0, (clock - Date.parse(s.started_at)) / 1000).toFixed(1)}s`)
+                      : ""}
+                </span>{" "}
+                {s.reused
+                  ? t("(완료한 단계 재사용)", "(completed step reused)")
+                  : ""}
+              </li>
+            ))}
+          </ol>
+        </details>
+        {!replayMode &&
+          busy(turn) &&
+          clock - Date.parse(turn.created_at) > 2000 && (
+            <button
+              onClick={() =>
+                action(async () => {
+                  await live?.cancel(turn.id);
+                })
+              }
+            >
+              {t("취소", "Cancel")}
+            </button>
+          )}
+        {!replayMode &&
+          [
+            "error",
+            "cancelled",
+            "timeout",
+            "interrupted",
+            "stop_unconfirmed",
+          ].includes(turn.status) &&
+          !turn.retry_of &&
+          !current?.turns.some((t) => t.retry_of === turn.id) && (
+            <button
+              disabled={active || runtimeBusy || current?.saved}
+              onClick={() => submit(turn.question, turn)}
+            >
+              {t("한 번 다시 시도", "Retry once")}
+            </button>
+          )}
+      </article>
+    );
+  }
+
+  function liveStart() {
+    const examples = lang === "ko"
+      ? ["삼성전자 2023년과 2022년 매출액을 비교해 줘", "네이버 2023년 영업이익은?", "Microsoft 2024년과 2023년 당기순이익을 비교해 줘"]
+      : ["Compare Samsung revenue in FY2023 and FY2022.", "What was NAVER's operating income in FY2023?", "Compare Microsoft net income in FY2024 and FY2023."];
+    const fill = (q: string) => { setDraft(q); prompt.current?.focus(); };
+    return (
+      <div className="page start">
+        <p className="label">{t("로컬 조사 · 검증된 과거 공시", "Local investigation · verified historical filings")}</p>
+        <h1>{t("무엇을 확인할까요?", "What would you like to check?")}</h1>
+        <p className="lede">
           {t(
-            "고정된 과거 공시입니다. 이후 정정 공시 전체를 검토한 결과는 아닙니다.",
-            "Pinned historical filing; later amendments have not been exhaustively reviewed.",
+            "회사, 지표, 회계연도를 넣어 물어보세요. 이어서 묻는 질문은 앞의 문맥을 이어받습니다.",
+            "Name a company, metric and fiscal year. Follow-up questions keep the earlier context.",
           )}
         </p>
-      </>
-    ) : (
-      <>
-        <h3>{t("검증된 자료에서 확인한 범위", "Verified catalog checked")}</h3>
-        <p>{evidence[lang === "ko" ? "answer_ko" : "answer_en"]}</p>
-        <p className="limitation">
-          {t(
-            "검증된 지표 목록을 조회했습니다. 공시 전체를 검색했다는 뜻은 아닙니다.",
-            "This lookup checked the verified metric catalog, not the full filings.",
-          )}
-        </p>
-        <ul className="trail">
-          {evidence.searched.map((s, i) => (
-            <li key={i}>
-              {s.company} · {s.filing_title}
-              <br />
-              {s.section}
+        <section className="block" aria-labelledby="supported-examples">
+          <h2 id="supported-examples">{t("이렇게 시작해 보세요", "Try one of these")}</h2>
+          <ul className="example-list">
+            {examples.map((q) => <li key={q}><button onClick={() => fill(q)}>{q}</button></li>)}
+            <li>
+              <button onClick={() => fill(t("삼성전자 2023년 연구개발비는?", "What was Samsung's R&D expense in FY2023?"))}>
+                {t("삼성전자 2023년 연구개발비는?", "What was Samsung's R&D expense in FY2023?")}
+              </button>
+              <span className="muted">
+                {t("검증 모음에 없는 지표입니다. 숫자를 만들지 않고 확인한 범위를 보여 줍니다.", "Not in the verified collection. Shows the checked scope instead of a number.")}
+              </span>
             </li>
-          ))}
-        </ul>
-      </>
-    ));
+          </ul>
+        </section>
+        <p className="note">
+          {t("지원 범위와 수치 전체는 ", "See the full coverage in the ")}
+          <button className="link" onClick={() => go({ view: "ledger", anchor: "top" })}>{t("수치 장부", "ledger")}</button>
+          {t("에서 볼 수 있습니다.", ".")}
+        </p>
+      </div>
+    );
+  }
+
+  function investigation() {
+    if (replayMode && !replay) {
+      return (
+        <div className="page">
+          <p role="status">
+            {error
+              ? t("녹화 자료를 불러오지 못했습니다.", "The recording could not be loaded.")
+              : t("녹화 자료를 불러오는 중입니다.", "Loading the recording.")}
+          </p>
+          {error && <button onClick={() => location.reload()}>{t("다시 불러오기", "Reload recording")}</button>}
+        </div>
+      );
+    }
+    if (!replayMode && turns.length === 0) return liveStart();
+    const total = current?.turns.length || 1;
+    return (
+      <div className="page investigation">
+        {replayMode && replay && (
+          <nav className="scenario-picker" aria-label={t("녹화된 조사 선택", "Choose a recorded investigation")}>
+            {replay.investigations.map((_, i) => (
+              <button
+                key={i}
+                aria-pressed={scenario === i}
+                onClick={() => { setScenario(i); setTurnIndex(0); }}
+              >
+                <span className="label">{t(`조사 ${i + 1}`, `Run ${i + 1}`)}</span>
+                <strong>{scenarios[i] ? pick(scenarios[i].title, lang) : i + 1}</strong>
+              </button>
+            ))}
+          </nav>
+        )}
+        <header className="investigation-head">
+          <h1>
+            {replayMode
+              ? [
+                  t("삼성전자 매출, 한 해 사이 얼마나 변했나", "How much did Samsung's revenue change in a year?"),
+                  t("한 마디로 회사만 바꿔 묻기", "Switching companies in one follow-up"),
+                  t("검증된 근거가 없을 때", "When verified evidence is missing"),
+                ][scenario]
+              : t("공시 조사", "Filing investigation")}
+          </h1>
+          {replayMode && scenarios[scenario] && <p className="lede">{pick(scenarios[scenario].notice, lang)}</p>}
+          {current?.saved && !replayMode && (
+            <p className="muted">{t("저장됨 · 원본 보존", "Saved · original preserved")}</p>
+          )}
+          {!replayMode && current?.lineage && (
+            <p className="muted">
+              {current.lineage.mode === "continue"
+                ? t("저장본에서 이어진 새 조사 · 원본 근거 유지", "New investigation continued from saved results · original evidence")
+                : t("새 조사 · 현재 검증 자료 사용", "New investigation · current verified evidence")}
+            </p>
+          )}
+        </header>
+        {turns.map(renderTurn)}
+        {replayMode && (
+          <nav className="stepper" aria-label={t("질문 이동", "Question navigation")}>
+            <button disabled={turnIndex === 0} onClick={() => setTurnIndex(turnIndex - 1)}>
+              <span aria-hidden="true">← </span>{t("이전 질문", "Previous question")}
+            </button>
+            <span className="num" aria-live="polite">{t(`질문 ${turnIndex + 1} / ${total}`, `Question ${turnIndex + 1} of ${total}`)}</span>
+            {turnIndex < total - 1 ? (
+              <button className="primary" onClick={() => setTurnIndex(turnIndex + 1)}>
+                {t("다음 질문", "Next question")}<span aria-hidden="true"> →</span>
+              </button>
+            ) : scenario < (replay?.investigations.length || 1) - 1 ? (
+              <button className="primary" onClick={() => setScenario(scenario + 1)}>
+                {t("다음 조사", "Next run")}<span aria-hidden="true"> →</span>
+              </button>
+            ) : (
+              <button className="primary" onClick={() => go({ view: "ledger", anchor: "top" })}>
+                {t("수치 장부 보기", "Open the ledger")}<span aria-hidden="true"> →</span>
+              </button>
+            )}
+          </nav>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="app-shell" data-theme={dark ? "dark" : "light"}>
-      <a className="skip" href="#conversation">
-        {t("대화로 이동", "Skip to conversation")}
+      <a className="skip" href="#main-pane">
+        {t("본문으로 이동", "Skip to content")}
       </a>
       <div className="sr-only" aria-live="polite">
         {active
@@ -460,22 +762,33 @@ function Workspace({ session }: { session: Session }) {
             ? t("답변이 준비되었습니다.", "The answer is ready.")
             : ""}
       </div>
-      <header inert={modalOpen || undefined}>
-        <a className="wordmark" href={replayMode ? "./index.html" : "/"}>
+      <header className="topbar" inert={modalOpen || undefined}>
+        <a
+          className="wordmark"
+          href={replayMode ? "./index.html" : "/"}
+          onClick={(e) => { e.preventDefault(); setView(replayMode ? "home" : "investigate"); }}
+        >
           <span className="family-mark" aria-hidden="true">
-            <img className="mark-light" src="/family-mark-light.png" alt="" />
-            <img className="mark-dark" src="/family-mark-dark.png" alt="" />
+            <img className="mark-light" src="./family-mark-light.png" alt="" />
+            <img className="mark-dark" src="./family-mark-dark.png" alt="" />
           </span>
           <span>Filing Agent</span>
         </a>
-        <nav aria-label={t("조사 탐색", "Investigation navigation")}>
+        <nav className="tabs" aria-label={t("주요 메뉴", "Primary navigation")}>
+          {tabs.map(([key, name]) => (
+            <button key={key} aria-current={view === key ? "page" : undefined} onClick={() => { setAnchor(null); setView(key); }}>
+              {name}
+            </button>
+          ))}
+        </nav>
+        <div className="controls">
           {!replayMode && (
             <>
               <button
                 onClick={() => action(() => newInvestigation())}
                 disabled={sending || !ready}
               >
-                {t("새 조사", "New investigation")}
+                {t("새 조사", "New")}
               </button>
               <button
                 onClick={(e) => {
@@ -491,22 +804,9 @@ function Workspace({ session }: { session: Session }) {
               </button>
             </>
           )}
-          {replayMode && <a className="project-link" href={lang === "ko" ? "./engineering-ko.html" : "./engineering-en.html"}>{t("프로젝트 소개", "About the project")}</a>}
-          <div className="languages" aria-label="Language">
-            <button
-              lang="ko"
-              aria-pressed={lang === "ko"}
-              onClick={() => setLang("ko")}
-            >
-              한국어
-            </button>
-            <button
-              lang="en"
-              aria-pressed={lang === "en"}
-              onClick={() => setLang("en")}
-            >
-              English
-            </button>
+          <div className="languages" role="group" aria-label={t("언어", "Language")}>
+            <button lang="ko" aria-pressed={lang === "ko"} onClick={() => setLang("ko")}>한국어</button>
+            <button lang="en" aria-pressed={lang === "en"} onClick={() => setLang("en")}>English</button>
           </div>
           <button
             className="theme"
@@ -522,64 +822,10 @@ function Workspace({ session }: { session: Session }) {
               localStorage.setItem("filing-theme", v);
             }}
           >
-            {dark ? "☀" : "☾"}
+            <span aria-hidden="true">{dark ? "☀" : "☾"}</span>
           </button>
-        </nav>
+        </div>
       </header>
-      <div className="mode-line" inert={modalOpen || undefined}>
-        {replayMode
-          ? t(
-              "녹화된 조사 · 질문을 입력할 수 없습니다",
-              "Recorded investigation · no live questions",
-            )
-          : t(
-              "로컬 조사 · 검증된 과거 공시",
-              "Local investigation · verified historical filings",
-            )}
-      </div>
-      {replayMode && replay && (
-        <nav
-          className="replay-nav"
-          inert={modalOpen || undefined}
-          aria-label={t("녹화 탐색", "Replay navigation")}
-        >
-          <label>
-            {t("조사", "Investigation")}{" "}
-            <select
-              value={scenario}
-              onChange={(e) => {
-                setScenario(Number(e.target.value));
-                setTurnIndex(0);
-              }}
-            >
-              {replay.investigations.map((_, i) => (
-                <option key={i} value={i}>
-                  {[
-                    t("연간 비교", "Annual comparison"),
-                    t("회사 전환", "Company switch"),
-                    t("근거 부족", "Insufficient evidence"),
-                  ][i] || i + 1}
-                </option>
-              ))}
-            </select>
-          </label>
-          <button
-            disabled={turnIndex === 0}
-            onClick={() => setTurnIndex(turnIndex - 1)}
-          >
-            {t("이전 질문", "Previous turn")}
-          </button>
-          <span>
-            {turnIndex + 1} / {current?.turns.length || 1}
-          </span>
-          <button
-            disabled={turnIndex >= (current?.turns.length || 1) - 1}
-            onClick={() => setTurnIndex(turnIndex + 1)}
-          >
-            {t("다음 질문", "Next turn")}
-          </button>
-        </nav>
-      )}
       <main
         inert={modalOpen || undefined}
         className={
@@ -589,472 +835,18 @@ function Workspace({ session }: { session: Session }) {
         }
       >
         <section
-          className="conversation"
-          id="conversation"
-          aria-label={t("조사 대화", "Investigation conversation")}
+          className="main-pane"
+          id="main-pane"
+          ref={pane}
+          aria-label={tabs.find(([key]) => key === view)?.[1]}
         >
-          {turns.length === 0 && replayMode ? (
-            <div className="start">
-              <h1>{t("녹화된 공시 조사", "Recorded filing investigations")}</h1>
-              <p role="status">
-                {error
-                  ? t(
-                      "녹화 자료를 불러오지 못했습니다.",
-                      "The recording could not be loaded.",
-                    )
-                  : t(
-                      "녹화 자료를 불러오는 중입니다.",
-                      "Loading the recording.",
-                    )}
-              </p>
-              {error && (
-                <button onClick={() => location.reload()}>
-                  {t("다시 불러오기", "Reload recording")}
-                </button>
-              )}
-            </div>
-          ) : turns.length === 0 ? (
-            <div className="start">
-              <p className="eyebrow">
-                {t(
-                  "공시를 읽는 또 하나의 방법",
-                  "Read filings through questions",
-                )}
-              </p>
-              <h1>{t("수치에서 근거까지", "From figures to evidence")}</h1>
-              <p>
-                {t(
-                  "회사와 회계연도를 정하고, 다음 질문을 이어가세요.",
-                  "Choose a company and fiscal year, then follow the evidence.",
-                )}
-              </p>
-              <table className="coverage">
-                <caption>
-                  {t(
-                    "검증된 범위 · 연결 매출액, 영업이익, 당기순이익",
-                    "Verified coverage · consolidated revenue, operating income, net income",
-                  )}
-                </caption>
-                <thead>
-                  <tr>
-                    <th>{t("회사", "Company")}</th>
-                    <th>2022</th>
-                    <th>2023</th>
-                    <th>2024</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {[
-                    ["Samsung", "✓", "✓", "—"],
-                    ["NAVER", "—", "✓", "—"],
-                    ["Microsoft", "—", "✓", "✓"],
-                  ].map((row) => (
-                    <tr key={row[0]}>
-                      <th>{label(companyNames, row[0], lang)}</th>
-                      {row.slice(1).map((v, i) => (
-                        <td key={i}>{v}</td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <section className="starter-questions" aria-labelledby="supported-examples">
-                <h2 id="supported-examples">
-                  {t("지원하는 질문으로 시작", "Start with a supported question")}
-                </h2>
-                <div className="examples">
-                  {(lang === "ko"
-                    ? [
-                        "삼성전자 2023년과 2022년 매출액을 비교해 줘",
-                        "네이버 2023년 영업이익은?",
-                        "Microsoft 2024년과 2023년 당기순이익을 비교해 줘",
-                      ]
-                    : [
-                        "Compare Samsung revenue in FY2023 and FY2022.",
-                        "What was NAVER's operating income in FY2023?",
-                        "Compare Microsoft net income in FY2024 and FY2023.",
-                      ]
-                  ).map((q) => (
-                    <button
-                      key={q}
-                      onClick={() => {
-                        setDraft(q);
-                        prompt.current?.focus();
-                      }}
-                    >
-                      {q}
-                    </button>
-                  ))}
-                </div>
-              </section>
-              <section className="limit-example" aria-labelledby="limit-example-title">
-                <div>
-                  <h2 id="limit-example-title">
-                    {t("범위 밖 질문 예시", "Limit example")}
-                  </h2>
-                  <p>
-                    {t(
-                      "연구개발비는 현재 검증 모음에 없습니다. 이 질문은 수치를 만들지 않고 확인한 범위를 보여 줍니다.",
-                      "R&D expense is not in the verified collection. This question shows the checked scope without inventing a figure.",
-                    )}
-                  </p>
-                </div>
-                {[t("삼성전자 2023년 연구개발비는?", "What was Samsung's R&D expense in FY2023?")].map((q) => (
-                  <button
-                    key={q}
-                    onClick={() => {
-                      setDraft(q);
-                      prompt.current?.focus();
-                    }}
-                  >
-                    {q}
-                  </button>
-                ))}
-              </section>
-            </div>
-          ) : (
-            <>
-              <div className="investigation-heading">
-                <h1>
-                  {replayMode
-                    ? [
-                        t(
-                          "삼성전자 연간 매출 비교",
-                          "Samsung annual revenue comparison",
-                        ),
-                        t(
-                          "질문을 이어 회사 바꾸기",
-                          "Switching companies in conversation",
-                        ),
-                        t(
-                          "검증된 근거가 없을 때",
-                          "When verified evidence is missing",
-                        ),
-                      ][scenario]
-                    : t("공시 조사", "Filing investigation")}
-                </h1>
-                {current?.saved && (
-                  <span>
-                    {t("저장됨 · 원본 보존", "Saved · original preserved")}
-                  </span>
-                )}
-              </div>
-              {!replayMode && current?.lineage && (
-                <p className="muted">
-                  {current.lineage.mode === "continue"
-                    ? t(
-                        "저장본에서 이어진 새 조사 · 원본 근거 유지",
-                        "New investigation continued from saved results · original evidence",
-                      )
-                    : t(
-                        "새 조사 · 현재 검증 자료 사용",
-                        "New investigation · current verified evidence",
-                      )}
-                </p>
-              )}
-              {turns.map((turn) => (
-                <article className="turn" key={turn.id} data-turn={turn.id}>
-                  <div className="question">
-                    <div>
-                      <h2>
-                        {replayMode && lang === "en" && turn.question_en
-                          ? turn.question_en
-                          : turn.question}
-                      </h2>
-                      {replayMode && lang === "en" && turn.question_en && (
-                        <details>
-                          <summary>
-                            Translated question · original Korean
-                          </summary>
-                          <p lang="ko">{turn.question}</p>
-                        </details>
-                      )}
-                    </div>
-                    {!replayMode && (
-                      <button
-                        disabled={active}
-                        onClick={() =>
-                          action(() => newInvestigation(turn.question))
-                        }
-                      >
-                        {t("새 조사로 편집", "Edit as new")}
-                      </button>
-                    )}
-                  </div>
-                  {turn.answer && (
-                    <div
-                      className="answer"
-                      lang={replayMode ? lang : turn.language}
-                    >
-                      <div className="figures">
-                        {turn.answer.figures.length ? (
-                          turn.answer.figures.map((f) => (
-                            <button
-                              key={f.id}
-                              className={
-                                "figure " +
-                                (selected === f.id ? "selected" : "")
-                              }
-                              onClick={(e) => inspect(f, e)}
-                              aria-label={`${label(companyNames, f.company, lang)} FY${f.period} ${label(metricNames, f.metric, lang)} ${compact(f, replayMode ? lang : turn.language)} ${t("근거", "source")}`}
-                            >
-                              <span>
-                                {label(
-                                  companyNames,
-                                  f.company,
-                                  replayMode ? lang : turn.language,
-                                )}{" "}
-                                · FY{f.period}
-                              </span>
-                              <strong>
-                                {compact(f, replayMode ? lang : turn.language)}
-                              </strong>
-                              <small>
-                                {label(
-                                  metricNames,
-                                  f.metric,
-                                  replayMode ? lang : turn.language,
-                                )}{" "}
-                                · {f.source.regulator.toUpperCase()}
-                              </small>
-                            </button>
-                          ))
-                        ) : (
-                          <div className="missing">
-                            <strong>—</strong>
-                            <span>
-                              {t("검증된 수치 없음", "No verified figure")}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                      <p className="answer-sentence">
-                        {
-                          turn.answer[
-                            (replayMode ? lang : turn.language) === "ko"
-                              ? "answer_ko"
-                              : "answer_en"
-                          ]
-                        }
-                      </p>
-                      {turn.answer.figures.length > 0 && (
-                        <table className="answer-table">
-                          <caption>
-                            {label(
-                              metricNames,
-                              turn.answer.figures[0].metric,
-                              replayMode ? lang : turn.language,
-                            )}
-                          </caption>
-                          <thead>
-                            <tr>
-                              <th>{t("회계연도", "Fiscal year")}</th>
-                              <th>{t("공시 수치", "Reported value")}</th>
-                              <th>{t("근거", "Source")}</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {turn.answer.figures.map((f) => (
-                              <tr key={f.id}>
-                                <th scope="row">{f.period}</th>
-                                <td>
-                                  {compact(
-                                    f,
-                                    replayMode ? lang : turn.language,
-                                  )}
-                                </td>
-                                <td>
-                                  <button
-                                    className="figure-source"
-                                    aria-label={`FY${f.period} ${f.source.regulator.toUpperCase()} ${t("근거 보기", "Inspect source")}`}
-                                    onClick={(e) => inspect(f, e)}
-                                  >
-                                    {f.source.regulator.toUpperCase()}
-                                  </button>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      )}
-                      {turn.answer.calculated.map((c, i) => (
-                        <details className="formula" key={i}>
-                          <summary>
-                            {t("계산됨", "calc")} · {c.percentage_change}%
-                          </summary>
-                          <p>(current − prior) ÷ prior × 100</p>
-                          <p>
-                            {t("차이", "Absolute change")}:{" "}
-                            {exact(c.absolute_change)} {c.currency}
-                          </p>
-                          {c.inputs.map((id) => {
-                            const f = turn.answer!.figures.find(
-                              (f) => f.id === id,
-                            )!;
-                            return (
-                              <button key={id} onClick={(e) => inspect(f, e)}>
-                                FY{f.period} · {exact(f.value)} {f.currency} ·{" "}
-                                {f.source.regulator.toUpperCase()}
-                              </button>
-                            );
-                          })}
-                        </details>
-                      ))}
-                      {turn.answer.reason_code &&
-                        turn.answer.operation !== "clarify" && (
-                          <button onClick={(e) => inspect(turn.answer!, e)}>
-                            {t(
-                              "확인한 근거 범위",
-                              "Inspect checked evidence scope",
-                            )}
-                          </button>
-                        )}
-                      {turn.answer.operation === "clarify" &&
-                        !replayMode &&
-                        turn.id === current?.turns.at(-1)?.id && (
-                          <div className="choices">
-                            {(!turn.intent?.companies.length
-                              ? ["삼성전자", "네이버", "Microsoft"]
-                              : !turn.intent?.periods.length
-                                ? ["2022", "2023", "2024"]
-                                : ["매출액", "영업이익", "당기순이익"]
-                            ).map((choice) => (
-                              <button
-                                disabled={active || runtimeBusy || current?.saved}
-                                key={choice}
-                                onClick={() => submit(choice)}
-                              >
-                                {choice}
-                              </button>
-                            ))}
-                          </div>
-                        )}
-                    </div>
-                  )}
-                  {!replayMode && turn.status === "saving" && <p role="status">{t("결과를 기록하는 중…", "Saving result…")}</p>}
-                  {!replayMode && turn.status === "storage_failed" && (
-                    <div className="storage-recovery" role="status">
-                      <p>{t("결과를 기록하지 못했습니다.", "Couldn't store this result")}</p>
-                      <p>{t("로컬 앱을 종료하면 기록되지 않은 결과가 사라질 수 있습니다.", "Closing the local application could lose this result.")}</p>
-                      <button onClick={() => action(async () => { if (current) await live?.recover(current.id); })}>
-                        {t("기록 다시 시도", "Retry storage")}
-                      </button>
-                      <button onClick={(e) => {
-                        setDiscardOrigin(originOf(e.currentTarget));
-                        setDiscardTarget(current!.id);
-                      }}>
-                        {t("기록되지 않은 결과 버리기", "Discard unstored result")}
-                      </button>
-                    </div>
-                  )}
-                  {turn.status === "discarded" && <p role="status">{t("기록되지 않은 결과를 버렸습니다. 이전 대화는 유지됩니다.", "Unstored result discarded. Earlier turns are preserved.")}</p>}
-                  {turn.error && !["storage_failed", "discarded"].includes(turn.status) && (
-                    <p className="error" role="status">
-                      {t(
-                        "로컬 실행이 완료되지 않았습니다.",
-                        "Local execution did not complete.",
-                      )}{" "}
-                      {turn.error}
-                    </p>
-                  )}
-                  <details className="steps" open={busy(turn)}>
-                    <summary>
-                      {busy(turn)
-                        ? t("실행 중", "Running")
-                        : t("실행 기록", "Execution record")}{" "}
-                      ·{" "}
-                      {turn.wall_seconds?.toFixed(2) ||
-                        (busy(turn)
-                          ? Math.max(
-                              0,
-                              (clock - Date.parse(turn.created_at)) / 1000,
-                            ).toFixed(1)
-                          : "…")}
-                      s {replayMode ? "actual · recorded" : ""}
-                    </summary>
-                    <ol>
-                      {turn.steps.map((s) => (
-                        <li key={s.name}>
-                          <span>
-                            {
-                              (
-                                {
-                                  interpret: t(
-                                    "질문 해석",
-                                    "Interpret question",
-                                  ),
-                                  evidence: t(
-                                    "검증 자료 조회 및 계산",
-                                    "Resolve evidence and calculate",
-                                  ),
-                                  answer: t("답변 저장", "Persist answer"),
-                                } as Record<string, string>
-                              )[s.name]
-                            }
-                          </span>{" "}
-                          ·{" "}
-                          {(
-                            {
-                              complete: t("완료", "Complete"),
-                              running: t("실행 중", "Running"),
-                              pending: t("대기", "Pending"),
-                              interrupted: t("중단됨", "Interrupted"),
-                              cancelled: t("취소됨", "Cancelled"),
-                              error: t("실패", "Failed"),
-                              timeout: t("시간 초과", "Timed out"),
-                              stop_unconfirmed: t(
-                                "중지 미확인",
-                                "Stop unconfirmed",
-                              ),
-                            } as Record<string, string>
-                          )[s.status] || s.status}{" "}
-                          {s.seconds !== undefined
-                            ? `${s.seconds.toFixed(2)}s`
-                            : s.status === "running" && s.started_at
-                              ? `${Math.max(0, (clock - Date.parse(s.started_at)) / 1000).toFixed(1)}s`
-                              : ""}{" "}
-                          {s.reused
-                            ? t("(완료 단계 재사용)", "(completed step reused)")
-                            : ""}
-                        </li>
-                      ))}
-                    </ol>
-                  </details>
-                  {!replayMode &&
-                    busy(turn) &&
-                    clock - Date.parse(turn.created_at) > 2000 && (
-                      <button
-                        onClick={() =>
-                          action(async () => {
-                            await live?.cancel(turn.id);
-                          })
-                        }
-                      >
-                        {t("취소", "Cancel")}
-                      </button>
-                    )}
-                  {!replayMode &&
-                    [
-                      "error",
-                      "cancelled",
-                      "timeout",
-                      "interrupted",
-                      "stop_unconfirmed",
-                    ].includes(turn.status) &&
-                    !turn.retry_of &&
-                    !current?.turns.some((t) => t.retry_of === turn.id) && (
-                      <button
-                        disabled={active || runtimeBusy || current?.saved}
-                        onClick={() => submit(turn.question, turn)}
-                      >
-                        {t("한 번 다시 시도", "Retry once")}
-                      </button>
-                    )}
-                </article>
-              ))}
-            </>
+          {view === "home" && <Home lang={lang} t={t} go={go} live={!replayMode} />}
+          {view === "guide" && <Guide lang={lang} t={t} />}
+          {view === "ledger" && (
+            <Ledger lang={lang} t={t} inspect={inspect} selected={selected} data={ledger.data} failed={ledger.failed} anchor={anchor} />
           )}
-          {!replayMode && (
+          {view === "investigate" && investigation()}
+          {view === "investigate" && !replayMode && (
             <div className="composer">
               {current && turns.length > 0 && !active && (
                 <div className="actions">
@@ -1070,7 +862,7 @@ function Workspace({ session }: { session: Session }) {
                   {current.saved &&
                     ["continue", "refresh"].map((mode) => (
                       <button
-                        className={mode === "continue" ? "primary-action" : undefined}
+                        className={mode === "continue" ? "primary" : undefined}
                         key={mode}
                         onClick={() =>
                           action(async () => {
@@ -1079,40 +871,33 @@ function Workspace({ session }: { session: Session }) {
                         }
                       >
                         {mode === "continue"
-                          ? t(
-                              "원본 근거로 계속",
-                              "Continue with original evidence",
-                            )
-                          : t(
-                              "현재 검증 자료로 새 조사",
-                              "New investigation with current data",
-                            )}
+                          ? t("원본 근거로 계속", "Continue with original evidence")
+                          : t("현재 검증 자료로 새 조사", "New investigation with current data")}
                       </button>
                     ))}
                 </div>
               )}
-              {!replayMode && current?.saved && (
+              {current?.saved && (
                 <p className="muted">{t("저장본은 그대로 보존됩니다. 현재 검증 자료로 시작해도 새 공시를 내려받지는 않습니다.", "The saved result stays unchanged. Starting with current verified data does not download new filings.")}</p>
               )}
               {context && (
                 <div className="context">
                   {current?.pending
                     ? t("확인 중인 문맥", "Pending clarification")
-                    : t("확정된 문맥", "Accepted context")}
-                  :{" "}
+                    : t("이어받는 문맥", "Carried context")}
                   {context.companies.map((c) => (
                     <span className="context-chip" key={c}>
-                      {label(companyNames, c, lang)}
+                      {label("company", c, lang)}
                     </span>
                   ))}
                   <span className="context-chip">
                     {context.metric
-                      ? label(metricNames, context.metric, lang)
-                      : "—"}
+                      ? label("metric", context.metric, lang)
+                      : "–"}
                   </span>
                   {context.periods.map((p) => (
                     <span className="context-chip" key={p}>
-                      {p}
+                      {periodLabel(p, lang)}
                     </span>
                   ))}
                 </div>
@@ -1130,7 +915,7 @@ function Workspace({ session }: { session: Session }) {
                     void submit();
                   }}
                 >
-                  <label htmlFor="prompt">
+                  <label htmlFor="prompt" className="sr-only">
                     {t("공시에 대해 질문하기", "Ask about a filing")}
                   </label>
                   {followUps.length > 0 && (
@@ -1163,12 +948,12 @@ function Workspace({ session }: { session: Session }) {
                         }
                       }}
                       placeholder={t(
-                        "회사, 지표, 회계연도를 입력하세요",
-                        "Company, metric, fiscal year",
+                        "예: 네이버 2023년 영업이익은?",
+                        "e.g. What was NAVER's operating income in FY2023?",
                       )}
                     />
                     <button
-                      className="send"
+                      className="send primary"
                       disabled={!ready || sending || active || runtimeBusy || !draft.trim()}
                       type="submit"
                     >
@@ -1179,7 +964,14 @@ function Workspace({ session }: { session: Session }) {
               )}
             </div>
           )}
-          {replayMode && error && <p role="alert">{error}</p>}
+          {view !== "investigate" || replayMode ? (
+            <footer className="site-footer">
+              <span>Filing Agent</span>
+              {replayMode && <a href={lang === "ko" ? "./engineering-ko.html" : "./engineering-en.html"}>{t("만든 과정과 검증 기록", "Engineering notes and verification")}</a>}
+              <a href="https://mhju0.github.io/filing-digest/">Filing Digest ↗</a>
+              <span className="muted">{t("투자 권유가 아닙니다.", "Not investment advice.")}</span>
+            </footer>
+          ) : null}
         </section>
         <AnimatePresence
           initial={false}
@@ -1231,7 +1023,7 @@ function Workspace({ session }: { session: Session }) {
           )}
           <p className="muted">
             {t(
-              "일반 조사는 30일간 활동이 없으면 만료됩니다. 저장된 조사는 삭제할 때까지 보존됩니다.",
+              "일반 조사는 30일간 활동이 없으면 만료됩니다. 저장한 조사는 삭제할 때까지 보존됩니다.",
               "Ordinary investigations expire after 30 idle days. Saved investigations remain until deleted.",
             )}
           </p>
@@ -1257,6 +1049,7 @@ function Workspace({ session }: { session: Session }) {
                     className="history-row"
                     onClick={() => {
                       live?.select(inv);
+                      setView("investigate");
                       closeHistory();
                     }}
                   >
