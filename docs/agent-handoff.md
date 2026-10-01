@@ -20,3 +20,10 @@
 - Decisions and why: D14 holds deploy, so the new replay isn't live and Digest citations don't deep-link to the Ledger yet (G2 skipped). Ledger ratios computed in the browser are a recorded display-only exception to ADR 0008 (ADR 0013).
 - Open issues: Deploy (D14) is still held. When it lifts, update the deploy allowlist and manifest, then add G2 deep links. The two glossary copies must change together. Digest PR #26 waits on the owner's branch.
 - Next step: Owner decides on deploy, then does G2.
+
+## 2026-10-01 (deploy)
+
+- What changed: The owner lifted the D14 hold. The reading-surfaces replay is deployed to https://filing-agent.vercel.app from the reviewed manifest `docs/audits/2026-10-01-reading-revamp/artifact.json` (PR #13). Production hashes match the manifest. The portfolio (mhju0.github.io) now shows the new Agent screens and the sentence-case Digest English digest.
+- Decisions and why: `recording.json` is reused byte-for-byte, so the recorded runs are unchanged. Only the UI bundle, ledger and font changed.
+- Open issues: G2 (Digest citation links into the Ledger) is now unblocked. The Korean calculation chips still show "KRW" where the rest of the Korean UI uses 원.
+- Next step: G2.
