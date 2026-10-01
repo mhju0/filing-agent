@@ -13,3 +13,10 @@
 - Decisions and why: Ledger ratios are derived in the browser with BigInt rounding that matches ROUND_HALF_UP, so the Python policy is untouched. keep-all is applied globally because English pages contain Korean text. The font is renamed because the OFL Reserved Font Name rule applies to the subset. All of these are pending owner approval (D1–D17 in the review report).
 - Open issues: Owner approval needed before any commit or PR. Python tests not run (no local Postgres). Live mode was checked only against a mocked API. The English ledger table at 360px scrolls about 20px. The new replay is not deployed: the deploy allowlist and manifest need updating. Filing Digest proposals G1–G8 have not been started.
 - Next step: Apply the owner's decisions, commit in the five planned steps, update DESIGN.md, open a PR, and merge only after CI passes.
+
+## 2026-10-01 (later)
+
+- What changed: The owner approved D1–D17 and G1–G8. The revamp merged as PR #11. Glossary entries are now keyed by ticker and shared with Filing Digest. `slice/web/src/glossary.json` is identical to Digest's `contracts/family-glossary.json`. Filing-name aliases resolve through `company_aliases`, and `glossary.test.ts` checks that every company and metric in the ledger has names in both languages. English shows "Samsung Electronics" instead of "Samsung". Digest web family section: Digest PR #25, merged. Digest iOS number rules, search language and glossary: Digest PR #26, stacked on the owner's `feat/english-answer-screens`.
+- Decisions and why: D14 holds deploy, so the new replay isn't live and Digest citations don't deep-link to the Ledger yet (G2 skipped). Ledger ratios computed in the browser are a recorded display-only exception to ADR 0008 (ADR 0013).
+- Open issues: Deploy (D14) is still held. When it lifts, update the deploy allowlist and manifest, then add G2 deep links. The two glossary copies must change together. Digest PR #26 waits on the owner's branch.
+- Next step: Owner decides on deploy, then does G2.

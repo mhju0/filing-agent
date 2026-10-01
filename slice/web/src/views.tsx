@@ -6,9 +6,12 @@ import glossary from "./glossary.json";
 
 const metricNames: Record<string, string[]> = glossary.metrics;
 const companyNames: Record<string, string[]> = glossary.companies;
+// Filings name the same company several ways; the glossary keys companies by ticker.
+const companyAliases: Record<string, string> = glossary.company_aliases;
 export function label(map: "metric" | "company", key: string, lang: Lang) {
   const names = map === "metric" ? metricNames : companyNames;
-  return names[key]?.[lang === "ko" ? 0 : 1] || key;
+  const id = map === "company" ? companyAliases[key] ?? key : key;
+  return names[id]?.[lang === "ko" ? 0 : 1] || key;
 }
 export const periodLabel = (period: string, lang: Lang) => lang === "ko" ? `${period} 회계연도` : `FY${period}`;
 const regulatorName = (regulator: string) => regulator === "dart" ? "DART" : "SEC";
