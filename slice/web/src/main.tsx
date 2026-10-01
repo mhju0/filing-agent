@@ -478,12 +478,12 @@ function Workspace({ session, view, setView }: { session: Session; view: View; s
                     ({periodLabel(inputs[0]?.period || "", al)} − {periodLabel(inputs[1]?.period || "", al)}) ÷ {periodLabel(inputs[1]?.period || "", al)} × 100
                   </p>
                   <p className="calc-detail num">
-                    {t("차이", "Difference")} {exact(c.absolute_change)} {c.currency}
+                    {t("차이", "Difference")} {exact(c.absolute_change)} {c.currency === "KRW" ? t("원", "KRW") : t("달러", "USD")}
                   </p>
                   <div className="calc-inputs">
                     {inputs.map((f) => (
                       <button key={f.id} className="quiet" onClick={(e) => inspect(f, e)}>
-                        {periodLabel(f.period, al)} · {exact(f.value)} {f.currency}
+                        {periodLabel(f.period, al)} · {exact(f.value)} {f.currency === "KRW" ? t("원", "KRW") : t("달러", "USD")}
                       </button>
                     ))}
                   </div>
