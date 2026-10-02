@@ -34,3 +34,10 @@
 - Decisions and why: The owner approved the before/after README report. Every number in the README was re-checked against the verification records; the 57 policy tests were re-run.
 - Open issues: G2 (Digest citation links into the Ledger). The Filing Digest walkthrough still shows old iOS screens; recapture is the agreed follow-up there.
 - Next step: G2.
+
+## 2026-10-02 (G2)
+
+- What changed: Each ledger company heading now has a stable ticker anchor, `#ledger/ledger-<ticker>`. A `?lang=ko|en` link overrides the saved language. On mobile a scroll margin keeps a linked heading clear of the sticky header. `ledger_years` in the shared glossary lists the ledger's companies and years, and a test derives it from `ledger.json`. Filing Digest links Samsung Electronics, NAVER and Microsoft to those anchors (Digest D55). The replay was rebuilt and deployed; `recording.json` is unchanged.
+- Decisions and why: Anchors use tickers rather than Korean company names to avoid percent-encoding. Links target a company section, not a single row, because Digest cites passages from later fiscal years than the ledger covers.
+- Open issues: The Digest walkthrough recapture is blocked because Upstage Solar returned 403 for every call. The two glossary copies must still change together.
+- Next step: None here. Recapture the Digest walkthrough once its Solar key works.

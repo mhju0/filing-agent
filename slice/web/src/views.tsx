@@ -13,6 +13,8 @@ export function label(map: "metric" | "company", key: string, lang: Lang) {
   const id = map === "company" ? companyAliases[key] ?? key : key;
   return names[id]?.[lang === "ko" ? 0 : 1] || key;
 }
+// Stable ASCII anchor for a company's ledger section; Filing Digest links to it.
+export const ledgerAnchor = (company: string) => "ledger-" + (companyAliases[company] ?? company);
 export const periodLabel = (period: string, lang: Lang) => lang === "ko" ? `${period} 회계연도` : `FY${period}`;
 const regulatorName = (regulator: string) => regulator === "dart" ? "DART" : "SEC";
 const percent = (value: string | null) => (value === null ? "–" : value.replace("-", "−") + "%");
@@ -395,9 +397,9 @@ export function Ledger({ lang, t, inspect, selected, data, failed, anchor }: {
         const years = [...new Set(data.figures.filter((f) => f.company === company).map((f) => f.period))].sort();
         const two = years.length === 2;
         return (
-          <section className="block" key={company} aria-labelledby={"ledger-" + company}>
+          <section className="block" key={company} aria-labelledby={ledgerAnchor(company)}>
             <div className="company-head">
-              <h2 id={"ledger-" + company}>{name(company)}</h2>
+              <h2 id={ledgerAnchor(company)}>{name(company)}</h2>
               <SourceBadge regulator={get(company, years[0], "revenue").source.regulator} />
               <span className="muted">{[...new Set(years.map((y) => get(company, y, "revenue").source.filing_title))].join(" · ")}</span>
             </div>

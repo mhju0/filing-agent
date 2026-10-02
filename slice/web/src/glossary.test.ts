@@ -19,3 +19,13 @@ test("every ledger company and metric has Korean and English names", () => {
     assert.equal(glossary.metrics[figure.metric]?.length, 2, figure.metric);
   }
 });
+
+test("ledger_years lists exactly the ledger's companies and fiscal years", () => {
+  const years: Record<string, Set<string>> = {};
+  for (const figure of ledger.figures) {
+    const id = glossary.company_aliases[figure.company] ?? figure.company;
+    (years[id] ??= new Set()).add(figure.period);
+  }
+  const expected = Object.fromEntries(Object.entries(years).map(([id, set]) => [id, [...set].sort()]));
+  assert.deepEqual(glossary.ledger_years, expected);
+});
