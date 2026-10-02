@@ -12,4 +12,6 @@ Checks on the assembled directory before deployment:
 
 A follow-up rebuild the same day localizes the currency unit in the Korean calculation chips (원/달러 instead of KRW/USD). Only the JavaScript bundle changed. The detector still reports 0 issues on the comparison run.
 
+A second rebuild on 2026-10-02 adds links from Filing Digest. Ledger company sections are anchored by ticker (`#ledger/ledger-005930`, `ledger-035420`, `ledger-MSFT`), a `?lang=ko` or `?lang=en` parameter selects the interface language, and on narrow screens a linked heading clears the sticky header. `recording.json` is still byte-identical. Checked in Chrome at 1440 and 390 px for all three anchors.
+
 [artifact.json](artifact.json) records the exact file list and SHA-256 hashes that `release/deploy.sh` verifies.

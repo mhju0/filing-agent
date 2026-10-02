@@ -630,6 +630,8 @@ input[type="search"] {
   :root { --header-gap: var(--space-6); --block-gap: var(--space-6); --card-pad: var(--space-4); --text-xl: 1.5rem; }
   .app-shell { display: block; height: auto; min-height: 100dvh; }
   .topbar { position: sticky; top: 0; padding: var(--space-2) var(--gutter); }
+  /* Keep a linked ledger company (#ledger/ledger-<ticker>) clear of the sticky two-row header. */
+  .company-head h2 { scroll-margin-top: calc(7rem + var(--space-5)); }
   .tabs button { padding-inline: var(--space-3); }
   .tabs button[aria-current="page"]::after { left: var(--space-3); right: var(--space-3); }
   .workspace { display: block; }

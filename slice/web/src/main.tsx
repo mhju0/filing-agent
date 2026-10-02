@@ -216,9 +216,12 @@ function Workspace({ session, view, setView }: { session: Session; view: View; s
   const setTurnIndex = (value: number) => recorded?.setTurnIndex(value);
   const action = async (fn: () => Promise<void>) => { if (live) await live.action(fn); };
   const [discardTarget, setDiscardTarget] = useState<string | null>(null);
-  const [lang, setLang] = useState<Lang>(
-    localStorage.getItem("filing-language") === "en" ? "en" : "ko",
-  );
+  const [lang, setLang] = useState<Lang>(() => {
+    // A ?lang= link (from Filing Digest) wins over the saved choice.
+    const requested = new URLSearchParams(location.search).get("lang");
+    if (requested === "ko" || requested === "en") return requested;
+    return localStorage.getItem("filing-language") === "en" ? "en" : "ko";
+  });
   const [theme, setTheme] = useState(
     localStorage.getItem("filing-theme") || "system",
   );
