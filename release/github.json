@@ -1,5 +1,5 @@
 {
-  "description": "Local LLM investigation of Korean DART and US SEC filings, with verified figures, persistent conversations and a bilingual replay. Sister project to Filing Digest.",
+  "description": "A local AI app for asking questions about historical Korean and US company filings, comparing reported figures, and saving answers with their sources",
   "homepage": "https://filing-agent.vercel.app",
   "topics": [
     "corporate-filings",

@@ -27,3 +27,10 @@
 - Decisions and why: `recording.json` is reused byte-for-byte, so the recorded runs are unchanged. Only the UI bundle, ledger and font changed.
 - Open issues: G2 (Digest citation links into the Ledger) is now unblocked. The Korean calculation chips still show "KRW" where the rest of the Korean UI uses 원.
 - Next step: G2.
+
+## 2026-10-02
+
+- What changed: README rewritten around the live demo (184 → 74 lines), with a current screenshot at `docs/screenshots/replay-comparison-en.png`. Setup, architecture, decisions and the source guide are now linked instead of repeated. `release/github.json` matches the live GitHub About text. The Korean calculation chips now show 원/달러 (PR #15, deployed).
+- Decisions and why: The owner approved the before/after README report. Every number in the README was re-checked against the verification records; the 57 policy tests were re-run.
+- Open issues: G2 (Digest citation links into the Ledger). The Filing Digest walkthrough still shows old iOS screens; recapture is the agreed follow-up there.
+- Next step: G2.
