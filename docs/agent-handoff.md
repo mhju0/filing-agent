@@ -41,3 +41,10 @@
 - Decisions and why: Anchors use tickers rather than Korean company names to avoid percent-encoding. Links target a company section, not a single row, because Digest cites passages from later fiscal years than the ledger covers.
 - Open issues: The Digest walkthrough recapture is blocked because Upstage Solar returned 403 for every call. The two glossary copies must still change together.
 - Next step: None here. Recapture the Digest walkthrough once its Solar key works.
+
+## 2026-10-03
+
+- What changed: Filing Digest replaced Upstage Solar with Gemini Flash-Lite (Digest D56) and recaptured its walkthrough. Agent's engineering notes, operating guide and the Digest design mock no longer name Solar. The replay was rebuilt and deployed; only `engineering-en.html`, `LOCAL-SETUP.md` and the source archive changed.
+- Decisions and why: Older audit records that mention Solar describe runs made on Solar and are left as written.
+- Open issues: None.
+- Next step: None.

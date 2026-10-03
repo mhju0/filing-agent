@@ -14,4 +14,6 @@ A follow-up rebuild the same day localizes the currency unit in the Korean calcu
 
 A second rebuild on 2026-10-02 adds links from Filing Digest. Ledger company sections are anchored by ticker (`#ledger/ledger-005930`, `ledger-035420`, `ledger-MSFT`), a `?lang=ko` or `?lang=en` parameter selects the interface language, and on narrow screens a linked heading clears the sticky header. `recording.json` is still byte-identical. Checked in Chrome at 1440 and 390 px for all three anchors.
 
+A third rebuild on 2026-10-03 changes one sentence: Filing Digest moved its narrative model from Upstage Solar to Gemini, so the engineering notes and operating guide now say Agent does not call Digest's "language model". Only `engineering-en.html`, `LOCAL-SETUP.md` and the source archive changed.
+
 [artifact.json](artifact.json) records the exact file list and SHA-256 hashes that `release/deploy.sh` verifies.
