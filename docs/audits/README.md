@@ -4,6 +4,7 @@ These are dated observations. Results apply to the revisions, snapshots and envi
 
 | Record | Evidence |
 |---|---|
+| [2026-10-06 · Maintenance closeout](2026-10-06-maintenance/README.md) | Frozen portfolio baseline, responsive coverage fix and static artifact |
 | [2026-09-10 · Final polish](2026-09-10-final-polish/README.md) | Explicit request scope, bilingual onboarding and fresh multi-turn public recording |
 | [2026-09-10 · First-use flow](2026-09-10-natural-flow/README.md) | Repair the owner’s natural comparison follow-up, focused clarification and saved-investigation guidance |
 | [2026-09-09 · Maintenance fixes](2026-09-09-maintenance-fixes/README.md) | Company exclusions, long-idle recovery and Digest browser boundary regressions |

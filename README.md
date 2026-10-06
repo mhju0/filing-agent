@@ -25,6 +25,8 @@ Filing Agent is a local web app for asking follow-up questions about verified hi
 
 The demo replays real runs recorded on the local app. It makes no model calls and needs nothing running on the owner's Mac.
 
+**Status:** Maintenance · [release policy and limits](docs/MAINTENANCE.md) · [dated release](https://github.com/mhju0/filing-agent/releases/tag/release-qualified-2026-10-06)
+
 ## In the demo
 
 | Recorded run | What to look for |

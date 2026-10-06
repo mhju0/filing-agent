@@ -66,3 +66,18 @@
 - Decisions and why: Rebuilt with the existing static assembler and source allowlist; kept older audit manifests unchanged. The source archive has 78 verified entries. CI passed publication checks, 57 benchmark tests, 19 application tests and nine frontend tests/build. Assembled footer passed KO/EN, light/dark and 320/390/1440px keyboard/axe/bounds/static-request checks. The old release harness expects an error on Overview; current Recorded runs error/reload was verified separately.
 - Open issues: Existing Korean Overview overflow at 320px remains outside the bounded footer change. Physical-device and full VoiceOver coverage remain unestablished. Root verified the live alias in English desktop/light and Korean mobile/light: correct email, Issues and hosting links; replay mode; keyboard disclosure toggling; no console errors; Korean viewport document/client width both 375px.
 - Next step: None for this bounded release.
+
+### 2026-10-06 interview-readiness review
+
+- What changed: Created a private local report at `.local/interview-review-2026-10-06/report.html` covering both projects, 30 critiques with interview answer outlines, claim corrections, demo rehearsal and owner-only questions. Product code and recruiting sources were not edited.
+- Decisions and why: Recommend keeping the bounded local products, preparing a live interview rehearsal, narrowing Digest's API citation wording, and removing Solar from headline current skills while retaining dated migration experience. Recorded public demos are useful application evidence, not live or multi-user execution proof.
+- Open issues: Current external profiles/attachments and credential cleanup remain unverified. Fresh local provider/native execution and physical-device checks were not performed. Chrome automation timed out twice; report visual/mobile click-through verification remains unavailable. Static source paths/anchors, script syntax, text contrast and filter/expand/reset behavior in a DOM substitute pass.
+- Next step: Owner reviews the report; separately authorize any product/copy remediation. Rehearse the Mac/client live flow before an interview. The briefly requested resume layout edits were canceled before any modification.
+
+
+### 2026-10-06 maintenance candidate
+
+- What changed: Owner authorized main publication, static deployment and a dated maintenance release. Added maintenance policy/status and fixed the 320px Korean coverage table with two CSS declarations. Private report and interview material were archived in recruiting; current master skills omit Solar while historical migration evidence remains.
+- Decisions and why: Close feature development, preserve the qualified model/snapshot/recordings and permit bounded defects/security/documentation fixes. No hosted backend, authentication or data migration is introduced.
+- Open issues: Live model/cold-start rehearsal, independent evaluation and physical-device/full VoiceOver remain unverified or deferred. External profiles and credential cleanup are not established by this release.
+- Next step: Verify the static manifest and protected CI, integrate to main, deploy/hash/browser-check and publish the dated GitHub release.
