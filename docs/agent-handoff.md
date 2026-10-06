@@ -48,3 +48,14 @@
 - Decisions and why: Older audit records that mention Solar describe runs made on Solar and are left as written.
 - Open issues: None.
 - Next step: None.
+
+## 2026-10-06
+
+- What changed: Prepared local bilingual public-replay footer support links and expandable privacy/contact disclosure; corrected the Filing Digest description to source-linked summaries and Q&A. No commit or deployment yet.
+- Decisions and why: Email is primary for general/private inquiries, privacy questions and deletion requests; GitHub Issues is secondary and explicitly public. Native details and existing footer tokens keep the disclosure subordinate to filing content and keyboard accessible. The disclosure covers the public replay only, browser preferences, Vercel request metadata, voluntary Gmail messages and public GitHub reports, without retention or response-time guarantees.
+- Open issues: Existing Korean Overview coverage-table overflow at 320px is outside this change. Production, physical-device and full VoiceOver verification remain unperformed.
+- Next step: Owner review of the local candidate. Build, nine format/glossary tests, publication checker and diff whitespace checks pass. Footer-only browser checks passed for Korean/English, light/dark and 320/390/1440px: keyboard open/close, visible focus, bounds, zero axe violations/page errors, same-origin static requests without API calls. Local evidence is in ignored `.local/contact-preview/verification.json`.
+
+### 2026-10-06 local candidate accepted
+
+- Root reviewed the English desktop and Korean 390px replay disclosure, including keyboard toggling and console errors. The bounded contact/copy candidate is accepted for a local commit; public deployment remains pending. Instagram preparation is deferred by the owner.
