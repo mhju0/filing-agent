@@ -679,6 +679,8 @@ input[type="search"] {
 @media (max-width: 420px) {
   .wordmark > span:last-child { font-size: var(--text-base); }
   .languages button { padding-inline: var(--space-2); }
+  .coverage th, .coverage td { padding-right: var(--space-2); }
+  .coverage th:last-child, .coverage td:last-child { padding-right: 0; }
   /* Live mode adds New and History, so the wordmark keeps only its mark on phones. */
   .topbar:has(.controls > button:not(.theme)) .wordmark > span:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
   .figures-table th, .figures-table td { padding-right: var(--space-1); }

@@ -6,6 +6,7 @@ Start with the [project overview](../README.md) for Filing Agent's purpose, its 
 
 | Document | Use it to |
 |---|---|
+| [Maintenance policy](MAINTENANCE.md) | Understand the frozen portfolio baseline, permitted fixes and interview checks |
 | [Operating guide](../slice/README.md) | Install and run the local app; manage investigations, backups and replay exports |
 | [Design direction](../DESIGN.md) | Understand the approved interface and interaction requirements |
 | [Domain glossary](../CONTEXT.md) | Look up shared terms and evidence boundaries |

@@ -1,6 +1,7 @@
 # Filing Agent
 
-Current phase: implementation and verified static replay release.
+Current phase: maintenance of the local application and static replay.
+Read [docs/MAINTENANCE.md](docs/MAINTENANCE.md) before proposing new work.
 [README.md](README.md) introduces the application; [docs/README.md](docs/README.md)
 indexes current guides, decisions and verification. Private planning remains local and ignored.
 Before publishing, run `python3 release/check_publication.py`.
