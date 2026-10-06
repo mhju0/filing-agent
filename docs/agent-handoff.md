@@ -81,3 +81,10 @@
 - Decisions and why: Close feature development, preserve the qualified model/snapshot/recordings and permit bounded defects/security/documentation fixes. No hosted backend, authentication or data migration is introduced.
 - Open issues: Live model/cold-start rehearsal, independent evaluation and physical-device/full VoiceOver remain unverified or deferred. External profiles and credential cleanup are not established by this release.
 - Next step: Verify the static manifest and protected CI, integrate to main, deploy/hash/browser-check and publish the dated GitHub release.
+
+### 2026-10-06 Chrome follow-up
+
+- What changed: Verified retired-provider key revocation and removal of its documented copy in Chrome. Current recruiting copy checks and exact blocked account/attachment steps are recorded privately in recruiting. No product code or static deployment changed.
+- Verification: Started the existing local Ollama, PostgreSQL and API; Chrome executed a fresh Samsung revenue comparison, opened source evidence, saved it and restored it after API restart/reload. An unsupported metric returned no invented number. The partner API started and returned one fresh provider-backed answer; native-client and independent semantic validation are not established.
+- Open issues: Logged-out recruiting profiles, attachment upload consent, actual iPhone/full VoiceOver and personal interview rehearsal remain. Dated maintenance release remains the stable product baseline.
+- Next step: Follow the private Chrome checklist; no new feature work. Stop only the local processes started for this check.
