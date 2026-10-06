@@ -59,3 +59,10 @@
 ### 2026-10-06 local candidate accepted
 
 - Root reviewed the English desktop and Korean 390px replay disclosure, including keyboard toggling and console errors. The bounded contact/copy candidate is accepted for a local commit; public deployment remains pending. Instagram preparation is deferred by the owner.
+
+### 2026-10-06 contact/privacy publication
+
+- What changed: Published the accepted contact/privacy copy through PR #19 (merge `05ae2c1`) and `RELEASE_AUDIT=docs/audits/2026-10-06-contact-privacy/artifact.json ./release/deploy.sh`. Production https://filing-agent.vercel.app is READY; all 26 public file hashes match the reviewed 27-file manifest (`vercel.json` is hosting configuration). Recording bytes are unchanged.
+- Decisions and why: Rebuilt with the existing static assembler and source allowlist; kept older audit manifests unchanged. The source archive has 78 verified entries. CI passed publication checks, 57 benchmark tests, 19 application tests and nine frontend tests/build. Assembled footer passed KO/EN, light/dark and 320/390/1440px keyboard/axe/bounds/static-request checks. The old release harness expects an error on Overview; current Recorded runs error/reload was verified separately.
+- Open issues: Existing Korean Overview overflow at 320px remains outside the bounded footer change. Physical-device and full VoiceOver coverage remain unestablished. Root verified the live alias in English desktop/light and Korean mobile/light: correct email, Issues and hosting links; replay mode; keyboard disclosure toggling; no console errors; Korean viewport document/client width both 375px.
+- Next step: None for this bounded release.
