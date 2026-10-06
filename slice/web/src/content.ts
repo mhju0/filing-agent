@@ -288,7 +288,7 @@ export const family = {
   title: { ko: "Filing Digest와 함께", en: "Works with Filing Digest" },
   digest: {
     name: "Filing Digest",
-    role: { ko: "회사별 최신 공시를 요약하고, 문장마다 원문 인용을 붙여 읽는 iOS 앱입니다.", en: "An iOS reader that summarizes each company's latest filing and cites the source for every sentence." },
+    role: { ko: "회사 공시의 요약과 질의응답을 원문 링크와 함께 읽는 iOS 앱입니다.", en: "An iOS reader for company filing summaries and Q&A with source links." },
     link: { ko: "Filing Digest 열기", en: "Open Filing Digest" },
     url: "https://mhju0.github.io/filing-digest/",
   },

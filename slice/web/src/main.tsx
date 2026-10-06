@@ -972,6 +972,27 @@ function Workspace({ session, view, setView }: { session: Session; view: View; s
               <span>Filing Agent</span>
               {replayMode && <a href={lang === "ko" ? "./engineering-ko.html" : "./engineering-en.html"}>{t("만든 과정과 검증 기록", "Engineering notes and verification")}</a>}
               <a href="https://mhju0.github.io/filing-digest/">Filing Digest ↗</a>
+              {replayMode && (
+                <>
+                  <a href="mailto:mj.apps.support@gmail.com">{t("이메일 문의", "Email support")}</a>
+                  <a href="https://github.com/mhju0/filing-agent/issues">{t("공개 버그·기능 제안", "Public bugs and feature requests")}</a>
+                  <details className="replay-disclosure">
+                    <summary>{t("공개 리플레이 개인정보 및 문의 안내", "Public replay privacy and contact")}</summary>
+                    <p>{t(
+                      "이 안내는 공개 리플레이에만 적용되며, 로컬 라이브 앱에는 적용되지 않습니다. 공개 리플레이는 기록된 실행을 보여 줍니다. 파일 업로드, 실시간 모델 호출, 제품 이용 분석을 하지 않으며, 언어와 테마 선택은 이 브라우저에 저장합니다.",
+                      "This disclosure applies to the public replay only, not the local live app. The replay shows recorded runs. It has no file uploads, live model calls or product analytics. Language and theme preferences are saved in this browser.",
+                    )}</p>
+                    <p>{t(
+                      "Vercel이 이 사이트를 제공하며 방문 요청 메타데이터를 처리할 수 있습니다.",
+                      "Vercel serves this site and may process request metadata.",
+                    )} <a href="https://vercel.com/legal/privacy-policy">{t("Vercel 개인정보 안내", "Vercel privacy information")}</a></p>
+                    <p>{t(
+                      "일반 문의, 개인정보 관련 질문이나 삭제 요청, 공개하기 어려운 내용은 mj.apps.support@gmail.com으로 보내 주세요. 자발적으로 보내신 이메일은 Gmail을 통해 전달되며, 보내신 이메일 주소와 메시지는 답변에 사용합니다. 버그와 기능 제안은 GitHub Issues에서도 받으며, 게시물은 공개됩니다. 비밀번호, API 키, 개인정보나 비공개 자료를 공개 이슈에 넣지 마세요.",
+                      "For general questions, privacy questions, deletion requests or matters you prefer to keep out of public reports, email mj.apps.support@gmail.com. Email you choose to send is delivered through Gmail. Your email address and message are used to respond. You can also report bugs and request features through GitHub Issues, where posts are public. Do not include passwords, API keys, personal information or private material in public issues.",
+                    )}</p>
+                  </details>
+                </>
+              )}
               <span className="muted">{t("투자 권유가 아닙니다.", "Not investment advice.")}</span>
             </footer>
           ) : null}
