@@ -41,9 +41,8 @@ If direction is missing, resolve it with the owner before designing.
 Apply the skill's UI delivery checks when a UI is part of the deliverable.
 <!-- antislop:end -->
 
-## Agent handoff
+## Agent memory
 
-- At session start, read `docs/agent-handoff.md`.
-- Before ending a session where you made decisions, changed architecture, or left work unfinished, append a dated entry: what changed, decisions and why, open issues, next step. Keep it brief and append-only.
-- When the file exceeds ~200 lines, condense the oldest entries into a short dated summary. Never delete unresolved open issues.
-- Durable rules belong in AGENTS.md, not in the handoff file.
+- At session start, read `.memory/README.md` (private, git-ignored).
+- Before ending a session that changed something or left work unfinished, update `.memory/handoff.md`.
+- Product and engineering decisions go in `docs/adr/`; the owner's preferences about agent work go in `.memory/decisions.md`.
