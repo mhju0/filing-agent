@@ -60,3 +60,7 @@ test-results/
 .vercel/
 slice/replay/
 slice/replay-*/
+
+# Private agent memory and write locks (shared by Claude and Codex)
+.memory/
+.locks/
