@@ -1,0 +1,113 @@
+{
+  "status": "DEPLOYED_AND_VERIFIED",
+  "verified_at_utc": "2026-11-04T01:50:22.869373+00:00",
+  "url": "https://filing-agent.vercel.app",
+  "implementation_pr": "https://github.com/mhju0/filing-agent/pull/26",
+  "reviewed_release_commit": "3131e389bc9c5f0edfd671daa80579ca11204823",
+  "deployed_commit": "67643a50da45e080f36a1febab4b4cf9d092ed61",
+  "deployment_id": "dpl_36PrV9fxFmnYhte95tkvfD1sj9eT",
+  "project": "filing-agent",
+  "deployment_state": "READY",
+  "cli_version": "59.11.7",
+  "ci": [
+    "https://github.com/mhju0/filing-agent/actions/runs/41755210729",
+    "https://github.com/mhju0/filing-agent/actions/runs/41755441452"
+  ],
+  "artifact_inputs_verified": 27,
+  "public_http_hashes_verified": 26,
+  "deployment_config_verified_by_authenticated_api": true,
+  "production_matrix_surfaces": 64,
+  "production_matrix_failures": [],
+  "browser": {
+    "continuity": {
+      "status": "PASS",
+      "base": "https://filing-agent.vercel.app",
+      "checks": [
+        "Enter opens the focused financial figure's source; evidence spring has an in-flight presentation and rapid close/reopen settles to one selected source; desktop grid occupancy survives a completed narrow handoff and return",
+        "Rapid in-flight and settled handoffs across 850/851 retain the evidence reading position; close releases modal semantics immediately; an exit reversal restores dialog focus and Escape behavior; changing to reduced motion settles spatial travel",
+        "With the bundled font unavailable, initial and settled fallback text at 200% stays within desktop and 320px layouts; reduced motion starts without spatial travel",
+        "WebKit mobile evidence opens semantically and Escape closes immediately",
+        "Replay made no live API or foreign request and raised no CSP or browser errors"
+      ],
+      "errors": [],
+      "unexpectedRequests": [],
+      "webkit": "PASS"
+    },
+    "release": {
+      "status": "PASS",
+      "base": "https://filing-agent.vercel.app",
+      "checks": [
+        "Company-switch and missing-evidence Home cards retain their selected scenario through delayed loading and failed-recording recovery; no live requests or composer",
+        "ko 1440 project notes: links, reflow, axe passed",
+        "ko 390 project notes: links, reflow, axe passed",
+        "ko 320 project notes: links, reflow, axe passed",
+        "en 1440 project notes: links, reflow, axe passed",
+        "en 390 project notes: links, reflow, axe passed",
+        "en 320 project notes: links, reflow, axe passed",
+        "Recording asset failure is visible; reload stays in Recorded runs and requests the asset again",
+        "A recovered recording restores the requested scenario and question after reload"
+      ]
+    },
+    "replay": {
+      "status": "PASS",
+      "checks": [
+        "compare-ko-light no overflow; axe WCAG A/AA checks passed",
+        "compare-en-dark no overflow; axe WCAG A/AA checks passed",
+        "refusal-en-dark no overflow; axe WCAG A/AA checks passed",
+        "Three captured scenarios; stable turns; formula/source selection; no live prompt; recorded actual timings; bilingual answer text",
+        "mobile-en-dark-evidence no overflow; axe WCAG A/AA checks passed",
+        "mobile-en-dark-conversation no overflow; axe WCAG A/AA checks passed",
+        "mobile-ko-light-320 no overflow; axe WCAG A/AA checks passed",
+        "390px and 320px reflow; modal focus trap; Escape and close restore figure focus; original filing URL retained; reduced-motion mode"
+      ],
+      "errors": []
+    }
+  },
+  "warm_cache": {
+    "before_warm_asset_requests": [
+      4,
+      4
+    ],
+    "after_warm_asset_requests": [
+      0,
+      0
+    ],
+    "before_warm_transfer_bytes": [
+      1200,
+      1200
+    ],
+    "after_warm_transfer_bytes": [
+      0,
+      0
+    ]
+  },
+  "independent_production_review": {
+    "status": "PASS",
+    "reviewer": "Astra",
+    "scope": "Canonical alias/deployment commit; eight public file hashes including all hashed assets/source ZIP; security/cache headers; no live API; source archive integrity; rollback still READY",
+    "not_independently_rerun": [
+      "full production matrix",
+      "warm-cache timing",
+      "authenticated configuration-file hash"
+    ]
+  },
+  "rollback": {
+    "retained_deployment_id": "dpl_8HUwQ73gH9yrGhyJLUfu3GrM9d3p",
+    "state": "READY",
+    "executed": false
+  },
+  "cleanup": {
+    "audit_service_processes_stopped": true,
+    "disposable_postgres_stopped": true,
+    "user_services_and_partner_source_untouched": true,
+    "evidence_and_baseline_artifact_retained": true
+  },
+  "gaps": [
+    "physical-device acceptance",
+    "full VoiceOver",
+    "native Safari",
+    "independent financial semantic certification",
+    "new full held-out model qualification"
+  ],
+  "production_schema_or_destructive_data_changes": false
+}
