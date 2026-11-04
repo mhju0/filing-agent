@@ -2,6 +2,7 @@
 
 import copy
 import threading
+from datetime import datetime, timedelta, timezone
 
 import psycopg
 
@@ -12,6 +13,22 @@ class StorageUnavailable(ValueError):
     pass
 
 
+class ExistingRequest(Exception):
+    pass
+
+
+def expire_diagnostics(body, cleared=()):
+    threshold = datetime.now(timezone.utc) - timedelta(hours=24)
+    for turn in body['turns']:
+        if turn['id'] in cleared or turn.get('retry_of') in cleared:
+            turn['diagnostics_cleared'] = True
+        expired = ('content' in turn.get('model_record', {})
+                   and (not turn.get('created_at')
+                        or datetime.fromisoformat(turn['created_at']) < threshold))
+        if turn.get('diagnostics_cleared') or expired:
+            turn.get('model_record', {}).pop('content', None)
+
+
 class Investigations:
     def __init__(self, store):
         self.store = store
@@ -19,12 +36,24 @@ class Investigations:
         self.working = {}
         self.failed = set()
         self.contexts = {}
+        self.pending_enqueues = {}
 
     def get(self, identity):
         with self.lock:
             if identity not in self.working:
                 return self.store.get(identity)
+            expire_diagnostics(self.working[identity])
             body = copy.deepcopy(self.working[identity])
+            if any('content' in t.get('model_record', {}) for t in body['turns']):
+                try:
+                    durable = self.store.get(identity)
+                except psycopg.Error:
+                    for turn in body['turns']:
+                        turn.get('model_record', {}).pop('content', None)
+                else:
+                    cleared = {t['id'] for t in durable['turns'] if t.get('diagnostics_cleared')}
+                    expire_diagnostics(self.working[identity], cleared)
+                    expire_diagnostics(body, cleared)
             if identity in self.failed:
                 body['turns'][-1]['status'] = 'storage_failed'
                 body['turns'][-1]['error'] = "Couldn't store this result"
@@ -67,8 +96,15 @@ class Investigations:
     def queue(self, identity, question, language, request_id, retry, diagnostics):
         with self.lock:
             self.available(identity)
+            candidate, original, existing = None, None, None
 
             def append(body):
+                nonlocal candidate, original, existing
+                existing = next((t for t in body['turns'] if t['request_id'] == request_id), None)
+                if existing:
+                    if existing['question'] != question or existing['language'] != language:
+                        raise ValueError('Request identity already has different inputs')
+                    raise ExistingRequest()
                 if body['saved'] or any(t['status'] in BLOCKING for t in body['turns']):
                     raise ValueError('Saved or unfinished investigations cannot accept a new turn')
                 previous = next((t for t in body['turns'] if t['id'] == retry), None)
@@ -79,6 +115,7 @@ class Investigations:
                     raise ValueError('Only one explicit retry per failed turn is permitted')
                 if previous and (question != previous['question'] or language != previous['language']):
                     raise ValueError('Retry inputs must match the failed turn')
+                original = copy.deepcopy(body)
                 turn = dict(id=uid(), request_id=request_id, question=question, language=language,
                             status='queued', created_at=now(), diagnostics=diagnostics,
                             context=copy.deepcopy(body['pending'] or body['accepted']), retry_of=retry,
@@ -89,20 +126,48 @@ class Investigations:
                         if key in previous:
                             turn[key] = copy.deepcopy(previous[key])
                 body['turns'].append(turn)
+                candidate = copy.deepcopy(body)
 
-            body = self.store.change(identity, append)
+            try:
+                body = self.store.change(identity, append)
+            except ExistingRequest:
+                return copy.deepcopy(existing), False
+            except psycopg.Error as exc:
+                if candidate is None:
+                    raise
+                candidate['turns'][-1].update(
+                    status='interrupted', error='Storage interrupted enqueue; retry this turn explicitly.')
+                self.working[identity] = candidate
+                self.contexts[identity] = copy.deepcopy((candidate['accepted'], candidate['pending']))
+                self.pending_enqueues[identity] = original
+                self.failed.add(identity)
+                raise StorageUnavailable("Couldn't store this result; retry storage or discard it") from exc
             self.working[identity] = body
             self.contexts[identity] = copy.deepcopy((body['accepted'], body['pending']))
-            return copy.deepcopy(body['turns'][-1])
+            return copy.deepcopy(body['turns'][-1]), True
 
     def _persist(self, identity):
+        expire_diagnostics(self.working[identity])
         candidate = copy.deepcopy(self.working[identity])
         turn = candidate['turns'][-1]
 
         def replace(body):
+            cleared = {t['id'] for t in body['turns'] if t.get('diagnostics_cleared')}
+            expire_diagnostics(candidate, cleared)
             existing = next((t for t in body['turns'] if t['id'] == turn['id']), None)
-            if existing is None or body['saved'] or body['snapshot_id'] != candidate['snapshot_id']:
+            if body['saved'] or body['snapshot_id'] != candidate['snapshot_id']:
                 raise ValueError('Investigation changed while its result was being stored')
+            if existing is None:
+                original = copy.deepcopy(self.pending_enqueues.get(identity))
+                observed = copy.deepcopy(body)
+                if original is not None:
+                    expire_diagnostics(original, cleared)
+                    expire_diagnostics(observed)
+                if (original is None or any(t['status'] in BLOCKING for t in body['turns'])
+                        or any(observed[key] != original[key] for key in ('turns', 'accepted', 'pending'))):
+                    raise ValueError('Investigation changed while its result was being stored')
+                existing = {}
+                body['turns'].append(existing)
             existing.clear()
             existing.update(copy.deepcopy(turn))
             body['accepted'] = copy.deepcopy(candidate['accepted'])
@@ -113,6 +178,9 @@ class Investigations:
         except (psycopg.Error, ValueError) as exc:
             self.failed.add(identity)
             raise StorageUnavailable("Couldn't store this result; retry storage or discard it") from exc
+        self.pending_enqueues.pop(identity, None)
+        if turn.get('diagnostics_cleared'):
+            expire_diagnostics(self.working[identity], (turn['id'],))
 
     def start_step(self, identity, name):
         with self.lock:
@@ -163,6 +231,7 @@ class Investigations:
         self.working.pop(identity, None)
         self.contexts.pop(identity, None)
         self.failed.discard(identity)
+        self.pending_enqueues.pop(identity, None)
 
     def retry_storage(self, identity, discard=False):
         with self.lock:

@@ -215,11 +215,13 @@ class Store:
             ).fetchall():
                 changed = False
                 for turn in body["turns"]:
-                    if "content" in turn.get("model_record", {}) and (
+                    if ("content" in turn.get("model_record", {})
+                        or (turn.get("diagnostics") and not turn.get("diagnostics_cleared"))) and (
                         immediate
                         or datetime.fromisoformat(turn["created_at"]) < threshold
                     ):
-                        turn["model_record"].pop("content")
+                        turn.get("model_record", {}).pop("content", None)
+                        turn["diagnostics_cleared"] = True
                         changed = True
                 if changed:
                     db.execute(

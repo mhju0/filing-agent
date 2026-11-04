@@ -57,7 +57,11 @@ class Engine:
         if not self.gate.acquire(blocking=False):
             raise ValueError('One local investigation is already running')
         try:
-            result = self.investigations.queue(identity, question, language, request_id, retry, diagnostics)
+            result, created = self.investigations.queue(
+                identity, question, language, request_id, retry, diagnostics)
+            if not created:
+                self.gate.release()
+                return result
             self.events[result['id']] = threading.Event()
             threading.Thread(target=self.execute, args=(identity, result['id']), daemon=True).start()
             return result

@@ -2,11 +2,14 @@ import copy
 import threading
 import time
 import unittest
+from datetime import datetime, timedelta, timezone
 
 import psycopg
 
 from slice.store import Store
 from slice.workflow import Engine
+from slice.lifecycle import StorageUnavailable
+from slice.export import recording
 from test_slice import Runtime
 
 
@@ -19,11 +22,27 @@ class FaultStore(Store):
         self.allow_complete.set()
         self.final_candidates = []
         self.uncertain = False
+        self.queue_fault = None
+        self.unavailable = False
+        self.receipt_fail = set()
+        self.read_unavailable = False
+
+    def get(self, identity):
+        if self.read_unavailable:
+            raise psycopg.OperationalError('Injected unavailable readback')
+        return super().get(identity)
 
     def change(self, identity, fn):
+        if self.unavailable:
+            raise psycopg.OperationalError('Injected unavailable storage')
         def intercept(body):
             fn(body)
             turn = body['turns'][-1] if body['turns'] else {}
+            if identity in self.receipt_fail and 'model_record' in turn:
+                raise psycopg.OperationalError('Injected first diagnostic-receipt failure')
+            if self.queue_fault == 'before' and turn.get('status') == 'queued':
+                self.queue_fault = None
+                raise psycopg.OperationalError('Queue transaction rolled back')
             if turn.get('status') in ('complete', 'discarded'):
                 self.final_candidates.append(copy.deepcopy(turn))
                 self.complete_seen.set()
@@ -31,6 +50,9 @@ class FaultStore(Store):
                 if identity in self.fail:
                     raise psycopg.OperationalError('Injected final-write failure')
         result = super().change(identity, intercept)
+        if self.queue_fault == 'after' and result['turns'][-1]['status'] == 'queued':
+            self.queue_fault = None
+            raise psycopg.OperationalError('Queue committed; acknowledgement lost')
         if self.uncertain and result['turns'][-1]['status'] == 'complete':
             self.uncertain = False
             raise psycopg.OperationalError('Commit succeeded; acknowledgement lost')
@@ -128,6 +150,183 @@ class LifecycleTests(unittest.TestCase):
         inv = self.engine.retry_storage(identity)
         self.assertEqual([t['id'] for t in inv['turns']], [first['id']])
         self.assertEqual(len(self.runtime.contexts), 1)
+
+    def test_initial_enqueue_failure_has_durable_recovery_without_inference(self):
+        for fault in ('before', 'after'):
+            with self.subTest(fault=fault):
+                identity = self.create()
+                request_id = str(time.time_ns())
+                self.store.queue_fault = fault
+                with self.assertRaises(StorageUnavailable):
+                    self.engine.submit(identity, 'Samsung 2023 revenue', 'en', request_id)
+                failed = self.engine.investigations.get(identity)['turns'][-1]
+                self.assertEqual(failed['status'], 'storage_failed')
+                repeated = self.engine.submit(identity, 'Samsung 2023 revenue', 'en', request_id)
+                self.assertEqual(repeated['id'], failed['id'])
+                self.assertEqual(repeated['status'], 'storage_failed')
+                self.assertEqual(self.engine.events, {})
+                self.assertFalse(self.engine.gate.locked())
+                calls = len(self.runtime.contexts)
+                self.store.unavailable = True
+                with self.assertRaises(StorageUnavailable):
+                    self.engine.retry_storage(identity)
+                self.assertEqual(self.engine.investigations.get(identity)['turns'][-1]['status'],
+                                 'storage_failed')
+                self.store.unavailable = False
+                recovered = self.engine.retry_storage(identity)
+                self.assertEqual([t['id'] for t in recovered['turns']], [failed['id']])
+                self.assertEqual(recovered['turns'][-1]['status'], 'interrupted')
+                self.assertEqual(len(self.runtime.contexts), calls)
+                self.engine.submit(identity, 'Samsung 2023 revenue', 'en', str(time.time_ns()),
+                                   retry=failed['id'])
+                self.wait()
+                durable = self.store.get(identity)
+                self.assertEqual(len(durable['turns']), 2)
+                self.assertEqual(durable['turns'][-1]['status'], 'complete')
+                self.assertEqual(len(self.runtime.contexts), calls + 1)
+
+    def test_duplicate_submit_after_stale_read_does_not_execute_twice(self):
+        self.duplicate_submit_after_stale_read('Samsung 2023 revenue')
+
+    def test_conflicting_duplicate_after_stale_read_is_rejected(self):
+        self.duplicate_submit_after_stale_read('NAVER 2023 revenue')
+
+    def duplicate_submit_after_stale_read(self, duplicate_question):
+        identity = self.create()
+        question, request_id = 'Samsung 2023 revenue', str(time.time_ns())
+        reached_gate, release = threading.Event(), threading.Event()
+        original_gate = self.engine.gate
+
+        class PausedGate:
+            def acquire(self, blocking=False):
+                if threading.current_thread().name == 'duplicate-submit':
+                    reached_gate.set()
+                    if not release.wait(5):
+                        raise AssertionError('Duplicate submit was not released')
+                return original_gate.acquire(blocking=blocking)
+
+            def release(self):
+                original_gate.release()
+
+            def locked(self):
+                return original_gate.locked()
+
+        self.engine.gate = PausedGate()
+        results, errors = [], []
+
+        def duplicate():
+            try:
+                results.append(self.engine.submit(identity, duplicate_question, 'en', request_id))
+            except Exception as exc:
+                errors.append(exc)
+
+        worker = threading.Thread(target=duplicate, name='duplicate-submit')
+        worker.start()
+        try:
+            self.assertTrue(reached_gate.wait(5))
+            first = self.engine.submit(identity, question, 'en', request_id)
+            self.wait()
+            completed = self.store.get(identity)
+        finally:
+            release.set()
+            worker.join(5)
+        self.assertFalse(worker.is_alive())
+        self.wait()
+        self.assertEqual([t['id'] for t in self.store.get(identity)['turns']], [first['id']])
+        self.assertEqual(self.store.get(identity), completed)
+        if duplicate_question == question:
+            self.assertEqual(errors, [])
+            self.assertEqual([t['id'] for t in results], [first['id']])
+        else:
+            self.assertEqual(results, [])
+            self.assertEqual(len(errors), 1)
+            self.assertIsInstance(errors[0], ValueError)
+            self.assertIn('different inputs', str(errors[0]))
+        self.assertEqual(len(self.runtime.contexts), 1)
+
+    def test_expired_diagnostics_are_not_served_or_restored_by_storage_retry(self):
+        identity = self.create()
+        self.store.fail.add(identity)
+        self.engine.submit(identity, 'Samsung 2023 revenue', 'en', str(time.time_ns()),
+                           diagnostics=True)
+        self.wait()
+        cached = self.engine.investigations.working[identity]['turns'][-1]
+        self.assertIn('content', cached['model_record'])
+        created_at = (datetime.now(timezone.utc) - timedelta(days=2)).isoformat()
+        cached['created_at'] = created_at
+        self.store.fail.clear()
+        self.store.change(identity, lambda body: body['turns'][-1].update(created_at=created_at))
+        self.store.expire_diagnostics()
+        self.assertNotIn('content', self.store.get(identity)['turns'][-1]['model_record'])
+        visible = self.engine.investigations.get(identity)['turns'][-1]
+        with self.subTest(surface='cached read'):
+            self.assertNotIn('content', visible['model_record'])
+        restored = self.engine.retry_storage(identity)['turns'][-1]
+        with self.subTest(surface='storage retry'):
+            self.assertNotIn('content', restored['model_record'])
+            self.assertNotIn('content', self.store.get(identity)['turns'][-1]['model_record'])
+
+    def test_manual_diagnostics_clear_covers_unstored_first_receipt(self):
+        identity = self.create()
+        self.store.receipt_fail.add(identity)
+        self.engine.submit(identity, 'Samsung 2023 revenue', 'en', str(time.time_ns()),
+                           diagnostics=True)
+        self.wait()
+        cached = self.engine.investigations.get(identity)['turns'][-1]
+        self.assertIn('content', cached['model_record'])
+        self.assertNotIn('model_record', self.store.get(identity)['turns'][-1])
+        self.store.read_unavailable = True
+        try:
+            self.assertNotIn('content', self.engine.investigations.get(identity)['turns'][-1]['model_record'])
+        finally:
+            self.store.read_unavailable = False
+        Store().expire_diagnostics(immediate=True)
+        with self.subTest(surface='cached read'):
+            self.assertNotIn('content', self.engine.investigations.get(identity)['turns'][-1]['model_record'])
+        self.store.receipt_fail.clear()
+        restored = self.engine.retry_storage(identity)['turns'][-1]
+        with self.subTest(surface='storage retry'):
+            self.assertNotIn('content', restored['model_record'])
+
+    def test_diagnostic_clear_marker_stays_out_of_public_recording(self):
+        identity = self.create()
+        self.engine.submit(identity, 'Samsung 2023 revenue', 'en', str(time.time_ns()),
+                           diagnostics=True)
+        self.wait()
+        Store().expire_diagnostics(immediate=True)
+        saved = self.engine.investigations.save(identity)
+        self.assertTrue(saved['turns'][-1]['diagnostics_cleared'])
+        exported = recording([saved])['investigations'][0]['turns'][0]
+        self.assertNotIn('diagnostics_cleared', exported)
+        self.assertNotIn('model_record', exported)
+
+    def test_initial_enqueue_recovery_refuses_changed_or_saved_investigation(self):
+        for update in ({'saved': True}, {'accepted': {'companies': ['NAVER']}},
+                       {'snapshot_id': 'different'}):
+            with self.subTest(update=update):
+                identity = self.create()
+                self.store.queue_fault = 'before'
+                with self.assertRaises(StorageUnavailable):
+                    self.submit(identity)
+                self.store.change(identity, lambda body: body.update(update))
+                before = self.store.get(identity)
+                with self.assertRaises(StorageUnavailable):
+                    self.engine.retry_storage(identity)
+                self.assertEqual(self.store.get(identity), before)
+                self.assertEqual(self.runtime.contexts, [])
+
+    def test_initial_enqueue_failure_can_be_discarded_without_inference(self):
+        for fault in ('before', 'after'):
+            with self.subTest(fault=fault):
+                identity = self.create()
+                self.store.queue_fault = fault
+                with self.assertRaises(StorageUnavailable):
+                    self.submit(identity)
+                failed = self.engine.investigations.get(identity)['turns'][-1]
+                discarded = self.engine.retry_storage(identity, discard=True)
+                self.assertEqual([t['id'] for t in discarded['turns']], [failed['id']])
+                self.assertEqual(discarded['turns'][-1]['status'], 'discarded')
+                self.assertEqual(self.runtime.contexts, [])
 
     def test_discard_requires_durable_resolution_and_keeps_previous_context(self):
         identity = self.create()
