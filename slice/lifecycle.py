@@ -125,6 +125,7 @@ class Investigations:
                     for key in ('intent', 'model_record', 'answer'):
                         if key in previous:
                             turn[key] = copy.deepcopy(previous[key])
+                    turn.get('model_record', {}).pop('content', None)
                 body['turns'].append(turn)
                 candidate = copy.deepcopy(body)
 

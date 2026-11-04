@@ -3,6 +3,7 @@ import threading
 import time
 import unittest
 from datetime import datetime, timedelta, timezone
+from unittest.mock import patch
 
 import psycopg
 
@@ -26,6 +27,7 @@ class FaultStore(Store):
         self.unavailable = False
         self.receipt_fail = set()
         self.read_unavailable = False
+        self.interrupted_fail = set()
 
     def get(self, identity):
         if self.read_unavailable:
@@ -38,6 +40,8 @@ class FaultStore(Store):
         def intercept(body):
             fn(body)
             turn = body['turns'][-1] if body['turns'] else {}
+            if identity in self.interrupted_fail and turn.get('status') == 'interrupted':
+                raise psycopg.OperationalError('Injected dispatch-failure receipt error')
             if identity in self.receipt_fail and 'model_record' in turn:
                 raise psycopg.OperationalError('Injected first diagnostic-receipt failure')
             if self.queue_fault == 'before' and turn.get('status') == 'queued':
@@ -327,6 +331,71 @@ class LifecycleTests(unittest.TestCase):
                 self.assertEqual([t['id'] for t in discarded['turns']], [failed['id']])
                 self.assertEqual(discarded['turns'][-1]['status'], 'discarded')
                 self.assertEqual(self.runtime.contexts, [])
+
+    def test_dispatch_start_failure_is_retryable_without_phantom_worker(self):
+        for target in ('slice.workflow.threading.Thread', 'slice.workflow.threading.Thread.start'):
+            for failed_receipt in (False, True):
+                with self.subTest(target=target, failed_receipt=failed_receipt):
+                    identity = self.create()
+                    request_id = str(time.time_ns())
+                    calls = len(self.runtime.contexts)
+                    if failed_receipt:
+                        self.store.interrupted_fail.add(identity)
+                    with patch(target, side_effect=RuntimeError("can't start new thread")):
+                        with self.assertRaisesRegex(RuntimeError, "can't start new thread"):
+                            self.engine.submit(identity, 'Samsung 2023 revenue', 'en', request_id)
+                    self.assertEqual(self.engine.events, {})
+                    self.assertFalse(self.engine.gate.locked())
+                    failed = self.engine.investigations.get(identity)['turns'][-1]
+                    self.assertEqual(failed['status'], 'storage_failed' if failed_receipt else 'interrupted')
+                    self.assertEqual(len(self.runtime.contexts), calls)
+                    repeated = self.engine.submit(identity, 'Samsung 2023 revenue', 'en', request_id)
+                    self.assertEqual(repeated['id'], failed['id'])
+                    if failed_receipt:
+                        with self.assertRaises(StorageUnavailable):
+                            self.engine.retry_storage(identity)
+                        self.store.interrupted_fail.remove(identity)
+                        restored = self.engine.retry_storage(identity)['turns'][-1]
+                        self.assertEqual(restored['status'], 'interrupted')
+                    self.engine.submit(identity, 'Samsung 2023 revenue', 'en', str(time.time_ns()),
+                                       retry=failed['id'])
+                    self.wait()
+                    durable = self.store.get(identity)
+                    self.assertEqual([t['status'] for t in durable['turns']], ['interrupted', 'complete'])
+                    self.assertEqual(len(self.runtime.contexts), calls + 1)
+
+    def test_completed_retry_does_not_reset_raw_diagnostic_retention(self):
+        for diagnostics in (False, True):
+            with self.subTest(diagnostics=diagnostics):
+                identity = self.create()
+                calls = len(self.runtime.contexts)
+                self.store.receipt_fail.add(identity)
+                self.engine.submit(identity, 'Samsung 2023 revenue', 'en', str(time.time_ns()),
+                                   diagnostics=True)
+                self.wait()
+                self.store.receipt_fail.remove(identity)
+                original = self.engine.retry_storage(identity)['turns'][-1]
+                self.assertIn('content', original['model_record'])
+                created_at = (datetime.now(timezone.utc) - timedelta(hours=23)).isoformat()
+                self.store.change(identity, lambda body: body['turns'][-1].update(created_at=created_at))
+                self.engine.submit(identity, 'Samsung 2023 revenue', 'en', str(time.time_ns()),
+                                   retry=original['id'], diagnostics=diagnostics)
+                self.wait()
+                retry = self.store.get(identity)['turns'][-1]
+                self.assertEqual(retry['status'], 'complete')
+                self.assertEqual(retry['intent'], original['intent'])
+                self.assertEqual(retry['model_record']['model'], original['model_record']['model'])
+                self.assertTrue(retry['steps'][0]['reused'])
+                self.assertEqual(len(self.runtime.contexts), calls + 1)
+                with self.subTest(stage='completed retry'):
+                    self.assertNotIn('content', retry['model_record'])
+                created_at = (datetime.now(timezone.utc) - timedelta(hours=25)).isoformat()
+                self.store.change(identity, lambda body: body['turns'][0].update(created_at=created_at))
+                Store().expire_diagnostics()
+                durable = self.store.get(identity)
+                self.assertNotIn('content', durable['turns'][0]['model_record'])
+                with self.subTest(stage='original expired'):
+                    self.assertNotIn('content', durable['turns'][-1]['model_record'])
 
     def test_discard_requires_durable_resolution_and_keeps_previous_context(self):
         identity = self.create()
