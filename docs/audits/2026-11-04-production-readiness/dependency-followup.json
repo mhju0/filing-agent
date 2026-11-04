@@ -1,0 +1,59 @@
+{
+  "status": "PASS",
+  "scope": "Final all-manifest dependency coverage, including retained design studies; dated prior audit/release records remain unchanged",
+  "archived_design": {
+    "before_vulnerable_packages": {
+      "source-map-js": "high",
+      "vite": "high"
+    },
+    "after": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "patches": {
+      "vite": "8.2.2 -> 8.2.4",
+      "source-map-js": "1.2.1 -> 1.2.2"
+    },
+    "node": "24.22.2",
+    "before_and_after_builds": "PASS",
+    "all_build_outputs_byte_identical": true,
+    "build_files": {
+      "a.html": "d45e43ea915dcec0368f74d13f7a0f7ba22a8a28e9de840e148ba9218b529a66",
+      "assets/main-CkLmAzhR.css": "7726463cb542d994d2c476089ca09c81fe469cdd768c1036bc140c477b96c61d",
+      "assets/main-DOPt1Wu8.js": "e4790042384043a551cf985e3fb6d5fad4c31458db06f558aa235fdbc1a4591a",
+      "b.html": "e81e1e68771d6559dfeeada61deae64b06ae3806795b2778ca1b7ac7282dd4db",
+      "c.html": "60aba1675de628523c8f0855ca38d848b2374345d2233772a87d11fda441e65a",
+      "fonts/OFL.txt": "85fce85e25260b03777bf10373d3bd9363b9da96d9e0ca86a280dd37ed7667a0",
+      "fonts/PretendardVariable.woff2": "9599f12fd42fc0bce1cd50b47a0c022e108d7aa64dd0d1bb0ed44f3282d900b4",
+      "index.html": "458b4ecbd4a247795bed2140e35ce2cc89a0607786065fb16d6093cc2b9df280",
+      "theme.js": "e009d7fda39a23029624057e1d6f51e09115e63e3806f04b8c8305325ae9814b"
+    },
+    "historical_screenshots_and_verification_records_modified": false
+  },
+  "all_npm_workspaces_known_advisories": {
+    "slice/web": 0,
+    "verification": 0,
+    "design/alternatives": 0
+  },
+  "python": {
+    "slice/requirements.lock_known_advisories": 0,
+    "bench/requirements.txt": {
+      "method": "Fresh dependency resolution, not a lockfile or audit of every version permitted by the range",
+      "known_advisories": 0,
+      "resolved": {
+        "requests": "2.34.2",
+        "charset-normalizer": "3.5.2",
+        "idna": "3.20",
+        "urllib3": "2.8.0",
+        "certifi": "2026.10.23"
+      }
+    }
+  },
+  "live_artifact_inputs_changed": false,
+  "source_zip_allowlist_contains_archived_design": false,
+  "production_redeployment_needed": false
+}
