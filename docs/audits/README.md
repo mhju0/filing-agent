@@ -4,6 +4,7 @@ These are dated observations. Results apply to the revisions, snapshots and envi
 
 | Record | Evidence |
 |---|---|
+| [2026-11-04 · Dependency coverage follow-up](2026-11-04-production-readiness/DEPENDENCY_SCOPE.md) | All manifests, archived tooling patches and byte-identical study builds |
 | [2026-11-04 · Production release verification](2026-11-04-production-readiness/DEPLOYMENT.md) | Deployed artifact/headers, production browser matrix, cache measurements and rollback readback |
 | [2026-11-04 · Production readiness maintenance](2026-11-04-production-readiness/README.md) | Security and recovery regressions, responsive accessibility, independent review, source distribution and reviewed static artifact |
 | [2026-10-06 · Maintenance closeout](2026-10-06-maintenance/README.md) | Frozen portfolio baseline, responsive coverage fix and static artifact |
