@@ -1,0 +1,115 @@
+{
+  "method": "Six alternating paired cold browser contexts per artifact, installed Chrome, same loopback HTTP server,390x852 light/reduced motion, default Korean Overview, fonts settled. No live model/browser suite running concurrently. HTTP is uncompressed; not a production latency benchmark.",
+  "samples": [
+    {
+      "pair": 0,
+      "variant": "before",
+      "fcpMs": 112,
+      "lcpMs": 112,
+      "cls": 0,
+      "encodedBodyBytes": 2887931
+    },
+    {
+      "pair": 0,
+      "variant": "after",
+      "fcpMs": 92,
+      "lcpMs": 92,
+      "cls": 0,
+      "encodedBodyBytes": 2889148
+    },
+    {
+      "pair": 1,
+      "variant": "after",
+      "fcpMs": 88,
+      "lcpMs": 88,
+      "cls": 0,
+      "encodedBodyBytes": 2889148
+    },
+    {
+      "pair": 1,
+      "variant": "before",
+      "fcpMs": 88,
+      "lcpMs": 88,
+      "cls": 0,
+      "encodedBodyBytes": 2887931
+    },
+    {
+      "pair": 2,
+      "variant": "before",
+      "fcpMs": 108,
+      "lcpMs": 108,
+      "cls": 0,
+      "encodedBodyBytes": 2887931
+    },
+    {
+      "pair": 2,
+      "variant": "after",
+      "fcpMs": 88,
+      "lcpMs": 88,
+      "cls": 0,
+      "encodedBodyBytes": 2889148
+    },
+    {
+      "pair": 3,
+      "variant": "after",
+      "fcpMs": 92,
+      "lcpMs": 92,
+      "cls": 0,
+      "encodedBodyBytes": 2889148
+    },
+    {
+      "pair": 3,
+      "variant": "before",
+      "fcpMs": 92,
+      "lcpMs": 92,
+      "cls": 0,
+      "encodedBodyBytes": 2887931
+    },
+    {
+      "pair": 4,
+      "variant": "before",
+      "fcpMs": 92,
+      "lcpMs": 92,
+      "cls": 0,
+      "encodedBodyBytes": 2887931
+    },
+    {
+      "pair": 4,
+      "variant": "after",
+      "fcpMs": 88,
+      "lcpMs": 88,
+      "cls": 0,
+      "encodedBodyBytes": 2889148
+    },
+    {
+      "pair": 5,
+      "variant": "after",
+      "fcpMs": 100,
+      "lcpMs": 100,
+      "cls": 0,
+      "encodedBodyBytes": 2889148
+    },
+    {
+      "pair": 5,
+      "variant": "before",
+      "fcpMs": 88,
+      "lcpMs": 88,
+      "cls": 0,
+      "encodedBodyBytes": 2887931
+    }
+  ],
+  "summary": {
+    "before": {
+      "fcpMs": 92,
+      "lcpMs": 92,
+      "cls": 0,
+      "encodedBodyBytes": 2887931
+    },
+    "after": {
+      "fcpMs": 90,
+      "lcpMs": 90,
+      "cls": 0,
+      "encodedBodyBytes": 2889148
+    }
+  }
+}

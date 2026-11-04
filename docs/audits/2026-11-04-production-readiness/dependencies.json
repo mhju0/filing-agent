@@ -1,0 +1,57 @@
+{
+  "status": "PASS",
+  "scope": "Known advisories at audit time; applicability and patched versions are explained in README.md",
+  "python_before": [
+    {
+      "name": "certifi",
+      "version": "2026.7.22",
+      "advisories": [
+        "PYSEC-2026-4320"
+      ]
+    },
+    {
+      "name": "langgraph-checkpoint-postgres",
+      "version": "3.1.2",
+      "advisories": [
+        "CVE-2026-115883"
+      ]
+    },
+    {
+      "name": "langgraph-sdk",
+      "version": "0.4.4",
+      "advisories": [
+        "CVE-2026-118667"
+      ]
+    },
+    {
+      "name": "urllib3",
+      "version": "2.7.0",
+      "advisories": [
+        "PYSEC-2026-4175",
+        "PYSEC-2026-4176",
+        "PYSEC-2026-4177"
+      ]
+    }
+  ],
+  "python_after_count": 47,
+  "python_after_advisories": 0,
+  "npm_before": {
+    "source-map-js": {
+      "severity": "high",
+      "direct": false
+    },
+    "vite": {
+      "severity": "high",
+      "direct": true
+    }
+  },
+  "npm_after": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "verification_npm_advisories": 0
+}

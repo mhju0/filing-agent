@@ -1,0 +1,103 @@
+{
+  "status": "PASS",
+  "scope": "Local verification; production and CI readback are a separate release record",
+  "code_candidate": "890599ce1e346aba2478ae755057a2b7987a4ecc",
+  "tests": {
+    "application": 53,
+    "policy": 57,
+    "frontend": 9,
+    "release": 2
+  },
+  "node": "24.22.2",
+  "python": "3.11.15",
+  "postgres": "16 disposable cluster",
+  "build": "TypeScript and Vite PASS; independently extracted source archive builds to identical frontend assets",
+  "independent_reviews": {
+    "f07f6c72b97e4b5c7ea13ce646e74e4c401c28fb": "ACCEPT: security/lifecycle/runtime",
+    "752fee50b3250687923f96c0e2898f845b38aee9": "ACCEPT: source distribution",
+    "890599ce1e346aba2478ae755057a2b7987a4ecc": "ACCEPT: final code/navigation/cache"
+  },
+  "actual_connected_workflow": {
+    "status": "PASS",
+    "scope": "Isolated loopback app using real graph, pinned model and disposable PostgreSQL; exact alternate Host/Origin test adapter",
+    "questions": 3,
+    "elapsed_seconds": [
+      10.33,
+      4.366,
+      3.944
+    ],
+    "browser_flow": "PASS",
+    "browser_created_investigations": 6,
+    "remaining_browser_created_investigations": 0
+  },
+  "browser": {
+    "live": {
+      "status": "PASS",
+      "checks": [
+        "start-en-light no overflow; axe WCAG A/AA checks passed",
+        "start-en-dark no overflow; axe WCAG A/AA checks passed",
+        "answer-ko-light no overflow; axe WCAG A/AA checks passed",
+        "answer-en-dark no overflow; axe WCAG A/AA checks passed",
+        "Examples fill without sending; live compare; formula inputs; saved continuation; refresh; history; language preserves past answer; persisted clarification resumes; edit starts new",
+        "mobile-en-dark-evidence no overflow; axe WCAG A/AA checks passed",
+        "mobile-en-dark-conversation no overflow; axe WCAG A/AA checks passed",
+        "mobile-ko-light-320 no overflow; axe WCAG A/AA checks passed",
+        "390px and 320px reflow; modal focus trap; Escape and close restore figure focus; original filing URL retained; reduced-motion mode",
+        "Draft survives refresh; history search empty state; cancelling deletion restores its opener; confirmed deletion removes the draft; parent History recovers focus and Escape when the deleted opener is gone"
+      ],
+      "errors": []
+    },
+    "architecture": {
+      "status": "PASS",
+      "checks": [
+        "Closing History while its request is pending cannot reopen it; a fresh open succeeds",
+        "Late A response preserves B conversation, draft and evidence; navigation does not cancel A; global execution blocks new inference",
+        "Storage failure retains figures; repeated explicit retry restores one turn; KO/EN light/dark recovery passes axe and reflow at 1440/390/320; 320px at 200% retains amount/source separation and keyboard-accessible local scrolling",
+        "Discard requires confirmation and removes only the unstored result",
+        "Composer waits for new investigation creation; its draft is present immediately on reload",
+        "Replay restores URL selection, resets turn on scenario switch, has no composer and makes no live requests"
+      ],
+      "errors": []
+    },
+    "continuity": {
+      "status": "PASS",
+      "checks": [
+        "Enter opens the focused financial figure's source; evidence spring has an in-flight presentation and rapid close/reopen settles to one selected source; desktop grid occupancy survives a completed narrow handoff and return",
+        "Rapid in-flight and settled handoffs across 850/851 retain the evidence reading position; close releases modal semantics immediately; an exit reversal restores dialog focus and Escape behavior; changing to reduced motion settles spatial travel",
+        "With the bundled font unavailable, initial and settled fallback text at 200% stays within desktop and 320px layouts; reduced motion starts without spatial travel",
+        "WebKit mobile evidence opens semantically and Escape closes immediately",
+        "Replay made no live API or foreign request and raised no CSP or browser errors"
+      ],
+      "errors": [],
+      "webkit": "PASS"
+    },
+    "recording_recovery": {
+      "status": "PASS",
+      "checks": [
+        "Company-switch and missing-evidence Home cards retain their selected scenario through delayed loading and failed-recording recovery; no live requests or composer",
+        "ko 1440 project notes: links, reflow, axe passed",
+        "ko 390 project notes: links, reflow, axe passed",
+        "ko 320 project notes: links, reflow, axe passed",
+        "en 1440 project notes: links, reflow, axe passed",
+        "en 390 project notes: links, reflow, axe passed",
+        "en 320 project notes: links, reflow, axe passed",
+        "Recording asset failure is visible; reload stays in Recorded runs and requests the asset again",
+        "A recovered recording restores the requested scenario and question after reload"
+      ]
+    },
+    "matrix": {
+      "status": "PASS",
+      "rendered_surfaces": 64,
+      "failures": [],
+      "touch_mobile": true,
+      "korean_word_boundary_scan": true
+    }
+  },
+  "gaps": [
+    "physical iPhone",
+    "full VoiceOver",
+    "native Safari",
+    "independent financial semantic certification",
+    "new full held-out model qualification"
+  ]
+}

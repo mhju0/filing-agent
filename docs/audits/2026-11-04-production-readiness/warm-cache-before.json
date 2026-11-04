@@ -1,0 +1,93 @@
+{
+  "phase": "before",
+  "method": "Three sequential navigations in one fresh installed-Chrome context, with about:blank and1.2s between visits; same390x852 touchviewport. ResourceTiming transferSize=0 indicates localcache, 300 indicates validatedcache/headeroverhead; no forcedreload or requestinterception.",
+  "samples": [
+    {
+      "visit": 0,
+      "assets": [
+        {
+          "path": "/assets/index-CoULtN13.js",
+          "transferSize": 129332,
+          "encodedBodySize": 129032,
+          "durationMs": 22.59999990463257
+        },
+        {
+          "path": "/assets/index-BccMWEt0.css",
+          "transferSize": 6480,
+          "encodedBodySize": 6180,
+          "durationMs": 253.69999980926514
+        },
+        {
+          "path": "/assets/PretendardVariable-CJuje-Rk.woff2",
+          "transferSize": 2057988,
+          "encodedBodySize": 2057688,
+          "durationMs": 170.40000009536743
+        },
+        {
+          "path": "/assets/FilingSerifKR-Bold-BxtHRDFM.woff2",
+          "transferSize": 365040,
+          "encodedBodySize": 364740,
+          "durationMs": 587.2000000476837
+        }
+      ]
+    },
+    {
+      "visit": 1,
+      "assets": [
+        {
+          "path": "/assets/index-CoULtN13.js",
+          "transferSize": 300,
+          "encodedBodySize": 0,
+          "durationMs": 10.900000095367432
+        },
+        {
+          "path": "/assets/index-BccMWEt0.css",
+          "transferSize": 300,
+          "encodedBodySize": 0,
+          "durationMs": 10.599999904632568
+        },
+        {
+          "path": "/assets/FilingSerifKR-Bold-BxtHRDFM.woff2",
+          "transferSize": 300,
+          "encodedBodySize": 0,
+          "durationMs": 12.699999809265137
+        },
+        {
+          "path": "/assets/PretendardVariable-CJuje-Rk.woff2",
+          "transferSize": 300,
+          "encodedBodySize": 0,
+          "durationMs": 14
+        }
+      ]
+    },
+    {
+      "visit": 2,
+      "assets": [
+        {
+          "path": "/assets/index-CoULtN13.js",
+          "transferSize": 300,
+          "encodedBodySize": 0,
+          "durationMs": 11.299999952316284
+        },
+        {
+          "path": "/assets/index-BccMWEt0.css",
+          "transferSize": 300,
+          "encodedBodySize": 0,
+          "durationMs": 11.100000143051147
+        },
+        {
+          "path": "/assets/FilingSerifKR-Bold-BxtHRDFM.woff2",
+          "transferSize": 300,
+          "encodedBodySize": 0,
+          "durationMs": 14.399999856948853
+        },
+        {
+          "path": "/assets/PretendardVariable-CJuje-Rk.woff2",
+          "transferSize": 300,
+          "encodedBodySize": 0,
+          "durationMs": 14.599999904632568
+        }
+      ]
+    }
+  ]
+}

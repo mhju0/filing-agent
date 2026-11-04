@@ -27,6 +27,8 @@ The demo replays real runs recorded on the local app. It makes no model calls an
 
 **Status:** Maintenance · [release policy and limits](docs/MAINTENANCE.md) · [dated release](https://github.com/mhju0/filing-agent/releases/tag/release-qualified-2026-10-06)
 
+[Latest maintenance audit](docs/audits/2026-11-04-production-readiness/README.md): security, recovery, accessibility and release verification.
+
 ## In the demo
 
 | Recorded run | What to look for |
