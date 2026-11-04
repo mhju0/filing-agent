@@ -429,6 +429,7 @@ small { font-size: var(--text-sm); }
 .investigation-head .muted { margin-top: var(--space-3); font-size: var(--text-sm); }
 .turn { max-width: 46rem; padding-top: var(--space-6); margin-bottom: var(--space-6); border-top: 1px solid var(--hairline); }
 .question { display: flex; gap: var(--space-4); justify-content: space-between; align-items: flex-start; }
+.question > div { min-width: 0; max-width: 100%; }
 .question h2 {
   font-family: var(--sans);
   font-size: var(--text-lg);
@@ -547,6 +548,7 @@ summary { cursor: pointer; min-height: 44px; padding: var(--space-3) 0; }
   box-shadow: -1rem 0 3rem rgb(58 43 31 / 7%);
 }
 .evidence-content { min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
+.evidence-modal .evidence-content { overflow-anchor: none; }
 .panel-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-5); }
 .panel-head h2 { font-size: var(--text-lg); }
 .excerpt {
@@ -630,7 +632,7 @@ input[type="search"] {
   .tabs { grid-column: 1 / -1; grid-row: 2; overflow-x: auto; margin: 0 calc(var(--gutter) * -1); padding: 0 var(--gutter); scrollbar-width: none; }
 }
 @media (max-width: 850px) {
-  :root { --header-gap: var(--space-6); --block-gap: var(--space-6); --card-pad: var(--space-4); --text-xl: 1.5rem; }
+  :root, .app-shell[data-theme] { --header-gap: var(--space-6); --block-gap: var(--space-6); --card-pad: var(--space-4); --text-xl: 1.5rem; }
   .app-shell { display: block; height: auto; min-height: 100dvh; }
   .topbar { position: sticky; top: 0; padding: var(--space-2) var(--gutter); }
   /* Keep a linked ledger company (#ledger/ledger-<ticker>) clear of the sticky two-row header. */
@@ -643,12 +645,13 @@ input[type="search"] {
   .controls > button:not(.theme) { padding-inline: var(--space-3); }
   .terms > div { grid-template-columns: minmax(0, 1fr); gap: var(--space-1); }
   .question { flex-direction: column; }
-  .answer-figures tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; border-bottom: 1px solid var(--hairline); padding: var(--space-3) 0; }
+  .answer-figures tr { display: grid; grid-template-columns: minmax(min-content, 1fr) auto; align-items: center; border-bottom: 1px solid var(--hairline); padding: var(--space-3) 0; }
   .answer-figures th { grid-column: 1 / -1; width: auto; padding: 0; border: 0; }
   .answer-figures td { padding: 0; border: 0; }
   .answer-figures td.num { text-align: left; }
   .answer-figures .figure-value { padding-left: 0; text-align: left; }
-  .bars li { grid-template-columns: 5.5rem minmax(0, 1fr) 3.25rem; }
+  .bars li { grid-template-columns: minmax(0, 1fr) auto; }
+  .bar-name { grid-column: 1 / -1; }
   .modal-layer { display: block; padding: 0; }
   .modal-surface {
     width: 100%;
@@ -660,14 +663,19 @@ input[type="search"] {
   }
 }
 @media (max-width: 640px) {
+  /* Controls keep their own row when the wordmark and actions no longer fit together. */
+  .topbar { grid-template-columns: minmax(0, 1fr); }
+  .controls { grid-column: 1 / -1; grid-row: 2; flex-wrap: wrap; }
+  .tabs { grid-row: 3; }
+  .company-head h2 { scroll-margin-top: calc(11rem + var(--space-5)); }
   /* Reference tables become stacked rows instead of squeezed columns. */
   .stack-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
   .stack-table tr { display: grid; gap: var(--space-1); padding: var(--space-3) 0; border-bottom: 1px solid var(--hairline); }
   .stack-table tbody th, .stack-table td { display: block; padding: 0; border: 0; }
   .stack-table td[data-label]::before { content: attr(data-label) " · "; color: var(--muted); font-size: var(--text-xs); font-weight: 600; }
   .stack-table tbody tr:first-child { border-top: 1px solid var(--ink); }
-  /* Three runs stay on one row so the run title is in the first screen. */
-  .scenario-picker { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: var(--space-5); }
+  /* Font-relative tracks let enlarged labels stack instead of colliding. */
+  .scenario-picker { grid-template-columns: repeat(auto-fit, minmax(min(100%, 5.5rem), 1fr)); margin-bottom: var(--space-5); }
   .scenario-picker button { padding: var(--space-2); font-size: var(--text-sm); }
   /* Figure tables keep their columns but tighten so three numbers fit a phone. */
   .figures-table { font-size: var(--text-sm); }
@@ -677,12 +685,18 @@ input[type="search"] {
   .figures-table .derived-tag { display: block; width: fit-content; margin: var(--space-1) 0 0; }
 }
 @media (max-width: 420px) {
+  :root, .app-shell[data-theme] { --gutter: 16px; --card-pad: 12px; --text-xl: 1.25rem; }
+  .hero h1 { font-size: 1.8rem; }
+  .insight h3 { font-size: 1rem; }
+  .question-card { overflow-x: auto; overflow-wrap: normal; }
+  .insight .calc { overflow-x: auto; }
+  .terms dd { min-width: 0; }
+  .terms .table-scroll { overflow-wrap: normal; }
   .wordmark > span:last-child { font-size: var(--text-base); }
+  .controls > button:not(.theme) { min-width: 44px; padding-inline: var(--space-2); font-size: var(--text-sm); }
   .languages button { padding-inline: var(--space-2); }
   .coverage th, .coverage td { padding-right: var(--space-2); }
   .coverage th:last-child, .coverage td:last-child { padding-right: 0; }
-  /* Live mode adds New and History, so the wordmark keeps only its mark on phones. */
-  .topbar:has(.controls > button:not(.theme)) .wordmark > span:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
   .figures-table th, .figures-table td { padding-right: var(--space-1); }
 }
 @media (pointer: coarse) {

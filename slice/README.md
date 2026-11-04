@@ -82,11 +82,20 @@ Normal application execution retains model/config/timing metadata and interprete
 
 ```sh
 .venv/bin/python -m unittest discover -s slice/tests -v
+npm test --prefix slice/web
 npm run build --prefix slice/web
 node slice/scripts/verify-browser.mjs
 ```
 
 Install browser verification tools with `npm ci --prefix verification`. Verification uses Playwright, Chrome and axe; it has no runtime role in the application.
+
+For a static replay already served on `http://127.0.0.1:4176`, run
+`VERIFY_MODE=replay node slice/scripts/verify-browser.mjs` and
+`node slice/scripts/verify-maintenance.mjs`. The maintenance matrix checks Overview,
+Ledger, Guide and Recorded runs in both languages and themes at 320, 390 and
+1440px, plus 200% text at 320px. Browser reports default to ignored `.local/`
+directories; use `VERIFY_OUT` to select a new evidence directory. Do not point it
+at an existing dated audit.
 
 Only explicitly selected, saved, fully completed real investigations can be exported:
 

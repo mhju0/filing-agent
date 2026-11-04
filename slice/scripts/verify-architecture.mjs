@@ -89,7 +89,7 @@ try {
   await page.getByRole('button', { name: 'History', exact: true }).click();
   await page.locator('.history-row').filter({ hasText: 'Investigation B' }).click();
   await page.getByRole('textbox').fill('Draft belongs to B');
-  await page.locator('article').first().locator('.figure').first().click();
+  await page.locator('article').first().locator('.figure-value').first().click();
   const bEvidence = await page.locator('aside.evidence').innerText();
   assert.equal(await page.getByRole('button', { name: 'Ask', exact: true }).isDisabled(), true);
   a.turns[0] = structuredClone(completed); running = false; releaseLate();
@@ -112,7 +112,7 @@ try {
   a.turns[0].status = 'storage_failed';
   await page.getByRole('button', { name: 'Retry storage', exact: true }).waitFor();
   assert.equal(await page.getByRole('button', { name: 'Save investigation', exact: true }).count(), 0);
-  assert.equal(await page.getByRole('button', { name: 'New investigation', exact: true }).isEnabled(), true);
+  assert.equal(await page.getByRole('button', { name: 'New', exact: true }).isEnabled(), true);
   await page.getByRole('button', { name: 'Retry storage', exact: true }).click();
   await page.getByRole('alert').filter({ hasText: 'Storage unavailable' }).waitFor();
   for (const width of [1440, 390, 320]) {
@@ -125,24 +125,74 @@ try {
         await page.evaluate(() => new Promise(resolve =>
           requestAnimationFrame(() => requestAnimationFrame(resolve)),
         ));
-        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+        const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth);
+        await page.screenshot({ path: `${out}/storage-${lang}-${width}-${dark ? 'dark' : 'light'}.png`, fullPage: true });
+        assert.equal(overflow, false, `${lang} ${width}px ${dark ? 'dark' : 'light'} storage recovery overflow`);
+        if (width === 320) {
+          const controls = await page.locator('.controls > button, .controls .languages button').evaluateAll(nodes => nodes.map(node => {
+            const rect = node.getBoundingClientRect();
+            return { centerY: rect.y + rect.height / 2, left: rect.left, right: rect.right,
+              width: rect.width, height: rect.height, theme: node.classList.contains('theme') };
+          }));
+          assert.ok(controls.every(control => Math.abs(control.centerY - controls[0].centerY) <= 2),
+            `${lang} 320px live controls must share one row at 100%`);
+          assert.ok(controls.every(control => control.left >= 0 && control.right <= width),
+            `${lang} 320px live controls must stay within the viewport`);
+          const theme = controls.find(control => control.theme);
+          assert.ok(theme.width >= 44 && theme.height >= 44, 'Theme control retains its 44px target');
+        }
         const axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
         assert.deepEqual(axe.violations.map(v => v.id), []);
-        await page.screenshot({ path: `${out}/storage-${lang}-${width}-${dark ? 'dark' : 'light'}.png`, fullPage: true });
+        if (width === 320) {
+          await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; });
+          await page.evaluate(() => document.fonts.ready);
+          await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+          await page.screenshot({ path: `${out}/storage-${lang}-${width}-${dark ? 'dark' : 'light'}-200pct.png`, fullPage: true });
+          const scaledOverflow = await page.evaluate(() => ({
+            overflow: document.documentElement.scrollWidth > innerWidth,
+            outside: [...document.querySelectorAll('body *')]
+              .filter(node => node.getBoundingClientRect().right > innerWidth + 1 ||
+                (node.scrollWidth > node.clientWidth + 1 && getComputedStyle(node).overflowX === 'visible'))
+              .map(node => ({ tag: node.tagName, className: node.className,
+                text: node.textContent.slice(0, 60), right: node.getBoundingClientRect().right,
+                scrollWidth: node.scrollWidth, clientWidth: node.clientWidth })),
+          }));
+          assert.equal(scaledOverflow.overflow, false,
+            `${lang} 320px storage recovery overflow at 200%: ${JSON.stringify(scaledOverflow.outside)}`);
+          assert.ok(await page.locator('.question h2').first().evaluate(node =>
+            node.getBoundingClientRect().right <= innerWidth),
+          `${lang} 320px question heading must stay within the viewport at 200%`);
+          const region = page.locator('.answer .table-scroll').first();
+          assert.equal(await region.getAttribute('tabindex'), '0');
+          const figures = await region.locator('tr').evaluateAll(rows => rows.map(row => ({
+            valueRight: row.querySelector('.figure-value').getBoundingClientRect().right,
+            sourceLeft: row.querySelector('.badge-cell').getBoundingClientRect().left,
+          })));
+          assert.ok(figures.every(figure => figure.valueRight <= figure.sourceLeft + 1),
+            `${lang} 320px financial amount must not overlap its source badge at 200%`);
+          await region.focus();
+          assert.equal(await region.evaluate(node => node === document.activeElement), true);
+          if (await region.evaluate(node => node.scrollWidth > node.clientWidth)) {
+            await region.evaluate(node => { node.scrollLeft = 0; });
+            await page.keyboard.press('ArrowRight');
+            await page.waitForFunction(() => document.querySelector('.answer .table-scroll').scrollLeft > 0);
+          }
+          await page.evaluate(() => { document.documentElement.style.fontSize = ''; });
+        }
       }
     }
   }
   await page.getByRole('button', { name: 'Retry storage', exact: true }).click();
   await page.getByRole('button', { name: 'Save investigation', exact: true }).waitFor();
   assert.equal(await page.locator('article').count(), 1);
-  checks.push('Storage failure retains figures; repeated explicit retry restores one turn; KO/EN light/dark recovery passes axe and reflow at 1440/390/320');
+  checks.push('Storage failure retains figures; repeated explicit retry restores one turn; KO/EN light/dark recovery passes axe and reflow at 1440/390/320; 320px at 200% retains amount/source separation and keyboard-accessible local scrolling');
   a.turns[0].status = 'storage_failed';
   await page.getByRole('button', { name: 'Discard unstored result', exact: true }).click();
   await page.getByRole('button', { name: 'Confirm discard', exact: true }).click();
   await page.getByText('Unstored result discarded. Earlier turns are preserved.', { exact: true }).waitFor();
   assert.equal(await page.locator('[role="dialog"]').count(), 0);
   checks.push('Discard requires confirmation and removes only the unstored result');
-  await page.getByRole('button', { name: 'New investigation', exact: true }).click();
+  await page.getByRole('button', { name: 'New', exact: true }).click();
   await creating;
   assert.equal(await page.getByRole('textbox').isDisabled(), true);
   releaseCreate();
@@ -171,7 +221,8 @@ try {
   await replayPage.locator('article').nth(1).waitFor();
   assert.equal(await replayPage.getByRole('textbox').count(), 0);
   await replayPage.getByRole('button', { name: 'English', exact: true }).click();
-  await replayPage.getByRole('combobox').selectOption('0');
+  await replayPage.locator('.scenario-picker button').nth(0).click();
+  assert.equal(await replayPage.locator('.scenario-picker button').nth(0).getAttribute('aria-pressed'), 'true');
   assert.equal(await replayPage.locator('article').count(), 1);
   await replayPage.reload();
   await replayPage.locator('article').first().waitFor();

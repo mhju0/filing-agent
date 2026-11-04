@@ -5,7 +5,7 @@ import { writeFile, mkdir } from "node:fs/promises";
 const mode = process.env.VERIFY_MODE || "live";
 const base = process.env.VERIFY_BASE || (
   mode === "replay" ? "http://127.0.0.1:4176" : "http://127.0.0.1:8765");
-const out = process.env.VERIFY_OUT || "docs/audits/2026-09-08-slice";
+const out = process.env.VERIFY_OUT || ".local/verification/browser";
 await mkdir(out, { recursive: true });
 const browser = await chromium.launch({ channel: "chrome", headless: true });
 const context = await browser.newContext({
@@ -96,15 +96,15 @@ try {
       .getByRole("textbox")
       .fill("삼성전자 2023년과 2022년 매출액 증감률은?");
     await page.getByRole("button", { name: "질문", exact: true }).click();
-    await page.locator(".figure").first().waitFor({ timeout: 120000 });
+    await page.locator(".figure-value").first().waitFor({ timeout: 120000 });
     await page
       .getByRole("button", { name: "조사 저장", exact: true })
       .waitFor();
-    assert.equal(await page.locator(".figure").count(), 2);
-    await page.locator(".figure").last().click();
-    await page.locator(".formula summary").click();
-    assert.match(await page.locator(".formula").innerText(), /-14.33/);
-    await page.locator(".formula button").first().click();
+    assert.equal(await page.locator(".figure-value").count(), 2);
+    await page.locator(".figure-value").last().click();
+    assert.match(await page.locator(".calc-result").innerText(), /−14\.33%/);
+    assert.equal(await page.locator(".calc-inputs button").count(), 2);
+    await page.locator(".calc-inputs button").first().click();
     assert.match(await page.locator(".evidence").innerText(), /258,935,494/);
     await audit("answer-ko-light");
     const original = await page.locator(".answer-sentence").innerText();
@@ -169,7 +169,7 @@ try {
       "삼성전자 2023년과 2022년 매출액 증감률은?",
     );
     await page
-      .getByRole("button", { name: "New investigation", exact: true })
+      .getByRole("button", { name: "New", exact: true })
       .click();
     await page.getByRole("textbox").fill("2023년 매출액은?");
     await page.getByRole("button", { name: "Ask", exact: true }).click();
@@ -183,7 +183,7 @@ try {
     await page
       .locator("article")
       .nth(1)
-      .locator(".figure")
+      .locator(".figure-value")
       .waitFor({ timeout: 120000 });
     await page
       .getByRole("button", { name: "Save investigation", exact: true })
@@ -205,15 +205,17 @@ try {
       "Examples fill without sending; live compare; formula inputs; saved continuation; refresh; history; language preserves past answer; persisted clarification resumes; edit starts new",
     );
   } else {
-    await page.locator(".figure").first().waitFor();
+    await page.getByRole("button", { name: "녹화된 조사", exact: true }).click();
+    await page.locator(".figure-value").first().waitFor();
     assert.equal(await page.getByRole("textbox").count(), 0);
     assert.equal(await page.locator(".evidence").count(), 1);
     assert.equal(await page.locator("article").count(), 1);
     await page.getByRole("button", { name: "다음 질문" }).click();
-    await page.locator("article").nth(1).locator(".formula").waitFor();
+    await page.locator("article").nth(1).locator(".calc-block").waitFor();
     await audit("compare-ko-light");
-    await page.locator(".formula summary").click();
-    await page.locator(".formula button").first().click();
+    assert.match(await page.locator(".calc-result").innerText(), /−14\.33%/);
+    assert.equal(await page.locator(".calc-inputs button").count(), 2);
+    await page.locator(".calc-inputs button").first().click();
     await page.getByRole("button", { name: "English", exact: true }).click();
     await page.getByRole("button", { name: "Switch to dark theme" }).click();
     assert.match(
@@ -221,26 +223,27 @@ try {
       /decreased/,
     );
     await audit("compare-en-dark");
-    await page.getByRole("combobox").selectOption("1");
-    await page.getByRole("button", { name: "Next turn" }).click();
-    await page.locator("article").nth(1).locator(".figure").click();
+    await page.locator(".scenario-picker button").nth(1).click();
+    assert.equal(await page.locator(".scenario-picker button").nth(1).getAttribute("aria-pressed"), "true");
+    await page.getByRole("button", { name: "Next question" }).click();
+    await page.locator("article").nth(1).locator(".figure-value").click();
     assert.match(await page.locator(".evidence").innerText(), /NAVER/);
     await page.reload();
-    await page.locator("article").nth(1).locator(".figure").waitFor();
-    await page.getByRole("button", { name: "Previous turn" }).click();
+    await page.locator("article").nth(1).locator(".figure-value").waitFor();
+    await page.getByRole("button", { name: "Previous question" }).click();
     assert.equal(await page.locator("article").count(), 1);
-    await page.getByRole("combobox").selectOption("2");
-    await page.waitForFunction(() => document.querySelectorAll(".figure").length === 0);
-    assert.equal(await page.locator(".figure").count(), 0);
+    await page.locator(".scenario-picker button").nth(2).click();
+    await page.waitForFunction(() => document.querySelectorAll(".figure-value").length === 0);
+    assert.equal(await page.locator(".figure-value").count(), 0);
     await page
-      .getByRole("button", { name: "Inspect checked evidence scope" })
+      .getByRole("button", { name: "See what was checked" })
       .click();
     assert.match(
       await page.locator(".evidence").innerText(),
       /not the full filings/,
     );
     await audit("refusal-en-dark");
-    await page.getByRole("combobox").selectOption("0");
+    await page.locator(".scenario-picker button").nth(0).click();
     checks.push(
       "Three captured scenarios; stable turns; formula/source selection; no live prompt; recorded actual timings; bilingual answer text",
     );
@@ -255,6 +258,7 @@ try {
       .click();
   }
   await page.setViewportSize({ width: 390, height: 844 });
+  await page.locator("aside.evidence").waitFor({ state: "detached" });
   if (await page.getByRole("dialog").count()) {
     await page
       .getByRole("dialog")
@@ -262,7 +266,7 @@ try {
       .click();
     assert.equal(await page.getByRole("dialog").count(), 0);
   }
-  await page.locator(".figure").first().click();
+  await page.locator(".figure-value").first().click();
   await page.getByRole("dialog").waitFor();
   await audit("mobile-en-dark-evidence");
   for (let i = 0; i < 8; i++) {
@@ -276,7 +280,7 @@ try {
   assert.equal(await page.locator('[role="dialog"]').count(), 0);
   assert.equal(
     await page.evaluate(() =>
-      document.activeElement?.classList.contains("figure"),
+      document.activeElement?.classList.contains("figure-value"),
     ),
     true,
   );
@@ -285,13 +289,13 @@ try {
   await page.getByRole("button", { name: "밝은 테마로 전환" }).click();
   await page.setViewportSize({ width: 320, height: 740 });
   await audit("mobile-ko-light-320");
-  await page.locator(".figure").first().click();
+  await page.locator(".figure-value").first().click();
   await page
     .getByRole("dialog")
     .getByRole("button", { name: "닫기", exact: true })
     .click();
   // Source links are inspected but no regulator navigation is simulated as working.
-  await page.locator(".figure").first().click();
+  await page.locator(".figure-value").first().click();
   const href = await page
     .getByRole("dialog")
     .locator("a.source-link")
@@ -303,7 +307,7 @@ try {
   if (mode === "live") {
     await page.keyboard.press("Escape");
     await page.getByRole("button", {name:"English",exact:true}).click();
-    await page.getByRole("button", {name:"New investigation",exact:true}).click();
+    await page.getByRole("button", {name:"New",exact:true}).click();
     await page.getByRole("textbox").fill("Private draft for deletion verification");
     const draftID = await page.evaluate(()=>localStorage.getItem("filing-investigation"));
     await page.reload();
