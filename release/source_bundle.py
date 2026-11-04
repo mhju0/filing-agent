@@ -31,6 +31,7 @@ def bundle(destination):
         "slice/web/tsconfig.json",
         "slice/web/vite.config.ts",
         "slice/web/index.html",
+        "slice/web/src/fonts/FilingSerifKR-Bold.woff2",
         "evals/cases.json",
         "evals/README.md",
         "bench/intent.py",

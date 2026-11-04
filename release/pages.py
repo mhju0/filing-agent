@@ -162,7 +162,13 @@ def build(destination, verification_directory="docs/audits/2026-09-10-final-poli
                         "value": "camera=(), microphone=(), geolocation=()",
                     },
                 ],
-            }
+            },
+            {
+                "source": "/assets/(.*)",
+                "headers": [
+                    {"key": "Cache-Control", "value": "public, max-age=31536000, immutable"},
+                ],
+            },
         ],
     }
     (destination / "vercel.json").write_text(json.dumps(config, indent=2) + "\n")

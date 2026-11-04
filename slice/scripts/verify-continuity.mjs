@@ -3,7 +3,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { chromium, webkit } from "../../verification/node_modules/playwright/index.mjs";
 
 const base = process.env.VERIFY_BASE || "http://127.0.0.1:4177";
-const out = process.env.VERIFY_OUT || "private/continuity/browser";
+const out = process.env.VERIFY_OUT || ".local/verification/continuity";
 const recording = JSON.parse(await readFile(
   process.env.RECORDING_FIXTURE || "slice/replay-release/recording.json",
   "utf8",
@@ -31,7 +31,15 @@ async function replayPage(browser, options, { blockFont = false } = {}) {
     return route.continue();
   });
   const page = await context.newPage();
-  await page.goto(base + "/");
+  page.on("request", request => observedRequests.add(request.url()));
+  page.on("pageerror", error => errors.push(error.message));
+  if (!blockFont) page.on("console", message => {
+    if (message.type() === "error") errors.push(message.text());
+  });
+  await page.addInitScript(() => document.addEventListener("securitypolicyviolation", event => {
+    console.error(`CSP violation: ${event.violatedDirective} ${event.blockedURI}`);
+  }));
+  await page.goto(base + "/#scenario=0&turn=0");
   await page.locator(".turn").first().waitFor();
   return { context, page };
 }
@@ -47,23 +55,13 @@ try {
       reducedMotion: "no-preference",
       colorScheme: "light",
     });
-    page.on("pageerror", error => errors.push(error.message));
-    page.on("request", request => observedRequests.add(request.url()));
-    await page.evaluate(() => document.addEventListener("securitypolicyviolation", event => {
-      console.error(`CSP violation: ${event.violatedDirective} ${event.blockedURI}`);
-    }));
-    page.on("console", message => {
-      if (message.type() === "error") errors.push(message.text());
-    });
     await page.getByRole("button", { name: "English", exact: true }).click();
     await page.getByRole("button", { name: "Close", exact: true }).dispatchEvent("click");
     await page.waitForTimeout(500);
-    const figure = page.locator(".figure").first();
-    await figure.hover();
-    await page.mouse.down();
-    assert.notEqual(await figure.evaluate(node => getComputedStyle(node).transform), "none");
-    await page.mouse.up();
-    await figure.dispatchEvent("click");
+    const figure = page.locator(".figure-value").first();
+    await figure.focus();
+    assert.equal(await figure.evaluate(node => document.activeElement === node), true);
+    await page.keyboard.press("Enter");
     await page.waitForTimeout(32);
     const opening = await page.locator("aside.evidence").evaluate(node => getComputedStyle(node).transform);
     assert.notEqual(opening, "none");
@@ -81,7 +79,7 @@ try {
     assert.ok(Math.abs(translateX(afterReopenFrame) - translateX(beforeReopenFrame)) < 10);
     await page.waitForTimeout(500);
     assert.equal(await page.locator("aside.evidence").count(), 1);
-    assert.equal(await page.locator(".figure.selected").count(), 1);
+    assert.equal(await page.locator(".figure-value.selected").count(), 1);
     assert.equal(await page.locator("aside.evidence").evaluate(node => getComputedStyle(node).transform), "none");
     assert.equal(await page.locator("aside.evidence").evaluate(node => getComputedStyle(node).opacity), "1");
     await page.setViewportSize({ width: 390, height: 620 });
@@ -91,7 +89,7 @@ try {
     await page.locator("aside.evidence").waitFor();
     assert.equal(await page.locator(".workspace.with-evidence").count(), 1);
     await page.screenshot({ path: `${out}/desktop-en-light.png`, fullPage: false });
-    checks.push("Desktop press responds on pointer down; evidence spring has an in-flight presentation and rapid close/reopen settles to one selected source; desktop grid occupancy survives a completed narrow handoff and return");
+    checks.push("Enter opens the focused financial figure's source; evidence spring has an in-flight presentation and rapid close/reopen settles to one selected source; desktop grid occupancy survives a completed narrow handoff and return");
     await context.close();
   }
 
@@ -101,23 +99,35 @@ try {
       reducedMotion: "no-preference",
       colorScheme: "dark",
     });
-    page.on("pageerror", error => errors.push(error.message));
-    page.on("request", request => observedRequests.add(request.url()));
     await page.getByRole("button", { name: "English", exact: true }).click();
-    const figure = page.locator(".figure").first();
+    const figure = page.locator(".figure-value").first();
     await figure.click();
     await page.getByRole("dialog").waitFor();
-    const content = page.locator(".evidence-content");
-    await content.evaluate(node => { node.scrollTop = 120; });
-    await page.waitForTimeout(16);
-    const before = await content.evaluate(node => node.scrollTop);
-    await page.setViewportSize({ width: 851, height: 620 });
-    await page.locator("aside.evidence").waitFor();
-    assert.equal(await page.locator("aside.evidence").count(), 1);
-    await page.setViewportSize({ width: 390, height: 620 });
-    await page.getByRole("dialog").waitFor();
-    const after = await page.locator(".evidence-modal .evidence-content").evaluate(node => node.scrollTop);
-    assert.ok(Math.abs(after - before) <= 1, `evidence scroll changed from ${before} to ${after}`);
+    await page.evaluate(() => document.fonts.ready);
+    await page.waitForFunction(() => getComputedStyle(document.querySelector(".evidence-modal")).transform === "none");
+    for (const settled of [false, true]) {
+      const content = page.locator(".evidence-modal .evidence-content");
+      await content.evaluate(node => { node.scrollTop = 120; });
+      await page.waitForTimeout(16);
+      const before = await content.evaluate(node => node.scrollTop);
+      assert.ok(before > 0, "Evidence must be scrolled before testing reading-position retention");
+      await page.setViewportSize({ width: 851, height: 620 });
+      await page.locator("aside.evidence").waitFor();
+      assert.equal(await page.locator("aside.evidence").count(), 1);
+      if (settled) {
+        await page.locator(".evidence-modal").waitFor({ state: "detached" });
+        await page.waitForFunction(() => getComputedStyle(document.querySelector("aside.evidence")).transform === "none");
+      } else {
+        assert.equal(await page.locator(".modal-layer[data-exiting=true] .evidence-modal").count(), 1,
+          "Rapid resize must reverse while the narrow evidence exit is still in flight");
+      }
+      await page.setViewportSize({ width: 390, height: 620 });
+      await page.getByRole("dialog").waitFor();
+      const after = await content.evaluate(node => node.scrollTop);
+      assert.ok(Math.abs(after - before) <= 1,
+        `${settled ? "Settled" : "Rapid"} evidence scroll changed from ${before} to ${after}`);
+      await page.waitForFunction(() => getComputedStyle(document.querySelector(".evidence-modal")).transform === "none");
+    }
     await page.getByRole("button", { name: "Close", exact: true }).click();
     assert.equal(await page.getByRole("dialog").count(), 0);
     assert.equal(await page.locator(".modal-layer[aria-hidden=true][inert]").count(), 1);
@@ -142,7 +152,7 @@ try {
       /^rgb\(/,
     );
     await page.screenshot({ path: `${out}/mobile-en-dark-reduced.png`, fullPage: false });
-    checks.push("Evidence survives the 850/851 layout boundary with reading position; close releases modal semantics immediately; an exit reversal restores dialog focus and Escape behavior; changing to reduced motion settles spatial travel");
+    checks.push("Rapid in-flight and settled handoffs across 850/851 retain the evidence reading position; close releases modal semantics immediately; an exit reversal restores dialog focus and Escape behavior; changing to reduced motion settles spatial travel");
     await context.close();
   }
 
@@ -181,7 +191,7 @@ try {
       reducedMotion: "no-preference",
       colorScheme: "light",
     });
-    await page.locator(".figure").first().click();
+    await page.locator(".figure-value").first().click();
     await page.getByRole("dialog").waitFor();
     await page.keyboard.press("Escape");
     assert.equal(await page.getByRole("dialog").count(), 0);

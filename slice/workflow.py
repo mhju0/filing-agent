@@ -56,13 +56,25 @@ class Engine:
             return existing
         if not self.gate.acquire(blocking=False):
             raise ValueError('One local investigation is already running')
+        result = None
         try:
-            result = self.investigations.queue(identity, question, language, request_id, retry, diagnostics)
+            result, created = self.investigations.queue(
+                identity, question, language, request_id, retry, diagnostics)
+            if not created:
+                self.gate.release()
+                return result
             self.events[result['id']] = threading.Event()
             threading.Thread(target=self.execute, args=(identity, result['id']), daemon=True).start()
             return result
         except Exception:
-            self.gate.release()
+            try:
+                if result is not None:
+                    self.events.pop(result['id'], None)
+                    self.investigations.finalize(
+                        identity, 'interrupted', 0,
+                        'Local execution could not start; retry this turn explicitly.')
+            finally:
+                self.gate.release()
             raise
 
     def step(self, state, name):

@@ -1,0 +1,24 @@
+[
+  {
+    "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240312000736",
+    "http_status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "scope": "HTTP response only, not visual source navigation"
+  },
+  {
+    "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20240318000844",
+    "http_status": 200,
+    "content_type": "text/html; charset=UTF-8",
+    "scope": "HTTP response only, not visual source navigation"
+  },
+  {
+    "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017023035122/msft-20230630.htm",
+    "error": "HTTPError: HTTP Error 403: Forbidden",
+    "scope": "No successful source navigation established"
+  },
+  {
+    "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017024087843/msft-20240630.htm",
+    "error": "HTTPError: HTTP Error 403: Forbidden",
+    "scope": "No successful source navigation established"
+  }
+]

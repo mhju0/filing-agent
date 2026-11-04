@@ -13,6 +13,8 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
+from starlette.datastructures import MutableHeaders
+from starlette.requests import ClientDisconnect
 
 from slice.core import ROOT, SNAPSHOT
 from slice.store import Store
@@ -49,29 +51,67 @@ async def lifespan(app):
 app = FastAPI(lifespan=lifespan, docs_url=None, redoc_url=None, openapi_url=None)
 
 
-@app.middleware("http")
-async def local_boundary(request: Request, call_next):
-    if request.headers.get("host") != "127.0.0.1:8765":
-        return JSONResponse({"detail": "Loopback host required"}, status_code=403)
-    if request.headers.get("origin") not in (None, ORIGIN):
-        return JSONResponse({"detail": "Cross-origin request refused"}, status_code=403)
-    if request.headers.get("sec-fetch-site") == "cross-site":
-        return JSONResponse({"detail": "Cross-site request refused"}, status_code=403)
-    if request.method not in ("GET", "HEAD"):
-        if request.headers.get("x-filing-token") != TOKEN:
-            return JSONResponse(
-                {"detail": "Local session token required"}, status_code=403
-            )
-        if int(request.headers.get("content-length", "0")) > 8192:
-            return JSONResponse({"detail": "Request too large"}, status_code=413)
-    response = await call_next(request)
-    response.headers["Content-Security-Policy"] = (
-        "default-src 'self'; connect-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'"
-    )
-    response.headers["X-Content-Type-Options"] = "nosniff"
-    response.headers["Referrer-Policy"] = "no-referrer"
-    response.headers["Cache-Control"] = "no-store"
-    return response
+class LocalBoundary:
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http":
+            return await self.app(scope, receive, send)
+        request = Request(scope, receive)
+
+        async def secured_send(message):
+            if message["type"] == "http.response.start":
+                headers = MutableHeaders(scope=message)
+                headers["Content-Security-Policy"] = (
+                    "default-src 'self'; connect-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'"
+                )
+                headers["X-Content-Type-Options"] = "nosniff"
+                headers["Referrer-Policy"] = "no-referrer"
+                headers["Cache-Control"] = "no-store"
+            await send(message)
+
+        async def reject(detail, status):
+            await JSONResponse({"detail": detail}, status_code=status)(scope, receive, secured_send)
+
+        if request.headers.get("host") != "127.0.0.1:8765":
+            return await reject("Loopback host required", 403)
+        if request.headers.get("origin") not in (None, ORIGIN):
+            return await reject("Cross-origin request refused", 403)
+        if request.headers.get("sec-fetch-site") == "cross-site":
+            return await reject("Cross-site request refused", 403)
+        if request.method not in ("GET", "HEAD"):
+            if request.headers.get("x-filing-token") != TOKEN:
+                return await reject("Local session token required", 403)
+            lengths = request.headers.getlist("content-length")
+            if lengths:
+                if len(lengths) != 1 or not lengths[0].isascii() or not lengths[0].isdecimal():
+                    return await reject("Invalid Content-Length", 400)
+                length = lengths[0].lstrip("0")
+                if len(length) > 4 or (len(length) == 4 and length > "8192"):
+                    return await reject("Request too large", 413)
+            body = bytearray()
+            try:
+                async for chunk in request.stream():
+                    if len(body) + len(chunk) > 8192:
+                        return await reject("Request too large", 413)
+                    body.extend(chunk)
+            except ClientDisconnect:
+                return
+
+            async def buffered_receive():
+                nonlocal body
+                if body is not None:
+                    message = {"type": "http.request", "body": bytes(body), "more_body": False}
+                    body = None
+                    return message
+                return await receive()
+
+            return await self.app(scope, buffered_receive, secured_send)
+        return await self.app(scope, receive, secured_send)
+
+
+app.add_middleware(LocalBoundary)
 
 
 @app.exception_handler(ValueError)

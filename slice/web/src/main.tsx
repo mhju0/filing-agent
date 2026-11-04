@@ -320,7 +320,10 @@ function Workspace({ session, view, setView }: { session: Session; view: View; s
   }, [current]);
   function go(destination: Destination) {
     if (destination.view === "investigate") {
-      if (recorded) setScenario(destination.scenario);
+      if (recorded) {
+        window.history.replaceState(null, "", `#scenario=${destination.scenario}&turn=0`);
+        setScenario(destination.scenario);
+      }
       setAnchor(null);
       setView("investigate");
       if (live) requestAnimationFrame(() => prompt.current?.focus());
@@ -442,6 +445,7 @@ function Workspace({ session, view, setView }: { session: Session; view: View; s
           <div className="answer" lang={al}>
             <p className="answer-sentence">{a[al === "ko" ? "answer_ko" : "answer_en"]}</p>
             {a.figures.length ? (
+              <div className="table-scroll" tabIndex={0} role="region" aria-label={t("답에 쓰인 수치", "Figures in this answer")}>
               <table className="ledger-table answer-figures">
                 <caption className="sr-only">{t("답에 쓰인 수치", "Figures in this answer")}</caption>
                 <tbody>
@@ -465,6 +469,7 @@ function Workspace({ session, view, setView }: { session: Session; view: View; s
                   ))}
                 </tbody>
               </table>
+              </div>
             ) : (
               <div className="missing">
                 <strong aria-hidden="true">–</strong>
@@ -683,7 +688,12 @@ function Workspace({ session, view, setView }: { session: Session; view: View; s
               ? t("녹화 자료를 불러오지 못했습니다.", "The recording could not be loaded.")
               : t("녹화 자료를 불러오는 중입니다.", "Loading the recording.")}
           </p>
-          {error && <button onClick={() => location.reload()}>{t("다시 불러오기", "Reload recording")}</button>}
+          {error && <button onClick={() => {
+            if (!location.hash.includes("scenario=")) {
+              window.history.replaceState(null, "", `#scenario=${scenario}&turn=${turnIndex}`);
+            }
+            location.reload();
+          }}>{t("다시 불러오기", "Reload recording")}</button>}
         </div>
       );
     }

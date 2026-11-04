@@ -19,6 +19,7 @@ class Stopped(Exception):
 class Runtime:
     def __init__(self):
         self.blocked = False
+        self._client = None
 
     def preflight(self):
         config = json.loads((Path.home() / ".ollama/server.json").read_text())
@@ -32,6 +33,11 @@ class Runtime:
         if not model or model.get("digest") != DIGEST or model.get("size", 0) <= 0:
             raise ValueError("Pinned local weights unavailable")
         local_model_info(MODEL)
+        if self._client is not None:
+            if not self._reap_client() or not self.stop():
+                raise ValueError(
+                    "Previous inference stop is unconfirmed; restart the controlled Ollama server"
+                )
         if self.blocked:
             if api("GET", "/api/ps").get("models"):
                 raise ValueError(
@@ -43,11 +49,28 @@ class Runtime:
         self.blocked = True
         try:
             api("POST", "/api/generate", {"model": MODEL, "keep_alive": 0}, timeout=8)
-            if not api("GET", "/api/ps", timeout=2).get("models"):
+            if not api("GET", "/api/ps", timeout=2).get("models") and self._client is None:
                 self.blocked = False
                 return True
         except Exception:  # noqa: BLE001 - any failed stop confirmation must block inference
             return False
+        return False
+
+    def _reap_client(self):
+        process = self._client
+        try:
+            if process.is_alive():
+                process.terminate()
+            process.join(1)
+            if process.is_alive():
+                process.kill()
+                process.join(1)
+            if not process.is_alive():
+                self._client = None
+                return True
+        except Exception:  # noqa: BLE001 - retain the client until its exit is confirmed
+            pass
+        self.blocked = True
         return False
 
     def interpret(self, question, context, cancel):
@@ -78,30 +101,37 @@ class Runtime:
         }
         ctx = multiprocessing.get_context("spawn")
         reader, writer = ctx.Pipe(duplex=False)
-        process = ctx.Process(
-            target=chat_worker, args=(writer, payload, 120), daemon=True
-        )
-        process.start()
-        writer.close()
+        process_started = False
         stopped = False
         timeout = False
         try:
-            while True:
-                timeout = time.monotonic() - started >= 120
-                if cancel.is_set() or timeout:
-                    stopped = True
-                    break
-                if reader.poll(0.05):
-                    response = reader.recv()
-                    break
-        finally:
-            reader.close()
-            if process.is_alive():
-                process.terminate()
-            process.join(1)
-            if process.is_alive():
-                process.kill()
-                process.join(1)
+            try:
+                process = ctx.Process(
+                    target=chat_worker, args=(writer, payload, 120), daemon=True
+                )
+                process.start()
+                process_started = True
+                self._client = process
+                writer.close()
+                while True:
+                    timeout = time.monotonic() - started >= 120
+                    if cancel.is_set() or timeout:
+                        stopped = True
+                        break
+                    if reader.poll(0.05):
+                        response = reader.recv()
+                        break
+            finally:
+                writer.close()
+                reader.close()
+                if process_started and not self._reap_client():
+                    raise ValueError("Local client exit is unconfirmed")
+        except Exception:  # noqa: BLE001 - client failure leaves upstream inference uncertain
+            if process_started:
+                self.stop()
+            raise ValueError(
+                "Local inference failed; check the controlled Ollama server"
+            ) from None
         if stopped:
             raise Stopped(self.stop(), timeout)
         if "error" in response:

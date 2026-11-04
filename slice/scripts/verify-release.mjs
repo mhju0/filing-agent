@@ -3,11 +3,60 @@ import AxeBuilder from '../../verification/node_modules/@axe-core/playwright/dis
 import {writeFile, mkdir} from 'node:fs/promises';
 import assert from 'node:assert/strict';
 const base=process.env.VERIFY_BASE||'http://127.0.0.1:4176';
-const out=process.env.VERIFY_OUT||'docs/audits/2026-09-08-slice';
+const out=process.env.VERIFY_OUT||'.local/verification/release';
 await mkdir(out,{recursive:true});
 const browser=await chromium.launch({channel:'chrome',headless:true});
 const checks=[];
 try{
+ const selectionChecks=[];
+ for(const delivery of ['failure','delayed']) for(const scenario of [1,2]){
+  const context=await browser.newContext({reducedMotion:'reduce'});
+  await context.addInitScript(()=>localStorage.setItem('filing-language','en'));
+  const page=await context.newPage();
+  const liveRequests=[],errors=[];
+  page.on('request',request=>{if(new URL(request.url()).pathname.startsWith('/api/'))liveRequests.push(request.url())});
+  page.on('pageerror',error=>errors.push(error.message));
+  let available=false,releaseRecording;
+  const recordingWait=new Promise(resolve=>{releaseRecording=resolve});
+  await page.route('**/recording.json',async route=>{
+   if(delivery==='delayed')await recordingWait;
+   if(delivery==='failure'&&!available)return route.fulfill({status:503,body:'unavailable'});
+   return route.continue();
+  });
+  try{
+   const failedRecording=delivery==='failure'?page.waitForResponse(response=>
+    new URL(response.url()).pathname==='/recording.json'&&response.status()===503):null;
+   await page.goto(base);
+   if(failedRecording)await failedRecording;
+   const question=scenario===1?'What about NAVER?':"What happens when the figure isn't there?";
+   await page.locator('.question-card').filter({hasText:question}).click();
+   if(delivery==='failure'){
+    await page.getByText('The recording could not be loaded.',{exact:true}).waitFor();
+    available=true;
+    await Promise.all([page.waitForEvent('load'),page.getByRole('button',{name:'Reload recording'}).click()]);
+   }else{
+    await page.getByText('Loading the recording.',{exact:true}).waitFor();
+    releaseRecording();
+   }
+   await page.locator('.scenario-picker').waitFor();
+   assert.equal(await page.locator('.scenario-picker button').nth(scenario).getAttribute('aria-pressed'),'true',`${delivery}: Home card must select scenario ${scenario}`);
+   await page.getByRole('heading',{level:1,name:scenario===1?'Switching companies in one follow-up':'When verified evidence is missing',exact:true}).waitFor();
+   assert.equal(await page.locator('article').count(),1);
+   assert.equal(new URL(page.url()).hash,`#scenario=${scenario}&turn=0`);
+   assert.equal(await page.getByRole('textbox').count(),0);
+   assert.deepEqual(liveRequests,[]);
+   assert.deepEqual(errors,[]);
+   selectionChecks.push({delivery,scenario,status:'PASS'});
+  }catch(error){
+   selectionChecks.push({delivery,scenario,status:'FAIL',error:error.message});
+  }finally{
+   releaseRecording();
+   await context.close();
+  }
+ }
+ await writeFile(`${out}/home-selection.json`,JSON.stringify(selectionChecks,null,2)+'\n');
+ assert.deepEqual(selectionChecks.filter(check=>check.status==='FAIL'),[],'Home card selections must survive pending or unavailable recordings');
+ checks.push('Company-switch and missing-evidence Home cards retain their selected scenario through delayed loading and failed-recording recovery; no live requests or composer');
  for(const lang of ['ko','en']) for(const width of [1440,390,320]){
   const context=await browser.newContext({viewport:{width,height:900},colorScheme:width===390?'dark':'light',reducedMotion:'reduce'});
   const page=await context.newPage();
@@ -32,13 +81,30 @@ try{
   checks.push(lang+' '+width+' project notes: links, reflow, axe passed');await context.close();
  }
  const context=await browser.newContext();const page=await context.newPage();
- await page.route('**/recording.json',r=>r.fulfill({status:503,body:'unavailable'}));
+ let recordingLoads=0,recordingAvailable=false;
+ await page.route('**/recording.json',r=>{recordingLoads++;return recordingAvailable?r.continue():r.fulfill({status:503,body:'unavailable'})});
  await page.goto(base);
  await page.getByRole('button',{name:'English',exact:true}).click();
+ await page.getByRole('button',{name:'Recorded runs',exact:true}).click();
  await page.getByText('The recording could not be loaded.',{exact:true}).waitFor();
- const reload=page.getByRole('button',{name:'Reload recording'});await reload.click();
+ const reload=page.getByRole('button',{name:'Reload recording'});
+ const beforeReload=recordingLoads;
+ await Promise.all([page.waitForEvent('load'),reload.click()]);
  await page.getByText('The recording could not be loaded.',{exact:true}).waitFor();
- checks.push('Recording asset failure is visible and reload works');
+ assert.ok(recordingLoads>beforeReload,'Reload must request the recording again');
+ checks.push('Recording asset failure is visible; reload stays in Recorded runs and requests the asset again');
+ await page.goto(base+'/#scenario=1&turn=1');
+ await page.getByText('The recording could not be loaded.',{exact:true}).waitFor();
+ recordingAvailable=true;
+ const beforeRecovery=recordingLoads;
+ await Promise.all([page.waitForEvent('load'),page.getByRole('button',{name:'Reload recording'}).click()]);
+ await page.locator('article').nth(1).locator('.figure-value').waitFor();
+ assert.ok(recordingLoads>beforeRecovery,'Recovery must request the recording again');
+ assert.equal(await page.locator('.scenario-picker button').nth(1).getAttribute('aria-pressed'),'true');
+ assert.equal(await page.locator('article').count(),2);
+ assert.equal(new URL(page.url()).hash,'#scenario=1&turn=1');
+ assert.equal(await page.getByRole('textbox').count(),0);
+ checks.push('A recovered recording restores the requested scenario and question after reload');
  await context.close();
  await writeFile(`${out}/release-browser.json`,JSON.stringify({status:'PASS',base,checks},null,2)+'\n');
  console.log('RELEASE MATERIALS PASS');

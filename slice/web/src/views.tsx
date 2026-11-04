@@ -98,6 +98,7 @@ export function Home({ lang, t, go, live }: { lang: Lang; t: T; go: (d: Destinat
           <h2 id="coverage-title">{t("검증한 범위", "Verified coverage")}</h2>
           <p>{t("회사 3곳, 회계연도 5개, 연결 기준 수치 15개입니다.", "Three companies, five fiscal years, fifteen consolidated figures.")}</p>
         </div>
+        <div className="table-scroll" tabIndex={0} role="region" aria-label={t("검증한 범위", "Verified coverage")}>
         <table className="ledger-table coverage">
           <thead>
             <tr>
@@ -122,6 +123,7 @@ export function Home({ lang, t, go, live }: { lang: Lang; t: T; go: (d: Destinat
             ))}
           </tbody>
         </table>
+        </div>
         <p className="note">
           {t(
             "매출액, 영업이익, 당기순이익만 다룹니다. 마이크로소프트의 회계연도는 6월에 끝납니다.",
@@ -191,7 +193,7 @@ export function Guide({ lang, t }: { lang: Lang; t: T }) {
 
       <section className="block" id="kinds">
         <h2>{pick(g.kinds.title, lang)}</h2>
-        <div className="table-scroll">
+        <div className="table-scroll" tabIndex={0} role="region" aria-label={pick(g.kinds.title, lang)}>
           <table className="ledger-table stack-table">
             <thead><tr>{g.kinds.head.map((h) => <th scope="col" key={h.en}>{pick(h, lang)}</th>)}</tr></thead>
             <tbody>
@@ -209,7 +211,7 @@ export function Guide({ lang, t }: { lang: Lang; t: T }) {
       <section className="block" id="report-map">
         <h2>{pick(g.map.title, lang)}</h2>
         <p className="prose">{pick(g.map.lede, lang)}</p>
-        <div className="table-scroll">
+        <div className="table-scroll" tabIndex={0} role="region" aria-label={pick(g.map.title, lang)}>
           <table className="ledger-table stack-table">
             <thead><tr>{g.map.head.map((h) => <th scope="col" key={h.en}>{pick(h, lang)}</th>)}</tr></thead>
             <tbody>
@@ -230,7 +232,9 @@ export function Guide({ lang, t }: { lang: Lang; t: T }) {
         <h2>{pick(g.numbers.title, lang)}</h2>
         <dl className="terms">
           {g.numbers.items.map((item) => (
-            <div key={item.term.en}><dt>{pick(item.term, lang)}</dt><dd>{pick(item.body, lang)}</dd></div>
+            <div key={item.term.en}><dt>{pick(item.term, lang)}</dt><dd>
+              <div className="table-scroll" tabIndex={0} role="region" aria-label={pick(item.term, lang)}>{pick(item.body, lang)}</div>
+            </dd></div>
           ))}
         </dl>
         <h3 className="subhead">{pick(g.metrics.title, lang)}</h3>
