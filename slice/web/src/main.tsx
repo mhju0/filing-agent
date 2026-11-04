@@ -320,7 +320,10 @@ function Workspace({ session, view, setView }: { session: Session; view: View; s
   }, [current]);
   function go(destination: Destination) {
     if (destination.view === "investigate") {
-      if (recorded) setScenario(destination.scenario);
+      if (recorded) {
+        window.history.replaceState(null, "", `#scenario=${destination.scenario}&turn=0`);
+        setScenario(destination.scenario);
+      }
       setAnchor(null);
       setView("investigate");
       if (live) requestAnimationFrame(() => prompt.current?.focus());
