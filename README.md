@@ -33,7 +33,7 @@ The demo replays real runs recorded on the local app. It makes no model calls an
 
 | Recorded run | What to look for |
 |---|---|
-| [Revenue, then a year comparison](https://filing-agent.vercel.app/#scenario=0&turn=0) | The follow-up keeps the company and metric; code calculates the −14.33% change |
+| [Revenue, then a year comparison](https://filing-agent.vercel.app/#scenario=0&turn=1) | The follow-up keeps the company and metric; code calculates the −14.33% change |
 | [“What about NAVER?”](https://filing-agent.vercel.app/#scenario=1&turn=1) | The company changes; the metric and year carry over |
 | [Samsung R&D expenses](https://filing-agent.vercel.app/#scenario=2&turn=0) | Outside the verified collection, so the answer shows what was checked and withholds a figure |
 | [Ledger](https://filing-agent.vercel.app/#ledger) | All 15 verified figures with their filings |
@@ -42,7 +42,7 @@ The demo replays real runs recorded on the local app. It makes no model calls an
 
 - A local model (Gemma through Ollama) only interprets the question. It never receives filing text or financial values.
 - Code selects the evidence, calculates with `Decimal` and writes the answer in Korean or English.
-- A request that names a company or scope outside the collection gets a clarifying question, not a quietly narrowed answer.
+- A request that names a company or scope outside the collection gets a clarifying question before any figure is given.
 - FastAPI and LangGraph run the stages. PostgreSQL stores investigations, evidence snapshots and checkpoints, so an interrupted run can be retried and a saved answer never changes.
 
 The split came from failures: in [model experiments](bench/runs/2026-09-07/README.md), models chose the right source and still said revenue increased when it fell.
@@ -52,9 +52,9 @@ The split came from failures: in [model experiments](bench/runs/2026-09-07/READM
 | | |
 |---|---|
 | Stack | Python 3.11 · FastAPI · LangGraph · PostgreSQL 16 · Ollama (`gemma4:e4b`) · React + TypeScript |
-| Coverage | 15 verified figures: revenue, operating income and as-reported net income for Samsung Electronics FY2022–2023, NAVER FY2023 and Microsoft FY2023–2024 |
-| Tests | 57 policy and 19 application tests passed in the [Sept 11, 2026 verification](docs/audits/2026-09-10-final-polish/README.md); the policy tests were re-run Oct 2, 2026 |
-| Model evaluation | One fresh held-out trial: 20/20 Korean and 20/20 English scenarios. The earlier [release evaluation](evals/RESULTS.md) passed all 120 scenario runs, with a 2.96 s median per turn on an M1 Pro |
+| Coverage | 15 verified figures: revenue, operating income and as-reported net income for Samsung Electronics FY2022-2023, NAVER FY2023 and Microsoft FY2023-2024 |
+| Tests | 53 application (29 PostgreSQL, 11 HTTP, 13 runtime), 57 policy, 9 frontend and 2 publication tests passed in the [Nov 4, 2026 audit](docs/audits/2026-11-04-production-readiness/README.md) |
+| Model evaluation | One fresh held-out trial on Sept 10, 2026: 20/20 Korean and 20/20 English scenarios. The earlier [release evaluation](evals/RESULTS.md) passed all 120 scenario runs, with a 2.96 s median per turn on an M1 Pro |
 | Runs on | Apple Silicon Mac with 16 GiB RAM (tested). Inference stays on the machine |
 
 Nine of the 15 figures match audited Filing Digest records; six were verified separately against regulator filings. Agent does not call Digest during a question.
