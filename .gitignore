@@ -12,7 +12,8 @@ credentials.json
 id_rsa
 id_ed25519
 .codex/
-.claude/
+.claude/*
+!.claude/settings.json
 .agents/
 service-account*.json
 .DS_Store
