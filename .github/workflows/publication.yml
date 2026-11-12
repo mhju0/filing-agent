@@ -17,8 +17,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           persist-credentials: false
-      - run: python3 release/check_publication.py
-      - run: python3 -m unittest discover -s release/tests -v
+      - run: scripts/check.sh --part publication
 
   application:
     name: Application regression
@@ -49,7 +48,8 @@ jobs:
           cache: npm
           cache-dependency-path: slice/web/package-lock.json
       - run: python -m pip install -r slice/requirements.lock
-      - run: python -m unittest discover -s bench/tests -v
-      - run: python -m unittest discover -s slice/tests -v
-      - run: npm ci && npm test && npm run build
+      - run: npm ci
         working-directory: slice/web
+      - run: scripts/check.sh --part application
+        env:
+          PYTHON: python
