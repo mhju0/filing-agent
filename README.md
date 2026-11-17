@@ -1,77 +1,41 @@
-<div align="center">
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/design/logos/mark_dark.svg">
-  <img src="docs/design/logos/mark_light.svg" width="130" alt="Filing Agent citation-bracket mark">
-</picture>
-
 # Filing Agent
 
-Ask questions about company filings and compare the figures.
+Ask follow-up questions about historical company filings and compare reported figures with their sources.
 
-**[Open the recorded demo](https://filing-agent.vercel.app)** · Korean and English · no install
+**[Recorded demo](https://filing-agent.vercel.app)** · Korean and English · [Engineering notes](https://filing-agent.vercel.app/engineering-en.html) · [Filing Digest](https://github.com/mhju0/filing-digest)
 
-[Engineering notes](https://filing-agent.vercel.app/engineering-en.html) · [Sister project: Filing Digest](https://github.com/mhju0/filing-digest)
+The public demo replays actual local runs. It makes no model calls and has no live question endpoint. The local app supports follow-up questions and saved investigations.
 
-[![CI](https://github.com/mhju0/filing-agent/actions/workflows/publication.yml/badge.svg)](https://github.com/mhju0/filing-agent/actions/workflows/publication.yml)
-![Python 3.11](https://img.shields.io/badge/Python-3.11-3776ab.svg)
-![React + TypeScript](https://img.shields.io/badge/React%20%2B%20TypeScript-20232a.svg)
+![A Samsung revenue comparison with its calculation and original DART excerpt](docs/screenshots/replay-comparison-en.png)
 
-</div>
+## Engineering decisions
 
-![A follow-up question comparing Samsung's FY2023 and FY2022 revenue, with the calculation and the original DART excerpt](docs/screenshots/replay-comparison-en.png)
+- Gemma through Ollama interprets the question without receiving filing text or financial values. Code selects evidence, calculates with `Decimal` and renders the Korean or English answer.
+- A pinned historical snapshot bounds supported companies, periods and metrics. Missing or unsupported evidence produces a clarification or withheld figure rather than an invented value.
+- LangGraph stages and PostgreSQL preserve completed work for explicit retry. Saved investigations freeze their evidence; results that fail to reach storage are not durable.
 
-Filing Agent is a local web app for asking follow-up questions about verified historical Korean (DART) and US (SEC) filings. Each answer keeps the reported figures, the calculation and the original filing excerpt in view. Saved answers keep the evidence they were built on.
-
-The demo replays real runs recorded on the local app. It makes no model calls and needs nothing running on the owner's Mac.
-
-**Status:** Maintenance · [release policy and limits](docs/MAINTENANCE.md) · [dated release](https://github.com/mhju0/filing-agent/releases/tag/release-qualified-2026-10-06)
-
-[Latest maintenance audit](docs/audits/2026-11-04-production-readiness/README.md): security, recovery, accessibility and release verification.
-
-## In the demo
-
-| Recorded run | What to look for |
-|---|---|
-| [Revenue, then a year comparison](https://filing-agent.vercel.app/#scenario=0&turn=1) | The follow-up keeps the company and metric; code calculates the −14.33% change |
-| [“What about NAVER?”](https://filing-agent.vercel.app/#scenario=1&turn=1) | The company changes; the metric and year carry over |
-| [Samsung R&D expenses](https://filing-agent.vercel.app/#scenario=2&turn=0) | Outside the verified collection, so the answer shows what was checked and withholds a figure |
-| [Ledger](https://filing-agent.vercel.app/#ledger) | All 15 verified figures with their filings |
-
-## How it works
-
-- A local model (Gemma through Ollama) only interprets the question. It never receives filing text or financial values.
-- Code selects the evidence, calculates with `Decimal` and writes the answer in Korean or English.
-- A request that names a company or scope outside the collection gets a clarifying question before any figure is given.
-- FastAPI and LangGraph run the stages. PostgreSQL stores investigations, evidence snapshots and checkpoints, so an interrupted run can be retried and a saved answer never changes.
-
-The split came from failures: in [model experiments](bench/runs/2026-09-07/README.md), models chose the right source and still said revenue increased when it fell.
-
-## Key facts
-
-| | |
-|---|---|
-| Stack | Python 3.11 · FastAPI · LangGraph · PostgreSQL 16 · Ollama (`gemma4:e4b`) · React + TypeScript |
-| Coverage | 15 verified figures: revenue, operating income and as-reported net income for Samsung Electronics FY2022-2023, NAVER FY2023 and Microsoft FY2023-2024 |
-| Tests | 53 application (29 PostgreSQL, 11 HTTP, 13 runtime), 57 policy, 9 frontend and 2 publication tests passed in the [Nov 4, 2026 audit](docs/audits/2026-11-04-production-readiness/README.md) |
-| Model evaluation | One fresh held-out trial on Sept 10, 2026: 20/20 Korean and 20/20 English scenarios. The earlier [release evaluation](evals/RESULTS.md) passed all 120 scenario runs, with a 2.96 s median per turn on an M1 Pro |
-| Runs on | Apple Silicon Mac with 16 GiB RAM (tested). Inference stays on the machine |
-
-Nine of the 15 figures match audited Filing Digest records; six were verified separately against regulator filings. Agent does not call Digest during a question.
+Python 3.11 · FastAPI · LangGraph · PostgreSQL · Ollama · React + TypeScript
 
 ## Run locally
 
-Requires Python 3.11, Node 24, PostgreSQL 16 command-line tools and Ollama 0.33.3. The [operating guide](slice/README.md) covers setup, the pinned model digest, tests, backups and replay export.
+The qualified setup uses an Apple Silicon Mac (16 GiB RAM tested), Python 3.11, Node 24, PostgreSQL 16 tools and pinned Ollama/Gemma versions.
 
-## Limits
+```bash
+python3.11 -m venv .venv
+.venv/bin/pip install -r slice/requirements.lock
+npm ci --prefix slice/web
+npm run build --prefix slice/web
+```
 
-- The snapshot is historical. It does not cover later amendments, other metrics or explanations of business causes.
-- It is a single-owner local service. Multi-user and cloud operation have not been evaluated.
-- The implementing agent authored the evaluation scenarios. Results describe this guarded app on this collection, not general financial-language accuracy.
+Continue with the [operating guide](slice/README.md) to verify the model digest, start the separate local database and launch the app at `http://127.0.0.1:8765`. It also covers recovery, backups and replay exports. Keep the services on loopback with one application worker.
 
-## Documentation
+## Scope
 
-[Documentation index](docs/README.md) · [Architecture decisions](docs/adr/README.md) · [Evaluations](evals/README.md) · [Verification records](docs/audits/README.md)
+The catalog contains revenue, operating income and as-reported net income for Samsung Electronics FY2022–2023, NAVER FY2023 and Microsoft FY2023–2024. Refresh uses the approved snapshot; it does not fetch newer filings. Agent does not call Digest during a question.
+
+[Evaluations](evals/README.md) use project-authored scenarios on this collection. They do not establish general financial-language accuracy or multi-user readiness.
+
+Maintenance only. [Documentation](docs/README.md) · [Architecture decisions](docs/adr/README.md) · [Maintenance policy](docs/MAINTENANCE.md)
 
 ## License
 
